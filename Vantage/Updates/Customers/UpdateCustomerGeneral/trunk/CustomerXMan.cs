@@ -169,7 +169,6 @@ namespace UpdateCustomerGeneral
             }
         }
     }
-    
     public void ChangeTerr(int custNum, string newTerr)
     {
         string message = "OK";
