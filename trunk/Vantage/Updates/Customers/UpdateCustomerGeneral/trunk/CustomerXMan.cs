@@ -20,14 +20,13 @@ namespace UpdateCustomerGeneral
         Epicor.Mfg.Core.Session objSess;
         Epicor.Mfg.BO.Customer customerObj;
         Epicor.Mfg.BO.CustomerDataSet custDs;
-
-	    public CustomerXMan()
-	    {
+        public CustomerXMan()
+        {
             this.objSess = new Epicor.Mfg.Core.Session(
-                        "rich","homefed55","AppServerDC://VantageDB1:8301", 
-                        Epicor.Mfg.Core.Session.LicenseType.Default);
+            "rich", "homefed55", "AppServerDC://VantageDB1:8301",
+            Epicor.Mfg.Core.Session.LicenseType.Default);
             customerObj = new Epicor.Mfg.BO.Customer(objSess.ConnectionPool);
-	    }
+        }
         public void setGlobalIncFlag(string custId)
         {
             string message = "OK";
@@ -50,8 +49,6 @@ namespace UpdateCustomerGeneral
                 try
                 {
                     customerObj.Update(custDs);
-                    // customerObj.UpdateCreditTotals(custDs);
-                 
                 }
                 catch (Exception e)
                 {
@@ -63,7 +60,6 @@ namespace UpdateCustomerGeneral
         {
             string[] split = line.Split(new Char[] { '\t' });
             string CustId = split[(int)colShipToUp.CustId];
-
         }
         public void ChangeShipToRep(string line)
         {
@@ -74,7 +70,6 @@ namespace UpdateCustomerGeneral
             try
             {
                 custDs = this.customerObj.GetByCustID(CustId);
-
             }
             catch (Exception e)
             {
@@ -96,7 +91,7 @@ namespace UpdateCustomerGeneral
                 Epicor.Mfg.BO.ShipToDataSet shipToDs = shipto.GetByID(custNum, shipToNum);
                 Epicor.Mfg.BO.ShipToDataSet.ShipToRow shipToRow =
                     (Epicor.Mfg.BO.ShipToDataSet.ShipToRow)shipToDs.ShipTo.Rows[0];
-                shipToRow.TerritoryID  = territoryId;
+                shipToRow.TerritoryID = territoryId;
                 shipToRow.SalesRepCode = salesRepCode;
                 shipToRow.SalesRepName = salesRepName;
                 message = "OK";
@@ -188,7 +183,8 @@ namespace UpdateCustomerGeneral
         {
             string message = "OK";
             custDs = customerObj.GetByID(custNum);
-            Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+            Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = 
+                (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
             custRow.PrintStatements = true;
             string currentVia = custRow.ShipViaCode;
             int result = currentVia.CompareTo("");
@@ -196,7 +192,6 @@ namespace UpdateCustomerGeneral
             {
                 custRow.ShipViaCode = "FGRB";
             }
-
             try
             {
                 customerObj.Update(custDs);
@@ -206,7 +201,7 @@ namespace UpdateCustomerGeneral
                 message = e.Message;
             }
         }
-        public void setCustGrp(string custId,string newGrp)
+        public void setCustGrp(string custId, string newGrp)
         {
             string message = "OK";
             bool okToUpdate = true;
@@ -222,7 +217,8 @@ namespace UpdateCustomerGeneral
             }
             if (okToUpdate)
             {
-                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = 
+                    (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
                 custRow.GroupCode = newGrp;
                 try
                 {
@@ -234,8 +230,8 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
-        public void setTerrRep(string custId,string terr,string salesRep,
-			                   bool changeT,bool changeR,bool changeLock)
+        public void setTerrRep(string custId, string terr,string salesRep,
+                                           bool changeT,bool changeR,bool changeLock)
         {
             string message = "OK";
             try
@@ -246,7 +242,6 @@ namespace UpdateCustomerGeneral
             {
                 message = e.Message;
             }
-             
             Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
             bool dirty = false;
             if (changeT)
