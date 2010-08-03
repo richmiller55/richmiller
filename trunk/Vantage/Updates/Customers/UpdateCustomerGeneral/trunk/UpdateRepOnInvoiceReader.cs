@@ -7,25 +7,16 @@ using System.IO;
 
 namespace UpdateCustomerGeneral
 {
-
-    public enum colRepCodeUp
+    public enum eRepCode
     {
-        territory,
         CustId,
-        SalesRepName,
         RepCode,
+        SalesRepName,
         filler
-    }
-    public enum colCustGrp
-    {
-    CustId,
-    RepCode,
-    RepName,
-    filler
     }
     class UpdateRepOnInvoiceReader
     {
-        string file = "D:/users/rich/data/customerUpdates/convert109SalesRepCode.txt";
+        string file = "D:/users/rich/data/customerUpdates/convertSalesRepCode_3Aug10.txt";
         StreamReader tr;
         public UpdateRepOnInvoiceReader()
         {
@@ -40,9 +31,10 @@ namespace UpdateCustomerGeneral
             while ((line = tr.ReadLine()) != null)
             {
                 string[] split = line.Split(new Char[] { '\t' });
-                string CustId = split[(int)colRepCodeUp.CustId];
-                string RepCode = split[(int)colRepCodeUp.RepCode];
-                string SalesRepName = split[(int)colRepCodeUp.SalesRepName];
+                string CustId = split[(int)eRepCode.CustId];
+                if (CustId.Equals("CustId"))  continue ;
+                string RepCode = split[(int)eRepCode.RepCode];
+                string SalesRepName = split[(int)eRepCode.SalesRepName];
                 
                 xman.ChangeRepOnInvoice(CustId, RepCode, SalesRepName);
             }

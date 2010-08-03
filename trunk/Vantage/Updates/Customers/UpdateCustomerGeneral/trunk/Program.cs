@@ -20,8 +20,8 @@ namespace UpdateCustomerGeneral
             // UpdateCustGrupReader reader = new UpdateCustGrupReader();
             // UpdateTerritoryReader reader = new UpdateTerritoryReader();
             // UpdateCreditReader reader = new UpdateCreditReader();
-            // UpdateRepOnInvoiceReader reader = new UpdateRepOnInvoiceReader();
-            UpdateShipToReader reader = new UpdateShipToReader();
+            UpdateRepOnInvoiceReader reader = new UpdateRepOnInvoiceReader();
+            // UpdateShipToReader reader = new UpdateShipToReader();
         }
     }
 }
