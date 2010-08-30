@@ -7,6 +7,26 @@ using System.IO;
 
 namespace PartUpdate
 {
+    public enum catalog
+    {
+        UPC,
+        ShortChar03,
+        ShortChar04,
+        Number01,
+        CheckBox02,
+        CheckBox03,
+        CheckBox04,
+        CheckBox05,
+        Number05,
+        Number06,
+        Number07,
+        ShortChar07,
+        UnitPrice,
+        Number08,
+        Character01,
+        Character02,
+        filler
+    }
     public enum priceUpdate
     {
         UPC,
@@ -77,7 +97,7 @@ namespace PartUpdate
         // string file = "D:/users/rich/data/PartUpdates/PartsCode04May10.txt";
         // string file = "D:/users/rich/data/PartUpdates/updatePartWhsToHayward.txt";
         // string file = "D:/users/rich/data/PartUpdates/CasePriceUpdate27May10.txt";
-        string file = "D:/users/rich/data/PartUpdates/FlagRunOuts071510.txt";
+        string file = "D:/users/rich/data/PartUpdates/FallHoliday2010.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -93,7 +113,7 @@ namespace PartUpdate
             {
                 //xman.SetAsDefaultWarehouse(line);
                 //xman.SimpleUpdatePrice(line);
-                xman.SimpleRunOutFlag(line);
+                xman.UpdateCatalog(line);
             }
         }
     }
