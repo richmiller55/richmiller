@@ -29,7 +29,7 @@ namespace InvBox
             tr = new StreamReader(this.fullPath);
             processFile();
         }
-        public UPSReader()
+        public UPSReader(string oldCode)
         {
             string year = DateTime.Now.Year.ToString();  
             string month = DateTime.Now.Month.ToString();
