@@ -20,8 +20,8 @@ namespace InvBox
 
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            StreamReader tr;
-            tr = new StreamReader(fullPath);
+            UPSReader reader = new UPSReader();
+            
         }
         void watcher_Created(object sender, FileSystemEventArgs e)
         {
