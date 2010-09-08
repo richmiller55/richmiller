@@ -10,7 +10,7 @@ namespace InvBox
         public Hashtable  charges;
         public string shipDates;
         string trackNumbers;
-    	decimal totalCharge;
+    	decimal totalFrtCharge;
 	    decimal totalWeight;
         int orderNo;
         string classOfService;
@@ -51,13 +51,13 @@ namespace InvBox
             ICollection chargeKeys = charges.Keys;
             foreach (object Key in chargeKeys)
             {
-		        totalCharge += (decimal)charges[Key];
+		        TotalFrtCharge += (decimal)charges[Key];
 		        trackNumbers += (string)Key + ":";
             }
             ICollection weightKeys = weights.Keys;
             foreach (object Key in weightKeys)
             {
-                totalWeight += (decimal)weights[Key];
+                TotalWeight += (decimal)weights[Key];
             }
 	    }
         public decimal TotalWeight
@@ -71,13 +71,72 @@ namespace InvBox
                 totalWeight = value;
             }
         }
-        public decimal GetTotalWeight() { return totalWeight; }
-        public decimal GetTotalCharge(){return totalCharge;}
-        public Int32 GetPackSlipNo() { return packSlipNo; }
-        public string GetTrackingNumbers() { return trackNumbers; }
-        public DateTime GetShipDate() { return shipDate; }
-        public int GetOrderNo() { return orderNo; }
-        public string GetClassOfService() { return classOfService; }
+        public decimal TotalFrtCharge
+        {
+            get
+            {
+                return totalFrtCharge;
+            }
+            set
+            {
+                totalFrtCharge = value;
+            }
+        }
+        public Int32 PackSlipNo
+        {
+            get
+            {
+                return packSlipNo;
+            }
+            set
+            {
+                packSlipNo = value;
+            }
+        }
+        public string TrackingNumbers
+        {
+            get
+            {
+                return trackNumbers;
+            }
+            set
+            {
+                trackNumbers = value;
+            }
+        }
+        public DateTime ShipDate
+        {
+            get
+            {
+                return shipDate;
+            }
+            set
+            {
+                shipDate = value;
+            }
+        }
+        public Int32 OrderNo
+        {
+            get
+            {
+                return orderNo;
+            }
+            set
+            {
+                orderNo = ValueType;
+            }
+        }
+        public string ClassOfService
+        {
+            get
+            {
+                return classOfService;
+            }
+            set
+            {
+                classOfService = value;
+            }
+        }
         public Hashtable GetWeights() { return weights; }
         public Hashtable GetCharges() { return charges; }
     }
