@@ -6,7 +6,7 @@ using System.IO;
 
 namespace InvBox
 {
-    public enum col
+    public enum fedEx
     {
         trackingNo,
         packSlipNo,
@@ -24,7 +24,7 @@ namespace InvBox
         ShipMgr shipMgr;
         public UPSReader()
         {
-            shipMgr = new ShipMgr();
+            this.shipMgr = new ShipMgr();
             // insert try catch block here
             tr = new StreamReader(this.fullPath);
             processFile();
@@ -55,37 +55,38 @@ namespace InvBox
                 int result = split[0].CompareTo("");
                 if (result == 0) continue;
                 
-                string packSlipStr = split[(int)col.packSlipNo];
+                string packSlipStr = split[(int)fedEx.packSlipNo];
                 
-                result = packSlipStr.CompareTo("po");
+                result = packSlipStr.CompareTo("po"); // to do modifiy for ups heading
                 if (result == 0) continue;
 
                 result = packSlipStr.CompareTo("");
                 if (result == 0) continue;
+
                 int packSlip = Convert.ToInt32(packSlipStr);                                
-                string trackingNo = split[(int)col.trackingNo];
+                string trackingNo = split[(int)fedEx.trackingNo];
                 
-                string shipDateStr = split[(int)col.shipDate];
+                string shipDateStr = split[(int)fedEx.shipDate];
 
                 System.DateTime shipDate = convertStrToDate(shipDateStr);
-                string serviceClass = split[(int)col.serviceClass];
+                string serviceClass = split[(int)fedEx.serviceClass];
 
-                string orderStr = split[(int)col.orderNo];
+                string orderStr = split[(int)fedEx.orderNo];
                 int orderNo = 0;
                 if (orderStr.Length > 0)
                 {
                     orderNo = Convert.ToInt32(orderStr);
                 }
-                string weightStr = split[(int)col.weight];
+                string weightStr = split[(int)fedEx.weight];
                 decimal weight = Convert.ToDecimal(weightStr);
 
-                string chargeStr = split[(int)col.charge];
+                string chargeStr = split[(int)fedEx.charge];
                 decimal charge = Convert.ToDecimal(chargeStr);
                 decimal zero = 0.0M;
                 result = charge.CompareTo(zero);
                 // if (result == 0) continue;  // if collect then do not process
 
-                string tranType = split[(int)col.tranType];
+                string tranType = split[(int)fedEx.tranType];
                 if (tranType.CompareTo("N") == 0)
                 {
                     shipMgr.AddShipmentLine(packSlip,trackingNo,shipDate,

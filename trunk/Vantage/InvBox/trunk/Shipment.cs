@@ -34,17 +34,20 @@ namespace InvBox
                             int orderNo,
                             decimal weight,decimal charge)
 	    {
-	        shipDate = shipDte;
+            this.shipDate = shipDte;
             this.classOfService = classOfService;
             this.orderNo = orderNo;
-            weights.Add(trackNo,weight);
-	        charges.Add(trackNo,charge);
+            this.weights.Add(trackNo, weight);
+            this.charges.Add(trackNo, charge);
 	    }
+        public void ShipmentComplete()
+        {
+        }
 	    public void RemoveLine(string trackNo)
 	    {
-	        weights.Remove(trackNo);
-	        charges.Remove(trackNo);
-            shipDates = "";
+            this.weights.Remove(trackNo);
+            this.charges.Remove(trackNo);
+            this.shipDates = "";
 	    }
 	    public void SumShipment()
 	    {
@@ -123,7 +126,7 @@ namespace InvBox
             }
             set
             {
-                orderNo = ValueType;
+                orderNo = value;
             }
         }
         public string ClassOfService
