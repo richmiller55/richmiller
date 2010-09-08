@@ -47,8 +47,8 @@ namespace InvBox
         public void RemoveShipmentLine(int packSlip, string trackingNo)
         {
             Shipment ship = GetShipment(packSlip);
-            this.totalFreight -= ship.GetTotalCharge();
-            this.totalWeight -= ship.GetTotalWeight();
+            this.totalFreight -= ship.TotalFrtCharge;
+            this.totalWeight -= ship.TotalWeight;
             this.nTrackingNumbers -= 1;
             ship.RemoveLine(trackingNo);
             shipments.Remove(packSlip);
