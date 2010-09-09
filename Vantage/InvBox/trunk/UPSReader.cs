@@ -19,15 +19,19 @@ namespace InvBox
     }
     class UPSReader
     {
-        string fullPath = @"d:/users/UPS";
+        string fullPath = @"D:/users/UPS";
         StreamReader tr;
         ShipMgr shipMgr;
         public UPSReader()
         {
             this.shipMgr = new ShipMgr();
             // insert try catch block here
-            tr = new StreamReader(this.fullPath);
-            processFile();
+            string filePaths = Directory.GetFiles(this.fullPath);
+            foreach (string fileName in filePaths)
+            {
+                tr = new StreamReader(fileName);
+                processFile();
+            }
         }
         public UPSReader(string oldCode)
         {
