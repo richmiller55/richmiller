@@ -15,15 +15,8 @@ namespace InvBox
             watcher.Created += new FileSystemEventHandler(watcher_Created);
             watcher.Changed += new FileSystemEventHandler(watcher_Changed);
             // watcher.Created += OnError;
-            this.runLoop();
-        }
-        public void runLoop()
-        {
-            while (true)
-            {
-                System.Threading.Thread.Sleep(1000);
-                string test = "now";
-            }
+            watcher.EnableRaisingEvents = true;
+            while (Console.Read() != 'q') ;
         }
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {

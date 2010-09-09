@@ -15,6 +15,7 @@ namespace InvBox
         int lastInvoiceNo;
         string batchName;
         string newInvoices = string.Empty;
+        
         public ARInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack)
         {
             arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
