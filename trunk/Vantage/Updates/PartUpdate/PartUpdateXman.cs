@@ -23,10 +23,54 @@ namespace PartUpdate
 
         public PartUpdateXman()
         {
-            objSess = new Epicor.Mfg.Core.Session("rich", "xxx",
-                "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
+            objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
+                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.partObj = new Epicor.Mfg.BO.Part(objSess.ConnectionPool);
         }
+
+        public void UpdateListPrice(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)listPrice.UPC];
+            if (this.partObj.PartExists(partNum))
+            {
+                ds = partObj.GetByID(partNum);
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+
+                if (row.IsISOrigCountryNumNull() || row.ISOrigCountryNum == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+                string strUnitPrice = split[(int)listPrice.unitPrice];
+                Decimal UnitPrice = 0.0M;
+                UnitPrice = Convert.ToDecimal(strUnitPrice);
+
+                string prodClass = row.ProdCode;
+                Regex re = new Regex(@"1[A-Z]");
+                MatchCollection mc = re.Matches(prodClass);
+                Decimal ListPrice = 0.0M;
+
+                if (mc.Count > 0)
+                {
+                    ListPrice = UnitPrice / .70M;
+                }
+                else
+                {
+                    ListPrice = UnitPrice / .80M;
+                }
+                Decimal rndListPrice = Math.Round(ListPrice, 2);
+                row.Number08 = rndListPrice;
+                try
+                {
+                    this.partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    string message = e.Message;
+                }
+            }
+        }
+
         public void UpdateCatalog(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -157,7 +201,7 @@ namespace PartUpdate
 
                     if (mc.Count > 0)
                     {
-                        ListPrice = UnitPrice / .75M;
+                        ListPrice = UnitPrice / .70M;
                     }
                     else
                     {
