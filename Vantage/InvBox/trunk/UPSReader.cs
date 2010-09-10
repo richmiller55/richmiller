@@ -26,7 +26,7 @@ namespace InvBox
         {
             this.shipMgr = new ShipMgr();
             // insert try catch block here
-            string filePaths = Directory.GetFiles(this.fullPath);
+            string[] filePaths = Directory.GetFiles(this.fullPath);
             foreach (string fileName in filePaths)
             {
                 tr = new StreamReader(fileName);
