@@ -15,9 +15,10 @@ namespace InvBox
         int lastInvoiceNo;
         string batchName;
         string newInvoices = string.Empty;
-        
-        public ARInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack)
+
+        public ARInvoice(Epicor.Mfg.Core.Session vanSession,string arInvGroup, string pack)
         {
+
             arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
             this.invGroup = arInvGroup;
             
@@ -131,7 +132,7 @@ namespace InvBox
             return this.invoiceNo;
         }
          * */
-        public void GetNewInvcMisc(decimal amount, string trackingNo)
+        public void NewInvcMiscChrg(decimal amount, string trackingNo)
         {
             Epicor.Mfg.BO.ARInvoiceDataSet ds = new Epicor.Mfg.BO.ARInvoiceDataSet();
             ds = arInvoice.GetByID(this.lastInvoiceNo);  // maybe better to lookup from pack
@@ -144,7 +145,7 @@ namespace InvBox
             miscRow.DocMiscAmt = amount;
             miscRow.DspDocMiscAmt = amount;
             miscRow.DspMiscAmt = amount;
-            miscRow.Description = "FedEx Freight Charge";
+            miscRow.Description = "Freight Charge";
             miscRow.MiscCode = frtMiscCode;
             miscRow.TaxCatID = "FREIGHT";
             if (trackingNo.Length > 50)

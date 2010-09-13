@@ -9,8 +9,13 @@ namespace InvBox
     {
         string dir = @"d:/users/UPS";
         FileSystemWatcher watcher;
+        Epicor.Mfg.Core.Session session;
         public Watcher()
         {
+
+            session = new Epicor.Mfg.Core.Session("rich", "homefed55",
+                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
+            
             watcher = new FileSystemWatcher(dir, "*.*");
             watcher.Created += new FileSystemEventHandler(watcher_Created);
             watcher.Changed += new FileSystemEventHandler(watcher_Changed);
@@ -20,7 +25,8 @@ namespace InvBox
         }
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            UPSReader reader = new UPSReader();
+            watcher.EnableRaisingEvents = false;
+            UPSReader reader = new UPSReader(this.session);
         }
         void watcher_Created(object sender, FileSystemEventArgs e)
         {
