@@ -8,16 +8,17 @@ namespace InvBox
     public class ShipMgr
     {
         public Hashtable shipments; // keyed by packSlip
+        public ArrayList trackingNumbers;
         decimal totalFreight;
         decimal totalWeight;
-        int nTrackingNumbers;
+
         int nPacks;
         public ShipMgr()
         {
             this.totalFreight = 0;
             this.totalWeight = 0;
-            this.nTrackingNumbers = 0;
             this.nPacks = 0;
+            this.trackingNumbers = new ArrayList();
             this.shipments = new Hashtable();
         }
         public void TotalShipments()
@@ -42,16 +43,20 @@ namespace InvBox
             ship.AddLine(trackingNo, shipDate,classOfService,orderNo,weight, charge);
             this.totalFreight += charge;
             this.totalWeight += weight;
-            this.nTrackingNumbers += 1;
+            this.trackingNumbers.Add(trackingNo);
         }
         public void RemoveShipmentLine(int packSlip, string trackingNo)
         {
             Shipment ship = GetShipment(packSlip);
             this.totalFreight -= ship.TotalFrtCharge;
             this.totalWeight -= ship.TotalWeight;
-            this.nTrackingNumbers -= 1;
+
             ship.RemoveLine(trackingNo);
             shipments.Remove(packSlip);
+        }
+        public void ShipmentComplete()
+        {
+            
         }
         public decimal TotalWeight
         {
@@ -75,15 +80,15 @@ namespace InvBox
                 totalFreight = value;
             }
         }
-        public int TrackingNumbers
+        public string TrackingNumbers
         {
             get
             {
-                return nTrackingNumbers;
+                return (string)trackingNumbers[0];
             }
             set
             {
-                nTrackingNumbers = value;
+                trackingNumbers.Add(value);
             }
         }
         public int Packs
@@ -134,8 +139,3 @@ namespace InvBox
         }
     }
 }
-	
-		
-
-
-		

@@ -21,10 +21,15 @@ namespace InvBox
     {
         string fullPath = @"D:/users/UPS";
         StreamReader tr;
-        ShipMgr shipMgr;
-        public UPSReader()
+        ShipMgr m_shipMgr;
+        int packSlip;
+        string packSlipStr;
+
+        Epicor.Mfg.Core.Session session;
+        public UPSReader(Epicor.Mfg.Core.Session vanSession)
         {
-            this.shipMgr = new ShipMgr();
+            this.session = vanSession;
+            this.m_shipMgr = new ShipMgr();
             // insert try catch block here
             string[] filePaths = Directory.GetFiles(this.fullPath);
             foreach (string fileName in filePaths)
@@ -33,22 +38,16 @@ namespace InvBox
                 processFile();
             }
         }
-        public UPSReader(string oldCode)
-        {
-            string year = DateTime.Now.Year.ToString();  
-            string month = DateTime.Now.Month.ToString();
-            string day = DateTime.Now.Day.ToString();
-            if (month.Length == 1) { month = "0" + month; }
-            if (day.Length == 1) { day = "0" + day; }
-            string yyyymmdd = year + month + day;
-            string file = "D:/users/rich/data/fedEx/writeback" + yyyymmdd + ".txt";
-            shipMgr = new ShipMgr();
-            tr = new StreamReader(file);
-            processFile();
-        }
-        public ShipMgr GetShipMgr() { return shipMgr; }
+        public ShipMgr GetShipMgr() { return m_shipMgr; }
 
-        void processFile()
+        private void invoiceShipment()
+        {
+            ARInvoice inv = new ARInvoice(this.session, "RLM85", this.packSlipStr);
+            inv.NewInvcMiscChrg(m_shipMgr.TotalFreight, this.m_shipMgr.TrackingNumbers);
+
+
+        }
+        private void processFile()
         {
             string linePre = "";
             
@@ -58,7 +57,7 @@ namespace InvBox
                 string[] split = line.Split(new Char[] { ',' });
                 int result = split[0].CompareTo("");
                 if (result == 0) continue;
-                
+
                 string packSlipStr = split[(int)fedEx.packSlipNo];
                 
                 result = packSlipStr.CompareTo("po"); // to do modifiy for ups heading
@@ -93,14 +92,16 @@ namespace InvBox
                 string tranType = split[(int)fedEx.tranType];
                 if (tranType.CompareTo("N") == 0)
                 {
-                    shipMgr.AddShipmentLine(packSlip,trackingNo,shipDate,
+                    m_shipMgr.AddShipmentLine(packSlip,trackingNo,shipDate,
                                 serviceClass,orderNo,weight,charge);
                 }
                 else
                 {
-                    shipMgr.RemoveShipmentLine(packSlip,trackingNo);
+                    m_shipMgr.RemoveShipmentLine(packSlip, trackingNo);
                 }
             }
+            m_shipMgr.ShipmentComplete(); // is this step needed?
+            // Call ARInvoice, 
         }
         public System.DateTime convertStrToDate(string dateStr)
         {
