@@ -18,7 +18,7 @@ namespace InvBox
         decimal taxAmount;
         decimal docLineTotal;
         string custName;
-        DateTime invoiceDate;
+        System.DateTime invoiceDate;
         string soldToCustID;
         string soldToCustName;
         string billToCustID;
@@ -100,13 +100,134 @@ namespace InvBox
         {
             get
             {
-                return packId;
+                return packID;
             }
             set
             {
-                packId = value;
+                packID = value;
             }
         }
-        public decimal 
+        public decimal CustExtPrice
+        {
+            get
+            {
+                return custExtPrice;
+            }
+            set
+            {
+                custExtPrice = value;
+            }
+        }
+        public decimal CustMiscCharge
+        {
+            get
+            {
+                return custMiscCharge;
+            }
+            set
+            {
+                custMiscCharge = value;
+            }
+        }
+        public decimal TaxAmount
+        {
+            get
+            {
+                return taxAmount;
+            }
+            set
+            {
+                taxAmount = value;
+            }
+        }
+        public decimal DocLineTotal
+        {
+            get
+            {
+                return docLineTotal;
+            }
+            set
+            {
+                docLineTotal = value;
+            }
+        }
+        public string CustName
+        {
+            get
+            {
+                return custName;
+            }
+            set
+            {
+                custName = value;
+            }
+        }
+        public System.DateTime InvoiceDate
+        {
+            get
+            {
+                return invoiceDate;
+            }
+            set
+            {
+                invoiceDate = value;
+            }
+        }
+        public string SoldToCustID
+        {
+            get
+            {
+                return soldToCustID;
+            }
+            set
+            {
+                soldToCustID = value;
+            }
+        }
+        public string SoldToCustName
+        {
+            get
+            {
+                return soldToCustName;
+            }
+            set
+            {
+                soldToCustName = value;
+            }
+        }
+        public string BillToCustID
+        {
+            get
+            {
+                return billToCustID;
+            }
+            set
+            {
+                billToCustID = value;
+            }
+        }
+        public string BillToCustName
+        {
+            get
+            {
+                return billToCustName;
+            }
+            set
+            {
+                billToCustName = value;
+            }
+        }
+        public string TermsID
+        {
+            get
+            {
+                return termsID;
+            }
+            set
+            {
+                termsID = value;
+            }
+        }
+
     }
 }
