@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using Epicor.Mfg.BO;
 
 namespace InvBox
 {
-    class ARInvoice
+    class CAInvoice
     {
         Epicor.Mfg.BO.ARInvoice arInvoice;
         string invGroup;
@@ -15,8 +16,8 @@ namespace InvBox
         int lastInvoiceNo;
         string batchName;
         string newInvoices = string.Empty;
-
-        public ARInvoice(Epicor.Mfg.Core.Session vanSession,string arInvGroup, string pack)
+        Invoice inv;
+        public CAInvoice(Epicor.Mfg.Core.Session vanSession,string arInvGroup, string pack)
         {
 
             arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
@@ -84,7 +85,7 @@ namespace InvBox
             bool overBillDay = false;
             arInvoice.GetShipments(this.invGroup, custList, packSlip, plant, billToFlag,
                                    overBillDay, out invoices, out errors);
-            Epicor.Mfg.BO.InvcHeadListDataSet InvList = new Epicor.Mfg.BO.InvcHeadListDataSet();
+            InvcHeadListDataSet InvList = new InvcHeadListDataSet();
         }
         /*
         void GetInvoice(string packNo, out string invoices, out string errors)
@@ -132,6 +133,37 @@ namespace InvBox
             return this.invoiceNo;
         }
          * */
+        public void FillInvoiceLines()
+        {
+
+            ARInvoiceDataSet ds = new ARInvoiceDataSet();
+            ds = arInvoice.GetByID(this.lastInvoiceNo);
+//            Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow dtl =
+//                (Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow)ds.InvcDtl.Rows;
+//            int rows = dtl.GetLength(0);
+/*
+            foreach (Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow row in dtl)
+            {
+                InvLine line = new InvLine(row);
+                this.inv.AddLine(line);
+            }
+*/
+            foreach (ARInvoiceDataSet.InvcDtlRow row in ds.InvcDtl.Rows)
+            {
+                InvLine line = new InvLine(row);
+                this.inv.AddLine(line);
+
+            }
+        }
+        public void FillInvoiceInfo()
+        {
+            Epicor.Mfg.BO.ARInvoiceDataSet ds = new Epicor.Mfg.BO.ARInvoiceDataSet();
+            ds = arInvoice.GetByID(this.lastInvoiceNo);
+            Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row =
+                (Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow)ds.InvcHead.Rows[0];
+            this.inv = new Invoice(row);
+            this.FillInvoiceLines();
+        }
         public void NewInvcMiscChrg(decimal amount, string trackingNo)
         {
             Epicor.Mfg.BO.ARInvoiceDataSet ds = new Epicor.Mfg.BO.ARInvoiceDataSet();

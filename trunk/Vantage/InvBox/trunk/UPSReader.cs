@@ -43,8 +43,10 @@ namespace InvBox
 
         private void invoiceShipment()
         {
-            ARInvoice inv = new ARInvoice(this.session, "RLM85", this.packSlipStr);
+            CAInvoice inv = new CAInvoice(this.session, "RLM85", this.packSlipStr);
             inv.NewInvcMiscChrg(m_shipMgr.TotalFreight, this.m_shipMgr.TrackingNumbers);
+            inv.FillInvoiceInfo();
+            // get and print invoice is the next step
         }
         private void processFile()
         {
