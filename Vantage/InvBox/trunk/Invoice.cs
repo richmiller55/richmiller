@@ -6,22 +6,37 @@ namespace InvBox
 {
     public class Invoice
     {
-        public Hashtable  lines;
+        public ArrayList lines;
 
-	int invoiceNo;
+        int invoiceNo;
         int packID;
-	int salesOrder;
-        System.DateTime invoiceDate;	
+        int salesOrder;
+        System.DateTime invoiceDate;
 
         string soldToCustID;
         string soldToCustName;
         string billToCustID;
         string billToCustName;
-	string poNo;
+        string poNo;
+        string salesRepCode1;
+        string salesRepName1;
 
-        public Invoice(int pack)
+        public Invoice(Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
         {
-	}
+            lines = new ArrayList();
+            this.BillToCustID = row.BTCustID;
+            this.BillToCustName = row.BTCustomerName;
+            this.InvoiceNo = row.InvoiceNum;
+            this.PackID = row.PackSlipNum;
+            this.PoNo = row.PONum;
+            this.SalesOrder = row.OrderNum;
+            this.SalesRepCode1 = row.SalesRepCode1;
+            this.SalesRepName1 = row.SalesRepName1;
+        }
+        public void AddLine(InvLine line)
+        {
+            this.lines.Add(line);
+        }
         public int InvoiceNo
         {
             get
@@ -30,7 +45,7 @@ namespace InvBox
             }
             set
             {
-                packID = value;
+                invoiceNo = value;
             }
         }
         public int PackID
@@ -110,3 +125,27 @@ namespace InvBox
                 poNo = value;
             }
         }
+        public string SalesRepCode1
+        {
+            get
+            {
+                return salesRepCode1;
+            }
+            set
+            {
+                salesRepCode1 = value;
+            }
+        }
+        public string SalesRepName1
+        {
+            get
+            {
+                return salesRepName1;
+            }
+            set
+            {
+                salesRepName1 = value;
+            }
+        }
+    }
+}

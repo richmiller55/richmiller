@@ -25,17 +25,21 @@ namespace InvBox
         }
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {
+/*
             watcher.EnableRaisingEvents = false;
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
                 UPSReader reader = new UPSReader(this.session);
             }
             watcher.EnableRaisingEvents = true;
+*/
         }
         void watcher_Created(object sender, FileSystemEventArgs e)
         {
-            // I think I want to install a error handler here
-            // throw new Exception("The method or operation is not implemented.");
+            if (e.ChangeType == WatcherChangeTypes.Created)
+            {
+                UPSReader reader = new UPSReader(this.session);
+            }
         }
         private static void OnError(object source, ErrorEventArgs e)
         {

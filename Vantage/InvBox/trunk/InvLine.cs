@@ -6,29 +6,63 @@ namespace InvBox
 {
     public class InvLine
     {
+        int invoiceNo;
+        int invoiceLineNo;
         string part;
         string description;
+        string unitOfMeasure;
         decimal sellingShipQty;
+        decimal orderQty;
         decimal discount;
         decimal unitPrice;
-        int packingLine;
-        int packId;
-        decimal custExtPrice;
+        int packLine;
+        int packID;
+        decimal extPrice;
         decimal custMiscCharge;
         decimal taxAmount;
         decimal docLineTotal;
         string custName;
         System.DateTime invoiceDate;
+        System.DateTime dueDate;
         string soldToCustID;
         string soldToCustName;
         string billToCustID;
         string billToCustName;
         string termsID;
 
-        public void InvLine()
+        public InvLine(Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow row)
         {
-            // ctor stuff	
-
+            this.BillToCustID = row.BillToCustID;
+            this.BillToCustName = row.BTCustName;
+            this.ExtPrice = row.ExtPrice;
+            this.InvoiceDate = row.InvoiceDate;
+            this.PackID = row.PackNum;  // check this mapping
+            this.PackLine = row.PackLine;
+            this.Part = row.PartNum;
+            this.Description = row.PartNumPartDescription;
+            this.SellingShipQty = row.SellingShipQty;
+        }
+        public int InvoiceNo
+        {
+            get
+            {
+                return invoiceNo;
+            }
+            set
+            {
+                invoiceNo = value;
+            }
+        }
+        public int InvoiceLineNo
+        {
+            get
+            {
+                return invoiceLineNo;
+            }
+            set
+            {
+                invoiceLineNo = value;
+            }
         }
         public string Part
         {
@@ -52,6 +86,17 @@ namespace InvBox
                 description = value;
             }
         }
+        public string UnitOfMeasure
+        {
+            get
+            {
+                return unitOfMeasure;
+            }
+            set
+            {
+                unitOfMeasure = value;
+            }
+        }
         public decimal SellingShipQty
         {
             get
@@ -61,6 +106,17 @@ namespace InvBox
             set
             {
                 sellingShipQty = value;
+            }
+        }
+        public decimal OrderQty
+        {
+            get
+            {
+                return orderQty;
+            }
+            set
+            {
+                orderQty = value;
             }
         }
         public decimal Discount
@@ -85,15 +141,15 @@ namespace InvBox
                 unitPrice = value;
             }
         }
-        public int PackingLine
+        public int PackLine
         {
             get
             {
-                return packingLine;
+                return packLine;
             }
             set
             {
-                packingLine = value;
+                packLine = value;
             }
         }
         public int PackID
@@ -107,22 +163,22 @@ namespace InvBox
                 packID = value;
             }
         }
-        public decimal CustExtPrice
+        public decimal ExtPrice
         {
             get
             {
-                return custExtPrice;
+                return extPrice;
             }
             set
             {
-                custExtPrice = value;
+                extPrice = value;
             }
         }
-        public decimal CustMiscCharge
+        public decimal MiscCharge
         {
             get
             {
-                return custMiscCharge;
+                return MiscCharge;
             }
             set
             {
@@ -171,6 +227,17 @@ namespace InvBox
             set
             {
                 invoiceDate = value;
+            }
+        }
+        public System.DateTime DueDate
+        {
+            get
+            {
+                return dueDate;
+            }
+            set
+            {
+                dueDate = value;
             }
         }
         public string SoldToCustID
