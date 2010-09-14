@@ -26,7 +26,11 @@ namespace InvBox
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {
             watcher.EnableRaisingEvents = false;
-            UPSReader reader = new UPSReader(this.session);
+            if (e.ChangeType == WatcherChangeTypes.Created)
+            {
+                UPSReader reader = new UPSReader(this.session);
+            }
+            watcher.EnableRaisingEvents = true;
         }
         void watcher_Created(object sender, FileSystemEventArgs e)
         {

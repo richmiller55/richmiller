@@ -36,6 +36,7 @@ namespace InvBox
             {
                 tr = new StreamReader(fileName);
                 processFile();
+                invoiceShipment();
             }
         }
         public ShipMgr GetShipMgr() { return m_shipMgr; }
@@ -44,8 +45,6 @@ namespace InvBox
         {
             ARInvoice inv = new ARInvoice(this.session, "RLM85", this.packSlipStr);
             inv.NewInvcMiscChrg(m_shipMgr.TotalFreight, this.m_shipMgr.TrackingNumbers);
-
-
         }
         private void processFile()
         {
@@ -58,7 +57,7 @@ namespace InvBox
                 int result = split[0].CompareTo("");
                 if (result == 0) continue;
 
-                string packSlipStr = split[(int)fedEx.packSlipNo];
+                this.packSlipStr = split[(int)fedEx.packSlipNo];
                 
                 result = packSlipStr.CompareTo("po"); // to do modifiy for ups heading
                 if (result == 0) continue;
