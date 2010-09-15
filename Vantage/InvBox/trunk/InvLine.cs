@@ -8,16 +8,17 @@ namespace InvBox
     {
         int invoiceNo;
         int invoiceLineNo;
+        int packID;
+        int packLine;
         string part;
         string description;
         string unitOfMeasure;
         decimal sellingShipQty;
         decimal orderQty;
-        decimal discount;
         decimal unitPrice;
-        int packLine;
-        int packID;
+        decimal discount;  // verify what this thing is a percent or amt
         decimal extPrice;
+
         decimal custMiscCharge;
         decimal taxAmount;
         decimal docLineTotal;
@@ -32,15 +33,24 @@ namespace InvBox
 
         public InvLine(Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow row)
         {
-            this.BillToCustID = row.BillToCustID;
-            this.BillToCustName = row.BTCustName;
-            this.ExtPrice = row.ExtPrice;
-            this.InvoiceDate = row.InvoiceDate;
+            this.InvoiceNo = row.InvoiceNum;
+            this.InvoiceLineNo = row.InvoiceLine;
             this.PackID = row.PackNum;  // check this mapping
             this.PackLine = row.PackLine;
             this.Part = row.PartNum;
             this.Description = row.PartNumPartDescription;
+            this.UnitOfMeasure = row.OrderUM;
             this.SellingShipQty = row.SellingShipQty;
+            this.OrderQty = row.OurOrderQty;
+            this.UnitPrice = row.UnitPrice;
+            this.Discount = row.Discount;
+            this.ExtPrice = row.ExtPrice;	    
+            this.BillToCustID = row.BillToCustID;
+            this.BillToCustName = row.BTCustName;
+            this.SoldToCustID = row.SoldToCustID;
+            this.SoldToCustName = row.SoldToCustName;
+            this.InvoiceDate = row.InvoiceDate;
+            this.DueDate = row.DueDate;
         }
         public int InvoiceNo
         {

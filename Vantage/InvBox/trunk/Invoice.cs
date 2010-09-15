@@ -15,8 +15,11 @@ namespace InvBox
 
         string soldToCustID;
         string soldToCustName;
+        string soldToAddressList;
+        bool   soldToInvoiceAddress;
         string billToCustID;
         string billToCustName;
+        bool   billToInvoiceAddress;
         string poNo;
         string salesRepCode1;
         string salesRepName1;
@@ -24,12 +27,21 @@ namespace InvBox
         public Invoice(Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
         {
             lines = new ArrayList();
-            this.BillToCustID = row.BTCustID;
-            this.BillToCustName = row.BTCustomerName;
             this.InvoiceNo = row.InvoiceNum;
             this.PackID = row.PackSlipNum;
-            this.PoNo = row.PONum;
             this.SalesOrder = row.OrderNum;
+            this.InvoiceDate = row.InvoiceDate;
+            this.SoldToCustID = row.SoldToCustID;
+            this.SoldToCustName = row.SoldToCustomerName;
+            this.SoldToInvoiceAddress = row.SoldToInvoiceAddress;
+            this.SoldToAddressList = row.SoldToAddressList;
+            
+            this.BillToCustID = row.BTCustID;
+            this.BillToCustName = row.BTCustomerName;
+            this.BillToInvoiceAddress = row.BillToInvoiceAddress;
+
+            this.PoNo = row.PONum;
+
             this.SalesRepCode1 = row.SalesRepCode1;
             this.SalesRepName1 = row.SalesRepName1;
         }
@@ -46,6 +58,17 @@ namespace InvBox
             set
             {
                 invoiceNo = value;
+            }
+        }
+        public DateTime InvoiceDate
+        {
+            get
+            {
+                return invoiceDate;
+            }
+            set
+            {
+                invoiceDate = value;
             }
         }
         public int PackID
@@ -92,6 +115,30 @@ namespace InvBox
                 soldToCustName = value;
             }
         }
+        public string SoldToAddressList
+        {
+
+            get
+            {
+                return soldToAddressList;
+            }
+            set
+            {
+                soldToAddressList = value;
+            }
+        }
+        public bool SoldToInvoiceAddress
+        {
+
+            get
+            {
+                return soldToInvoiceAddress;
+            }
+            set
+            {
+                soldToInvoiceAddress = value;
+            }
+        }
         public string BillToCustID
         {
             get
@@ -112,6 +159,18 @@ namespace InvBox
             set
             {
                 billToCustName = value;
+            }
+        }
+        public bool BillToInvoiceAddress
+        {
+
+            get
+            {
+                return billToInvoiceAddress;
+            }
+            set
+            {
+                billToInvoiceAddress = value;
             }
         }
         public string PoNo

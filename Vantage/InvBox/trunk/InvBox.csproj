@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ARInvoice.cs" />
+    <Compile Include="CAInvoice.cs" />
     <Compile Include="InvBox.cs">
       <SubType>Component</SubType>
     </Compile>
