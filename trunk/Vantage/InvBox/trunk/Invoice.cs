@@ -6,7 +6,7 @@ namespace InvBox
 {
     public class Invoice
     {
-        public ArrayList lines;
+        public ArrayList lines = new ArrayList();
 
         int invoiceNo;
         int packID;
@@ -26,7 +26,6 @@ namespace InvBox
 
         public Invoice(Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
         {
-            lines = new ArrayList();
             this.InvoiceNo = row.InvoiceNum;
             this.PackID = row.PackSlipNum;
             this.SalesOrder = row.OrderNum;
