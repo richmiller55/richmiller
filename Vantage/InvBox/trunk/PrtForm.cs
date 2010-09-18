@@ -57,10 +57,6 @@ namespace InvBox
             else
                 ev.HasMorePages = false;
         }
-
-        private void InitializeComponent()
-        {
-        }
     }
 }
 

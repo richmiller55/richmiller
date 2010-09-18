@@ -12,12 +12,13 @@ namespace InvBox
 
         public InvoiceFormater(Invoice inv)
         {
-		this.i = inv;
+            this.i = inv;
         }
         void Header()
         {
             lines.Add("--------------------------------------------------------+");
             lines.Add("|                                                       |");
-            lines.Add("  Invoice " + i.InvoiceNo.ToString();
+            lines.Add("  Invoice " + i.InvoiceNo.ToString());
+        }
     }
 }
