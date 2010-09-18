@@ -31,6 +31,10 @@ namespace InvBox
         string billToCustName;
         string termsID;
 
+        public InvLine()
+        {
+            // roll your own object
+        }
         public InvLine(Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow row)
         {
             this.InvoiceNo = row.InvoiceNum;

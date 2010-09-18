@@ -12,7 +12,9 @@ namespace InvBox
         int packID;
         int salesOrder;
         System.DateTime invoiceDate;
-
+        System.DateTime orderDate;
+        System.DateTime shipDate;
+        
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
@@ -21,15 +23,24 @@ namespace InvBox
         string billToCustName;
         bool   billToInvoiceAddress;
         string poNo;
+        string shipVia;
+        string paymentTerms;
+        string paymentTermsText;
         string salesRepCode1;
         string salesRepName1;
 
+        public Invoice()
+        {
+            // init on your own for testing
+        }
         public Invoice(Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
         {
             this.InvoiceNo = row.InvoiceNum;
             this.PackID = row.PackSlipNum;
             this.SalesOrder = row.OrderNum;
+            
             this.InvoiceDate = row.InvoiceDate;
+            // todo ShipDate and OrderDate
             this.SoldToCustID = row.SoldToCustID;
             this.SoldToCustName = row.SoldToCustomerName;
             this.SoldToInvoiceAddress = row.SoldToInvoiceAddress;
@@ -40,6 +51,8 @@ namespace InvBox
             this.BillToInvoiceAddress = row.BillToInvoiceAddress;
 
             this.PoNo = row.PONum;
+            this.PaymentTerms = row.TermsCode;
+            this.PaymentTermsText = row.TermsCodeDescription;
 
             this.SalesRepCode1 = row.SalesRepCode1;
             this.SalesRepName1 = row.SalesRepName1;
@@ -68,6 +81,28 @@ namespace InvBox
             set
             {
                 invoiceDate = value;
+            }
+        }
+        public DateTime OrderDate
+        {
+            get
+            {
+                return orderDate;
+            }
+            set
+            {
+                orderDate = value;
+            }
+        }
+        public DateTime ShipDate
+        {
+            get
+            {
+                return shipDate;
+            }
+            set
+            {
+                shipDate = value;
             }
         }
         public int PackID
@@ -181,6 +216,39 @@ namespace InvBox
             set
             {
                 poNo = value;
+            }
+        }
+        public string ShipVia
+        {
+            get
+            {
+                return shipVia;
+            }
+            set
+            {
+                shipVia = value;
+            }
+        }
+        public string PaymentTerms
+        {
+            get
+            {
+                return paymentTerms;
+            }
+            set
+            {
+                paymentTerms = value;
+            }
+        }
+        public string PaymentTermsText
+        {
+            get
+            {
+                return paymentTermsText;
+            }
+            set
+            {
+                paymentTermsText = value;
             }
         }
         public string SalesRepCode1
