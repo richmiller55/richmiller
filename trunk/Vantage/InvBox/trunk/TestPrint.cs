@@ -12,6 +12,9 @@ namespace InvBox
         public TestPrint()
         {
             this.i = new Invoice();
+            this.FillInvoice();
+            InvoiceFormater invFor = new InvoiceFormater(this.i);
+
         }
         private void FillInvoice()
         {
@@ -22,16 +25,17 @@ namespace InvBox
 
             i.PoNo = "460421:262";
             i.PackID = 1219;
-            
+            this.FillAddresses();
+            this.FillLine();
         }
         void FillAddresses()
         {
             i.BillToCustName = "Stein Mart";
-            i.BillToInvoiceAddress = "P O Box 48130" + "\n";
-            i.BillToInvoiceAddress += "Jacksonville FL 32247" + "\n";
+            // i.BillToInvoiceAddress = "P O Box 48130" + "\n";
+            // i.BillToInvoiceAddress += "Jacksonville FL 32247" + "\n";
             i.SoldToCustName = "Stein Mart 262";
-            i.SoldToInvoiceAddress = "25191 Chamber Of Commerce" + "\n";
-            i.SoldToInvoiceAddress += "Bonita Springs FL 34135" + "\n";
+            // i.SoldToInvoiceAddress = "25191 Chamber Of Commerce" + "\n";
+            // i.SoldToInvoiceAddress += "Bonita Springs FL 34135" + "\n";
         }
         void FillLine()
         {

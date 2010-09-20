@@ -11,20 +11,10 @@ namespace InvBox
         /// </summary>
         static void Main()
         {
-            // next 3 lines where default service
-            // ServiceBase[] ServicesToRun;
-            // ServicesToRun = new ServiceBase[] { new InvBox() };
-            // ServiceBase.Run(ServicesToRun);
-
-            // 
-
-            // More than one user Service may run within the same process. To add
-            // another service to this process, change the following line to
-            // create a second service object. For example,
-            //
-            // ServicesToRun = new ServiceBase[] {new Service1(), new MySecondUserService()};
-            //
-            Watcher wa = new Watcher();
+            // main version
+            // Watcher wa = new Watcher();
+            // test invoice print version
+            TestPrint tp = new TestPrint();
         }
     }
 }

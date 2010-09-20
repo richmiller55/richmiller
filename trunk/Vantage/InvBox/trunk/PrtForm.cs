@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,16 +12,21 @@ namespace InvBox
 {
     public partial class PrtForm : Form
     {
+        ArrayList ra = new ArrayList();
+        Font printFont = new Font("Arial", 10);
         public PrtForm()
         {
             InitializeComponent();
         }
+        public PrtForm(ArrayList report)
+        {
+            InitializeComponent();
+            this.ra = report;
+        }
         public void printIt()
         {
-            string testStr = "Here we go array list of lines";
             try
             {
-                Font printFont = new Font("Arial", 10);
                 printDocument1.PrintPage += new PrintPageEventHandler(this.pd_PrintPage);
                 printDocument1.Print();
             }
@@ -36,26 +42,31 @@ namespace InvBox
             int count = 0;
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
-            string line = null;
 
             // Calculate the number of lines per page.
             linesPerPage = ev.MarginBounds.Height / printFont.GetHeight(ev.Graphics);
 
             // Print each line of the file.
-            while (count < linesPerPage && ((line = streamToPrint.ReadLine()) != null))
+            int totalLinesPrinted = 0;
+            foreach (string line in this.ra)
             {
-                yPos = topMargin + (count *
-                   printFont.GetHeight(ev.Graphics));
-                ev.Graphics.DrawString(line, printFont, Brushes.Black,
-                   leftMargin, yPos, new StringFormat());
-                count++;
+                while (count < linesPerPage)
+                {
+                    yPos = topMargin + (count *
+                       printFont.GetHeight(ev.Graphics));
+                    ev.Graphics.DrawString(line, printFont, Brushes.Black,
+                       leftMargin, yPos, new StringFormat());
+                    count++;
+                }
+                totalLinesPrinted += count;
+                count = 0;
+                // If more lines exist, print another page.
+                if (totalLinesPrinted < this.ra.Count)
+                    ev.HasMorePages = true;
+                else
+                    ev.HasMorePages = false;
             }
 
-            // If more lines exist, print another page.
-            if (line != null)
-                ev.HasMorePages = true;
-            else
-                ev.HasMorePages = false;
         }
     }
 }
