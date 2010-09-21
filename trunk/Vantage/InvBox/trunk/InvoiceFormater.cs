@@ -6,13 +6,16 @@ namespace InvBox
 {
     public class InvoiceFormater
     {
-        public ArrayList ra = new ArrayList();
+        ArrayList ra = new ArrayList();
         Invoice i;
 
 
         public InvoiceFormater(Invoice inv)
         {
             this.i = inv;
+            this.Header();
+            this.DetailHeading();
+            this.Detail();
         }
         void Header()
         {

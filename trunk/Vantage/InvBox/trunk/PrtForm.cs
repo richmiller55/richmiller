@@ -22,12 +22,17 @@ namespace InvBox
         {
             InitializeComponent();
             this.ra = report;
+            this.PrintIt();
         }
-        public void printIt()
+        public void PrintIt()
         {
             try
             {
                 printDocument1.PrintPage += new PrintPageEventHandler(this.pd_PrintPage);
+                printDocument1.DefaultPageSettings.PrinterSettings.DefaultPageSettings.PrinterSettings.PrinterName =
+                    "P4515PCL6_100";
+
+
                 printDocument1.Print();
             }
             catch (Exception ex)
@@ -50,7 +55,7 @@ namespace InvBox
             int totalLinesPrinted = 0;
             foreach (string line in this.ra)
             {
-                while (count < linesPerPage)
+                if (count < linesPerPage)
                 {
                     yPos = topMargin + (count *
                        printFont.GetHeight(ev.Graphics));
