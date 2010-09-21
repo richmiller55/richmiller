@@ -6,7 +6,7 @@ namespace InvBox
 {
     public class Invoice
     {
-        public ArrayList lines = new ArrayList();
+        private ArrayList lines = new ArrayList();
 
         int invoiceNo;
         int packID;
@@ -14,7 +14,7 @@ namespace InvBox
         System.DateTime invoiceDate;
         System.DateTime orderDate;
         System.DateTime shipDate;
-        
+
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
@@ -60,6 +60,17 @@ namespace InvBox
         public void AddLine(InvLine line)
         {
             this.lines.Add(line);
+        }
+        public ArrayList Lines
+        {
+            get
+            {
+                return lines;
+            }
+            set
+            {
+                lines = value;
+            }
         }
         public int InvoiceNo
         {

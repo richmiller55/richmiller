@@ -56,6 +56,7 @@ namespace InvBox
             line.PackID = 1210;
             line.InvoiceLineNo = 1;
             line.PackLine = 1;
+            i.AddLine(line);
         }
         private void PrintInvoice()
         {
