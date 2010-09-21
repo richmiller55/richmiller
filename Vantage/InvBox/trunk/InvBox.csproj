@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAInvoice.cs" />
-    <Compile Include="InvoiceFormater.cs" />
+    <Compile Include="InvoiceFormater.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InvPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -72,7 +74,6 @@
     </Compile>
     <Compile Include="InvLine.cs" />
     <Compile Include="Invoice.cs" />
-    <Compile Include="PrintInvoice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shipment.cs" />

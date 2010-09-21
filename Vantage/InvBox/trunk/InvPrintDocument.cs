@@ -53,7 +53,6 @@ namespace InvBox
                 }
                 else
                 {
-
                     count = 0;
                 }
                 if (totalLinesPrinted < this.ra.Count)
