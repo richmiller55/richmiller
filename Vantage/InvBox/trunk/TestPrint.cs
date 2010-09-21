@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Windows.Forms;
+
 
 namespace InvBox
 {
@@ -13,8 +15,10 @@ namespace InvBox
         {
             this.i = new Invoice();
             this.FillInvoice();
-            InvoiceFormater invFor = new InvoiceFormater(this.i);
-
+            InvoiceFormater invFormat = new InvoiceFormater(this.i);
+            InvPrintDocument prtDoc = new InvPrintDocument(invFormat.ReportArray);
+            prtDoc.Print();
+            // PrtForm prtForm = new PrtForm(invFormat.ReportArray);
         }
         private void FillInvoice()
         {
