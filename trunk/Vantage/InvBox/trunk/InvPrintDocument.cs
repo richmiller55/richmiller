@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 
-
 namespace InvBox
 {
     public class InvPrintDocument : PrintDocument
@@ -59,7 +58,6 @@ namespace InvBox
                     e.HasMorePages = true;
                 else
                     e.HasMorePages = false;
-
             }
         }
     }
