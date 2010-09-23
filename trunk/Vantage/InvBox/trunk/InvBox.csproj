@@ -32,6 +32,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.BO.ARInvoice.dll</HintPath>
     </Reference>
+    <Reference Include="Epicor.Mfg.BO.Customer, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.BO.Customer.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.BO.CustShip, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.BO.CustShip.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.BO.SalesOrder, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.BO.SalesOrder.dll</HintPath>
+    </Reference>
     <Reference Include="Epicor.Mfg.Core.BLConnectionPool, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.Core.BLConnectionPool.dll</HintPath>
@@ -43,6 +55,18 @@
     <Reference Include="Epicor.Mfg.IF.IARInvoice, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.IARInvoice.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.IF.ICustomer, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.ICustomer.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.IF.ICustShip, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.ICustShip.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.IF.ISalesOrder, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.ISalesOrder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -60,6 +84,7 @@
     <Compile Include="InvPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PackSlip.cs" />
     <Compile Include="PrtForm.cs">
       <SubType>Form</SubType>
     </Compile>
