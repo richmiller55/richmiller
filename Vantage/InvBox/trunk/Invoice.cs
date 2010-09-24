@@ -14,7 +14,9 @@ namespace InvBox
         System.DateTime invoiceDate;
         System.DateTime orderDate;
         System.DateTime shipDate;
-
+        StreetAddress remitTo;
+        StreetAddress soldTo;
+        StreetAddress shipTo;
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
