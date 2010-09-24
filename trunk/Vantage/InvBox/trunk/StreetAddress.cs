@@ -135,5 +135,27 @@ namespace InvBox
                 country = value;
             }
         }
+        public string TermsCode
+        {
+            get
+            {
+                return termsCode;
+            }
+            set
+            {
+                termsCode = value;
+            }
+        }
+        public string TermsCodeDescr
+        {
+            get
+            {
+                return TermsCodeDescr;
+            }
+            set
+            {
+                termsCodeDescr = value;
+            }
+        }
     }
 }
