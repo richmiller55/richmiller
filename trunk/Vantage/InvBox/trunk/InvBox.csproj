@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAInvoice.cs" />
+    <Compile Include="CustomerShip.cs" />
     <Compile Include="InvoiceFormater.cs">
       <SubType>Code</SubType>
     </Compile>
