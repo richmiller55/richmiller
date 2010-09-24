@@ -11,8 +11,20 @@ namespace InvBox
     class TestPrint
     {
         Invoice i;
+        Epicor.Mfg.Core.Session sess;
         public TestPrint()
         {
+            this.i = new Invoice();
+            this.FillInvoice();
+            InvoiceFormater invFormat = new InvoiceFormater(this.i);
+            InvPrintDocument prtDoc = new InvPrintDocument(invFormat.ReportArray);
+            prtDoc.Print();
+            // PrtForm prtForm = new PrtForm(invFormat.ReportArray);
+        }
+        public TestPrint(Epicor.Mfg.Core.Session  session)
+        {
+            this.sess = session;
+            PackSlip ps = new PackSlip(this.sess, 1434);  // todo get a working pack in test
             this.i = new Invoice();
             this.FillInvoice();
             InvoiceFormater invFormat = new InvoiceFormater(this.i);

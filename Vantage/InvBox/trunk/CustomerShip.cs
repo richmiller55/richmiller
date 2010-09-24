@@ -210,8 +210,8 @@ namespace InvBox
                 sa.City = custRow.City;
                 sa.State = custRow.State;
                 sa.ZipCode = custRow.Zip;
-                string junk = custRow.TermsCode;
-
+                sa.TermsCode = custRow.TermsCode;
+                sa.TermsCodeDescr = custRow.TermsDescription;
             }
             catch (Exception e)
             {
