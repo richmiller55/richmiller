@@ -12,23 +12,23 @@ namespace InvBox
     }
     public class StreetAddress
     {
-        private int addressType;
-        private string custID = new String();
-        private string custName = new String();
-        private string address1 = new String();
-        private string address2 = new String();
-        private string address3 = new String();
-        private string city = new String();
-        private string state = new String();
-        private string zipCode = new String();
-        private string country = new String();
-        private string termsCode = new String();
-        private string termsDescr = new String();
+        private int  addressType;
+        private string custID = "";
+        private string custName = "";
+        private string address1 = "";
+        private string address2 = "";
+        private string address3 = "";
+        private string city = "";
+        private string state = "";
+        private string zipCode = "";
+        private string country = "";
+        private string termsCode = "";
+        private string termsDescr = "";
         private bool freightFree = false;
         
         public StreetAddress(AddrTypes addrType)
         {
-            this.AddressType = addrType;
+            this.AddressType = (int)addrType;
             // take the default ctor for now
             // fill the thing with actual data in a init function
             // taking 
@@ -146,15 +146,15 @@ namespace InvBox
                 termsCode = value;
             }
         }
-        public string TermsCodeDescr
+        public string TermsDescr
         {
             get
             {
-                return TermsCodeDescr;
+                return termsDescr;
             }
             set
             {
-                termsCodeDescr = value;
+                termsDescr = value;
             }
         }
     }

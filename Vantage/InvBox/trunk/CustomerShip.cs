@@ -25,7 +25,9 @@ namespace InvBox
         string shipToCountry;
         string customerId;
         string custFrtTerms;
-        
+
+        // suspect member vars
+        int CustomerNo;
         public CustomerShip(Epicor.Mfg.Core.Session vanSession,Int32 vanPackNo)
         {
             this.session = vanSession;
@@ -166,31 +168,6 @@ namespace InvBox
                 customerId = value;
             }
         }
-        void splitAddress()
-        {
-            string addrList = shipHeadRow.AddrList;
-            string[] addressAry = addrList.Split(new Char[] { '~' });
-            if (addressAry.GetLength(0) == 5) 
-            {
-                Name = addressAry[(int)addrListCol5.name];
-                Address1 = addressAry[(int)addrListCol5.address1];
-                Address2 = addressAry[(int)addrListCol5.address2];
-                string cityStZip = addressAry[(int)addrListCol5.cityStateZip];
-                City = cityStZip;
-                shipToCountry = addressAry[(int)addrListCol5.country];
-            }
-            else
-            {
-                Name = addressAry[(int)addrListCol4.name];
-                Address1 = addressAry[(int)addrListCol4.address1];
-                string cityStZip = addressAry[(int)addrListCol4.cityStateZip];
-                City = cityStZip;
-                shipToCountry = addressAry[(int)addrListCol4.country];
-            }
-            this.CustomerNo = shipHeadRow.CustNum;
-            this.CustomerId = shipHeadRow.CustomerCustID;
-            getCustomerInfo();
-        }
         void getCustomerInfo(int custNo, StreetAddress sa)
         {
             Epicor.Mfg.BO.Customer customerObj;
@@ -211,7 +188,7 @@ namespace InvBox
                 sa.State = custRow.State;
                 sa.ZipCode = custRow.Zip;
                 sa.TermsCode = custRow.TermsCode;
-                sa.TermsCodeDescr = custRow.TermsDescription;
+                sa.TermsDescr = custRow.TermsDescription;
             }
             catch (Exception e)
             {
