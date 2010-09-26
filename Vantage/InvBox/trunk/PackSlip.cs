@@ -16,12 +16,6 @@ namespace InvBox
         public PackSlip(Epicor.Mfg.Core.Session vanSession, int pack)
         {
             InitCustShip();
-            if (packFound)
-            {
-                custShip = new CustomerShip(session, PackNum);
-                GetOrderInfo();
-                GetCustomerInfo();
-            }
         }
         public void ExtactAddress(StreetAddress sa)
         {
@@ -42,7 +36,7 @@ namespace InvBox
                 BuyGroup bgCheck = new BuyGroup(session, CustNum);
                 this.IsBuyGroup = bgCheck.GetBuyGroupMember();
                 string trackingNum = custShipRow.TrackingNumber;
-                
+
                 if (trackingNum.Length > 0)
                 {
                     packNeedsTracking = false;
@@ -64,111 +58,8 @@ namespace InvBox
                 packFound = true;
             }
         }
-        void GetOrderInfo()
-        {
-            Epicor.Mfg.BO.SalesOrder salesOrderObj;
-            salesOrderObj = new Epicor.Mfg.BO.SalesOrder(session.ConnectionPool);
-            Epicor.Mfg.BO.SalesOrderDataSet soDs = new Epicor.Mfg.BO.SalesOrderDataSet();
-            bool result = true;
-            string message;
-            try
-            {
-                soDs = salesOrderObj.GetByID(OrderNum);
-                Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow row = (Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow)soDs.OrderHed.Rows[0];
-                orderFF = row.CheckBox03;
-                orderShipVia = row.ShipViaCode;
-                soDs.Dispose();
-            }
-            catch (Exception e)
-            {
-                // header did not post
-                message = e.Message;
-                result = false;
-            }
-            if (result)
-            {
-                orderFound = true;
-            }
-        }
-        void GetCustomerInfo()
-        {
-            Epicor.Mfg.BO.Customer customerObj;
-            customerObj = new Epicor.Mfg.BO.Customer(session.ConnectionPool);
-            Epicor.Mfg.BO.CustomerDataSet ds;
-            ds = customerObj.GetByID(CustNum);
-            Epicor.Mfg.BO.CustomerDataSet.CustomerRow row = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)ds.Customer.Rows[0];
-            customerTerms = row.ShortChar01;
-            if (customerTerms.CompareTo("FF") == 0)
-            {
-                customerFF = true;
-            }
-        }
-        public bool NeedsTracking
-        {
-            get
-            {
-                return packNeedsTracking;
-            }
-            set
-            {
-                packNeedsTracking = value;
-            }
-        }
-        public bool CustomerFF
-        {
-            get
-            {
-                return customerFF;
-            }
-            set
-            {
-                customerFF = value;
-            }
-        }
-        public bool Invoiced
-        {
-            get
-            {
-                return invoiced;
-            }
-            set
-            {
-                invoiced = value;
-            }
-        }
-        public bool OrderFF
-        {
-            get
-            {
-                return orderFF;
-            }
-            set
-            {
-                orderFF = value;
-            }
-        }
-        public int PackNum
-        {
-            get
-            {
-                return packNum;
-            }
-            set
-            {
-                packNum = value;
-            }
-        }
-        public bool IsBuyGroup
-        {
-            get
-            {
-                return isBuyGroup;
-            }
-            set
-            {
-                isBuyGroup = value;
-            }
-        }
     }
 }
+
+
         

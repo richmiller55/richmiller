@@ -6,14 +6,20 @@ namespace InvBox
 {
     public enum AddrTypes
     {
+        SoldTo,
         ShipTo,
         BillTo,
         RemitTo
     }
     public class StreetAddress
     {
+        Epicor.Mfg.Core.Session session;
+        Epicor.Mfg.BO.Customer customerObj;
+        Epicor.Mfg.BO.CustomerDataSet custDs;
+        Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
         private int  addressType;
         private string custID = "";
+        private int custNo = 0;
         private string custName = "";
         private string address1 = "";
         private string address2 = "";
@@ -24,18 +30,51 @@ namespace InvBox
         private string country = "";
         private string termsCode = "";
         private string termsDescr = "";
+        private string custFrtTerms = "";
+
         private bool freightFree = false;
-        
-        public StreetAddress(AddrTypes addrType)
+
+        public StreetAddress(Epicor.Mfg.Core.Session session,
+                             AddrTypes addrType, string custID)
         {
+            this.session = session;
             this.AddressType = (int)addrType;
-            // take the default ctor for now
-            // fill the thing with actual data in a init function
-            // taking 
+            this.CustID = custID;
+            this.CustDSFromID();
+            this.FillCustomerAddress();
         }
-        public void init()
+        void CustDSFromID()
         {
+            Epicor.Mfg.BO.Customer customerObj =
+                   new Epicor.Mfg.BO.Customer(session.ConnectionPool);
+
+            try
+            {
+                Epicor.Mfg.BO.CustomerDataSet custDs = customerObj.GetByCustID(this.CustID);
+                this.custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+
         }
+        void FillCustomerAddress()
+        {
+                this.CustFrtTerms = custRow.ShortChar01;
+                this.Address1 = custRow.Address1;
+                this.Address2 = custRow.Address2;
+                this.Address3 = custRow.Address3;
+                this.City = custRow.City;
+                this.State = custRow.State;
+                this.ZipCode = custRow.Zip;
+                this.TermsCode = custRow.TermsCode;
+                this.TermsDescr = custRow.TermsDescription;
+                if (custRow.ShortChar01.CompareTo("FF") == 0)
+                {
+                    this.FreightFree = true;
+                }
+            }
         public int AddressType
         {
             get
@@ -56,6 +95,17 @@ namespace InvBox
             set
             {
                 custID = value;
+            }
+        }
+        public int CustNo
+        {
+            get
+            {
+                return custNo;
+            }
+            set
+            {
+                custNo = value;
             }
         }
         public string Address1
@@ -155,6 +205,28 @@ namespace InvBox
             set
             {
                 termsDescr = value;
+            }
+        }
+        public string CustFrtTerms
+        {
+            get
+            {
+                return custFrtTerms;
+            }
+            set
+            {
+                custFrtTerms = value;
+            }
+        }
+        public bool FreightFree
+        {
+            get
+            {
+                return freightFree;
+            }
+            set
+            {
+                freightFree = value;
             }
         }
     }

@@ -79,14 +79,12 @@
   <ItemGroup>
     <Compile Include="BuyGroup.cs" />
     <Compile Include="CAInvoice.cs" />
-    <Compile Include="CustomerShip.cs" />
     <Compile Include="InvoiceFormater.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InvPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PackSlip.cs" />
     <Compile Include="PrtForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -24,7 +24,7 @@ namespace InvBox
         ShipMgr m_shipMgr;
         int packSlip;
         string packSlipStr;
-
+        Invoice inv;
         Epicor.Mfg.Core.Session session;
         public UPSReader(Epicor.Mfg.Core.Session vanSession)
         {
@@ -34,18 +34,18 @@ namespace InvBox
             string[] filePaths = Directory.GetFiles(this.fullPath);
             foreach (string fileName in filePaths)
             {
-                tr = new StreamReader(fileName);
-                processFile();
-                invoiceShipment();
+                this.tr = new StreamReader(fileName);
+                this.processFile();
+                this.InvoiceShipment();
             }
         }
         public ShipMgr GetShipMgr() { return m_shipMgr; }
 
-        private void invoiceShipment()
+        private void InvoiceShipment()
         {
-            CAInvoice inv = new CAInvoice(this.session, "RLM85", this.packSlipStr);
-            inv.NewInvcMiscChrg(m_shipMgr.TotalFreight, this.m_shipMgr.TrackingNumbers);
-            inv.FillInvoiceInfo();
+            CAInvoice cainv = new CAInvoice(this.session, "RLM85", this.packSlipStr);
+            cainv.NewInvcMiscChrg(m_shipMgr.TotalFreight, this.m_shipMgr.TrackingNumbers);
+            cainv.FillInvoiceInfo();
             // get and print invoice is the next step
         }
         private void processFile()

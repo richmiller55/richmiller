@@ -16,6 +16,7 @@ namespace InvBox
         bool packExists;
         StreetAddress shipTo;
         StreetAddress billTo;
+        // please justify all this crap below, all of this should be in the StreetAddress objects
         string shipToName;
         string shipToAddress1;
         string shipToAddress2;
@@ -31,7 +32,7 @@ namespace InvBox
         public CustomerShip(Epicor.Mfg.Core.Session vanSession,Int32 vanPackNo)
         {
             this.session = vanSession;
-            packNo = vanPackNo;
+            this.packNo = vanPackNo;
             init();
         }
         void init()
@@ -51,7 +52,7 @@ namespace InvBox
                 this.shipHeadRow = (Epicor.Mfg.BO.CustShipDataSet.ShipHeadRow)custShipDs.ShipHead.Rows[0];
                 this.BillToCustNo = this.shipHeadRow.BTCustNum;
                 this.ShipToCustNo = this.shipHeadRow.CustNum;
-                splitAddress();
+
             }
         }
         enum addrListCol5
@@ -168,7 +169,7 @@ namespace InvBox
                 customerId = value;
             }
         }
-        void getCustomerInfo(int custNo, StreetAddress sa)
+        void getCustomerAddressInfo(int custNo, StreetAddress sa)
         {
             Epicor.Mfg.BO.Customer customerObj;
             Epicor.Mfg.BO.CustomerDataSet custDs;
@@ -181,14 +182,14 @@ namespace InvBox
                 custDs = customerObj.GetByID(custNo);
                 Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
                 this.CustFrtTerms = custRow.ShortChar01;
-                sa.Address1 = custRow.Address1;
-                sa.Address2 = custRow.Address2;
-                sa.Address3 = custRow.Address3;
-                sa.City = custRow.City;
-                sa.State = custRow.State;
-                sa.ZipCode = custRow.Zip;
-                sa.TermsCode = custRow.TermsCode;
-                sa.TermsDescr = custRow.TermsDescription;
+                this.Address1 = custRow.Address1;
+                this.Address2 = custRow.Address2;
+                this.Address3 = custRow.Address3;
+                this.City = custRow.City;
+                this.State = custRow.State;
+                this.ZipCode = custRow.Zip;
+                this.TermsCode = custRow.TermsCode;
+                this.TermsDescr = custRow.TermsDescription;
             }
             catch (Exception e)
             {
