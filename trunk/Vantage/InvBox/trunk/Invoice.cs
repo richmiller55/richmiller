@@ -20,19 +20,39 @@ namespace InvBox
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
-        bool   soldToInvoiceAddress;
+        bool   soldToInvoiceAddress;  // what the hell is this for?
         string billToCustID;
         string billToCustName;
         bool   billToInvoiceAddress;
         string poNo;
         string shipVia;
+
         string paymentTerms;
         string paymentTermsText;
         string salesRepCode1;
         string salesRepName1;
+        bool orderFF;
+        bool customerFF;
+        bool invoiced;
+
+        bool packFound;
+        bool orderFound;
+        bool packNeedsTracking;
+        bool memberBuyGroup;
+
+        string newInvoices = string.Empty;
+        CustomerShip custShip;
 
         public Invoice()
         {
+            packFound = false;
+            packNum = pack;
+            session = vanSession;
+            orderFF = false;
+            packNeedsTracking = true;
+            orderShipVia = "";
+            
+            customerFF = false;
             // init on your own for testing
         }
         public Invoice(Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
@@ -59,6 +79,10 @@ namespace InvBox
             this.SalesRepCode1 = row.SalesRepCode1;
             this.SalesRepName1 = row.SalesRepName1;
         }
+        void FillAddresses()
+        {
+        }
+            
         public void AddLine(InvLine line)
         {
             this.lines.Add(line);
@@ -285,6 +309,98 @@ namespace InvBox
             {
                 salesRepName1 = value;
             }
+        }
+        public bool OrderFF
+        {
+            get
+            {
+                return orderFF;
+            }
+            set
+            {
+                orderFF = value;
+            }
+        }
+        public bool CustomerFF
+        {
+            get
+            {
+                return customerFF;
+            }
+            set
+            {
+                customerFF = value;
+            }
+        }
+        public bool Invoiced 
+        {
+            get
+            {
+                return invoiced;
+            }
+            set
+            {
+                invoiced = value;
+            }
+        }
+        public bool PackFound
+        {
+            get
+            {
+                return packFound;
+            }
+            set
+            {
+                packFound = value;
+            }
+        }
+        public bool OrderFound
+        {
+            get
+            {
+                return orderFound;
+            }
+            set
+            {
+                orderFound = value;
+            }
+        }
+        public bool MemberBuyGroup
+        {
+            get
+            {
+                return memberBuyGroup;
+            }
+            set
+            {
+                memberBuyGroup = value;
+            }
+        }
+
+        void splitAddress()
+        {
+            string addrList = shipHeadRow.AddrList;
+            string[] addressAry = addrList.Split(new Char[] { '~' });
+            if (addressAry.GetLength(0) == 5) 
+            {
+                Name = addressAry[(int)addrListCol5.name];
+                Address1 = addressAry[(int)addrListCol5.address1];
+                Address2 = addressAry[(int)addrListCol5.address2];
+                string cityStZip = addressAry[(int)addrListCol5.cityStateZip];
+                City = cityStZip;
+                shipToCountry = addressAry[(int)addrListCol5.country];
+            }
+            else
+            {
+                Name = addressAry[(int)addrListCol4.name];
+                Address1 = addressAry[(int)addrListCol4.address1];
+                string cityStZip = addressAry[(int)addrListCol4.cityStateZip];
+                City = cityStZip;
+                shipToCountry = addressAry[(int)addrListCol4.country];
+            }
+            this.CustomerNo = shipHeadRow.CustNum;
+            this.CustomerId = shipHeadRow.CustomerCustID;
+
         }
     }
 }

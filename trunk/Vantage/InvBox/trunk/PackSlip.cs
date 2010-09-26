@@ -12,32 +12,13 @@ namespace InvBox
         Epicor.Mfg.BO.CustShipDataSet custShipDs;
         Epicor.Mfg.BO.CustShipDataSet.ShipDtlRow dtlRow;
         Epicor.Mfg.BO.CustShipDataSet.ShipHeadRow custShipRow;
-        bool invoiced;
-        int packNum;
-        int CustNum;
-        int OrderNum;
-        bool orderFF;
-        bool packFound;
-        bool orderFound;
-        bool packNeedsTracking;
-        bool isBuyGroup;
-        string orderShipVia;
-        string customerTerms;
-        bool customerFF;
-        string newInvoices = string.Empty;
+        Invoice inv;
         public PackSlip(Epicor.Mfg.Core.Session vanSession, int pack)
         {
-            packFound = false;
-            packNum = pack;
-            session = vanSession;
-            orderFF = false;
-            packNeedsTracking = true;
-            orderShipVia = "";
-            
-            customerFF = false;
             InitCustShip();
             if (packFound)
             {
+                custShip = new CustomerShip(session, PackNum);
                 GetOrderInfo();
                 GetCustomerInfo();
             }
