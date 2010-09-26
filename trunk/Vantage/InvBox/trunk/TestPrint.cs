@@ -24,7 +24,7 @@ namespace InvBox
         public TestPrint(Epicor.Mfg.Core.Session  session)
         {
             this.sess = session;
-            PackSlip ps = new PackSlip(this.sess, 1434);  // todo get a working pack in test
+            // PackSlip ps = new PackSlip(this.sess, 1434);  // todo get a working pack in test
             this.i = new Invoice();
             
             InvoiceFormater invFormat = new InvoiceFormater(this.i);

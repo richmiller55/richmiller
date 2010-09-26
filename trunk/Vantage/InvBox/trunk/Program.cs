@@ -12,9 +12,9 @@ namespace InvBox
         static void Main()
         {
             // main version
-            // Watcher wa = new Watcher();
+            Watcher wa = new Watcher();
             // test invoice print version
-            TestPrint tp = new TestPrint();
+            // TestPrint tp = new TestPrint();
         }
     }
 }

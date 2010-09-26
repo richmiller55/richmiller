@@ -9,28 +9,32 @@ namespace InvBox
     class CAInvoice
     {
         Epicor.Mfg.BO.ARInvoice arInvoice;
+        Epicor.Mfg.Core.Session session;
         string invGroup;
         Hashtable PackInvoices;
         Hashtable InvoicePacks;
-        string packSlip;
+        string packSlipStr;
+        int packSlipNo;
+
         int lastInvoiceNo;
         string batchName;
         string newInvoices = string.Empty;
         Invoice inv;
-        public CAInvoice(Epicor.Mfg.Core.Session vanSession,string arInvGroup, string pack)
+        public CAInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack)
         {
-
+            this.session = vanSession;
             arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
             this.invGroup = arInvGroup;
             
             PackInvoices = new Hashtable();
             InvoicePacks = new Hashtable();
+            this.PackSlipStr = pack;
+            this.PackSlipNo = Convert.ToInt32(pack);
 
-            int packNo = Convert.ToInt32(pack);
-            this.packSlip = pack;
             string invoices = string.Empty;
             string errors = string.Empty;
             this.InvoicePack(pack, out invoices, out errors);
+            this.FillInvoiceInfo();
             // this.GetInvoice(pack, out invoices, out errors);
             this.SetBatchStats();
         }
@@ -83,7 +87,7 @@ namespace InvBox
             string plant = "CURRENT";
             bool billToFlag = true;
             bool overBillDay = false;
-            arInvoice.GetShipments(this.invGroup, custList, packSlip, plant, billToFlag,
+            arInvoice.GetShipments(this.invGroup, custList, packNo, plant, billToFlag,
                                    overBillDay, out invoices, out errors);
             InvcHeadListDataSet InvList = new InvcHeadListDataSet();
         }
@@ -138,21 +142,10 @@ namespace InvBox
 
             ARInvoiceDataSet ds = new ARInvoiceDataSet();
             ds = arInvoice.GetByID(this.lastInvoiceNo);
-//            Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow dtl =
-//                (Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow)ds.InvcDtl.Rows;
-//            int rows = dtl.GetLength(0);
-/*
-            foreach (Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow row in dtl)
-            {
-                InvLine line = new InvLine(row);
-                this.inv.AddLine(line);
-            }
-*/
             foreach (ARInvoiceDataSet.InvcDtlRow row in ds.InvcDtl.Rows)
             {
                 InvLine line = new InvLine(row);
                 this.inv.AddLine(line);
-
             }
         }
         public void FillInvoiceInfo()
@@ -161,8 +154,10 @@ namespace InvBox
             ds = arInvoice.GetByID(this.lastInvoiceNo);
             Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row =
                 (Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow)ds.InvcHead.Rows[0];
-            this.inv = new Invoice(row);
+            this.inv = new Invoice(this.session, row);
             this.FillInvoiceLines();
+            int pack = this.inv.PackID;   // testing code to verify that the pack is set, 
+            // there is another line of code here
         }
         public void NewInvcMiscChrg(decimal amount, string trackingNo)
         {
@@ -199,5 +194,28 @@ namespace InvBox
             }
             this.SetBatchStats();
         }
+        public int PackSlipNo
+        {
+            get
+            {
+                return packSlipNo;
+            }
+            set
+            {
+                packSlipNo = value;
+            }
+        }
+        public string PackSlipStr
+        {
+            get
+            {
+                return packSlipStr;
+            }
+            set
+            {
+                packSlipStr = value;
+            }
+        }
+
     }
 }
