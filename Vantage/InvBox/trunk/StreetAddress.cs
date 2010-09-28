@@ -14,8 +14,6 @@ namespace InvBox
     public class StreetAddress
     {
         Epicor.Mfg.Core.Session session;
-        Epicor.Mfg.BO.Customer customerObj;
-        Epicor.Mfg.BO.CustomerDataSet custDs;
         Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
         private int  addressType;
         private string custID = "";
@@ -61,20 +59,21 @@ namespace InvBox
         }
         void FillCustomerAddress()
         {
-                this.CustFrtTerms = custRow.ShortChar01;
-                this.Address1 = custRow.Address1;
-                this.Address2 = custRow.Address2;
-                this.Address3 = custRow.Address3;
-                this.City = custRow.City;
-                this.State = custRow.State;
-                this.ZipCode = custRow.Zip;
-                this.TermsCode = custRow.TermsCode;
-                this.TermsDescr = custRow.TermsDescription;
-                if (custRow.ShortChar01.CompareTo("FF") == 0)
-                {
-                    this.FreightFree = true;
-                }
+            this.CustFrtTerms = custRow.ShortChar01;
+            this.CustName = custRow.Name;
+            this.Address1 = custRow.Address1;
+            this.Address2 = custRow.Address2;
+            this.Address3 = custRow.Address3;
+            this.City = custRow.City;
+            this.State = custRow.State;
+            this.ZipCode = custRow.Zip;
+            this.TermsCode = custRow.TermsCode;
+            this.TermsDescr = custRow.TermsDescription;
+            if (custRow.ShortChar01.CompareTo("FF") == 0)
+            {
+                this.FreightFree = true;
             }
+        }
         public int AddressType
         {
             get
@@ -106,6 +105,17 @@ namespace InvBox
             set
             {
                 custNo = value;
+            }
+        }
+        public string CustName
+        {
+            get
+            {
+                return custName;
+            }
+            set
+            {
+                custName = value;
             }
         }
         public string Address1
