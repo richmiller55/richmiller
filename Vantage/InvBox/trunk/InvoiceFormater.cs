@@ -19,10 +19,8 @@ namespace InvBox
         }
         void Header()
         {
-            ra.Add("+--------------------------------------------------------------------+");
-            ra.Add("|                                                                    |");
-            ra.Add("Invoice    " + i.InvoiceNo.ToString());
             ra.Add("California Accessories                        Phone   510.352.4774");
+            ra.Add("Invoice    " + i.InvoiceNo.ToString());
             ra.Add("Invoice Date:  " + i.InvoiceDate.ToShortDateString());
             ra.Add("PO Number " + i.PoNo.ToString());
         }
