@@ -22,9 +22,7 @@ namespace InvBox
         string fullPath = @"D:/users/UPS";
         StreamReader tr;
         ShipMgr m_shipMgr;
-        int packSlip;
         string packSlipStr;
-        Invoice inv;
         Epicor.Mfg.Core.Session session;
         public UPSReader(Epicor.Mfg.Core.Session vanSession)
         {
@@ -43,10 +41,7 @@ namespace InvBox
 
         private void InvoiceShipment()
         {
-            CAInvoice cainv = new CAInvoice(this.session, "RLM85", this.packSlipStr);
-            cainv.NewInvcMiscChrg(m_shipMgr.TotalFreight, this.m_shipMgr.TrackingNumbers);
-            cainv.FillInvoiceInfo();
-            // get and print invoice is the next step
+            CAInvoice cainv = new CAInvoice(this.session, "RLM85", this.packSlipStr,GetShipMgr());
         }
         private void processFile()
         {

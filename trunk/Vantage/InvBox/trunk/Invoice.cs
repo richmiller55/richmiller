@@ -15,10 +15,11 @@ namespace InvBox
         System.DateTime invoiceDate;
         System.DateTime orderDate;
         System.DateTime shipDate;
-        StreetAddress remitTo;
+//         StreetAddress remitTo; implement
         StreetAddress soldTo;
         StreetAddress billTo;
-        StreetAddress shipTo;
+//        StreetAddress shipTo;  implement ship to type of StreetAddress that looks up from 
+//                               the shipTo file
 
         string soldToCustID;
         string soldToCustName;
@@ -375,7 +376,7 @@ namespace InvBox
             Epicor.Mfg.BO.SalesOrder salesOrderObj;
             salesOrderObj = new Epicor.Mfg.BO.SalesOrder(session.ConnectionPool);
             Epicor.Mfg.BO.SalesOrderDataSet soDs = new Epicor.Mfg.BO.SalesOrderDataSet();
-            bool result = true;
+
             string message;
             try
             {

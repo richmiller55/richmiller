@@ -54,7 +54,12 @@ namespace InvBox
             this.SoldToCustID = row.SoldToCustID;
             this.SoldToCustName = row.SoldToCustName;
             this.InvoiceDate = row.InvoiceDate;
-            this.DueDate = row.DueDate;
+            this.CalcDueDate();
+        }
+        void CalcDueDate()
+        {
+            // of course there is more to do here
+            this.DueDate = this.InvoiceDate.AddDays(30);
         }
         public int InvoiceNo
         {

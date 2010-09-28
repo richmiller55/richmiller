@@ -42,6 +42,10 @@ namespace InvBox
             float linesPerPage = e.MarginBounds.Height / lineHeight;
             int count = 0;
             int totalLinesPrinted = 0;
+            float penSize = 12.0f;
+            Pen pen = new Pen(Brushes.Black, penSize);
+            Rectangle rect = new Rectangle(20,20,500,800);
+            e.Graphics.DrawRectangle(pen, rect);
             foreach (string line in this.ra)
             {
                 if (count < linesPerPage)

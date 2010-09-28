@@ -15,17 +15,19 @@ namespace InvBox
         Hashtable InvoicePacks;
         string packSlipStr;
         int packSlipNo;
-
+        ShipMgr shipMgr;
         int lastInvoiceNo;
-        string batchName;
+//        string batchName;
         string newInvoices = string.Empty;
         Invoice inv;
-        public CAInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack)
+        public CAInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack,
+                         ShipMgr shipMgr)
         {
             this.session = vanSession;
-            arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
+            this.arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
             this.invGroup = arInvGroup;
-            
+            this.ShipMgr = shipMgr;
+
             PackInvoices = new Hashtable();
             InvoicePacks = new Hashtable();
             this.PackSlipStr = pack;
@@ -34,9 +36,13 @@ namespace InvBox
             string invoices = string.Empty;
             string errors = string.Empty;
             this.InvoicePack(pack, out invoices, out errors);
+            this.SetBatchStats();  // remember this sets lastInvoiceNumber
+            this.NewInvcMiscChrg(this.ShipMgr.TotalFreight, this.ShipMgr.TrackingNumbers);
             this.FillInvoiceInfo();
-            // this.GetInvoice(pack, out invoices, out errors);
-            this.SetBatchStats();
+            // then these two objects print the invoice
+            InvoiceFormater invForm = new InvoiceFormater(this.TheInvoice);
+            InvPrintDocument printer = new InvPrintDocument(invForm.ReportArray);
+            printer.Print();
         }
         public int GetInvoiceFromPack(int pack)
         {
@@ -63,7 +69,7 @@ namespace InvBox
             int invoiceNo = Convert.ToInt32(Invoice);
             return (int)InvoicePacks[invoiceNo];
         }
-        public int SetBatchStats()
+        private int SetBatchStats()
         {
             Epicor.Mfg.BO.InvcHeadListDataSet InvList = new Epicor.Mfg.BO.InvcHeadListDataSet();
             string query = "GroupID ='" + this.invGroup + "' AND Posted = false BY InvoiceNum";
@@ -76,6 +82,7 @@ namespace InvBox
 //                (Epicor.Mfg.BO.InvcHeadListDataSet.InvcHeadListRow)InvList.InvcHeadList.Rows)
             {
                 this.lastInvoiceNo = row.InvoiceNum;
+                // these assume multiple invoices in the system
                 this.PackInvoices.Add(row.PackSlipNum,row.InvoiceNum);               
                 this.InvoicePacks.Add(row.InvoiceNum,row.PackSlipNum);
             }
@@ -89,7 +96,6 @@ namespace InvBox
             bool overBillDay = false;
             arInvoice.GetShipments(this.invGroup, custList, packNo, plant, billToFlag,
                                    overBillDay, out invoices, out errors);
-            InvcHeadListDataSet InvList = new InvcHeadListDataSet();
         }
         /*
         void GetInvoice(string packNo, out string invoices, out string errors)
@@ -151,13 +157,18 @@ namespace InvBox
         public void FillInvoiceInfo()
         {
             Epicor.Mfg.BO.ARInvoiceDataSet ds = new Epicor.Mfg.BO.ARInvoiceDataSet();
-            ds = arInvoice.GetByID(this.lastInvoiceNo);
-            Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row =
-                (Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow)ds.InvcHead.Rows[0];
-            this.inv = new Invoice(this.session, row);
-            this.FillInvoiceLines();
-            int pack = this.inv.PackID;   // testing code to verify that the pack is set, 
-            // there is another line of code here
+            try
+            {
+                ds = arInvoice.GetByID(this.lastInvoiceNo);
+                Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row =
+                    (Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow)ds.InvcHead.Rows[0];
+                this.inv = new Invoice(this.session, row);
+                this.FillInvoiceLines();
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
         }
         public void NewInvcMiscChrg(decimal amount, string trackingNo)
         {
@@ -193,6 +204,28 @@ namespace InvBox
                 message = e.Message;
             }
             this.SetBatchStats();
+        }
+        public Invoice TheInvoice
+        {
+            get
+            {
+                return inv;
+            }
+            set
+            {
+                inv = value;
+            }
+        }
+        public ShipMgr ShipMgr
+        {
+            get
+            {
+                return shipMgr;
+            }
+            set
+            {
+                shipMgr = value;
+            }
         }
         public int PackSlipNo
         {
