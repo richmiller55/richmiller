@@ -10,6 +10,7 @@ namespace InvBox
     public class InvPrintDocument : PrintDocument
     {
         private Font printFont;
+        Graphics gdiPage;
         private ArrayList ra;
         public InvPrintDocument(ArrayList report)
         {
@@ -28,10 +29,38 @@ namespace InvBox
             base.OnEndPrint(e);
             printFont.Dispose();
         }
+        private Rectangle RectLeftAddress(PrintPageEventArgs e)
+        {
+            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
+            Int32 leftMargin = Convert.ToInt32( e.MarginBounds.Left);
+            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
+            Int32 topMargin =  Convert.ToInt32(e.MarginBounds.Top);
+            int x = leftMargin + 5;
+            int y = topMargin + (lineHeight * 6);  // 6 lines down
+            Int32 width = (rightMargin - leftMargin) / 2;
+            int length = lineHeight * 6;
+            Rectangle rect = new Rectangle(x, y, width, length);
+
+            return rect;
+        }
+        private Rectangle RectRightAddress(PrintPageEventArgs e)
+        {
+            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
+            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
+            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
+            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
+
+            Int32 x =  leftMargin + ((leftMargin - rightMargin) / 2); 
+            Int32 y = topMargin + (lineHeight * 6);  // 6 lines down
+            Int32 width = (rightMargin - leftMargin) / 2;
+            Int32 length = lineHeight * 6;
+            Rectangle rect = new Rectangle(x, y, width, length);
+            return rect;
+        }
         protected override void OnPrintPage(PrintPageEventArgs e)
         {
             base.OnPrintPage(e);
-            Graphics gdiPage = e.Graphics;
+            gdiPage = e.Graphics;
             float yPos = 0;
 
             float leftMargin = e.MarginBounds.Left;
@@ -42,10 +71,13 @@ namespace InvBox
             float linesPerPage = e.MarginBounds.Height / lineHeight;
             int count = 0;
             int totalLinesPrinted = 0;
-            float penSize = 12.0f;
+            float penSize = 2.0f;
             Pen pen = new Pen(Brushes.Black, penSize);
-            Rectangle rect = new Rectangle(20,20,500,800);
+            Rectangle rect = RectLeftAddress(e);
             e.Graphics.DrawRectangle(pen, rect);
+            rect = RectRightAddress(e);
+            e.Graphics.DrawRectangle(pen, rect);
+
             foreach (string line in this.ra)
             {
                 if (count < linesPerPage)
