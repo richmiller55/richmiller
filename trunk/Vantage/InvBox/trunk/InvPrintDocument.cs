@@ -38,8 +38,8 @@ namespace InvBox
             Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
             Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
             Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
-            int x = leftMargin + 5;
-            int y = topMargin + (lineHeight * 6);  // 6 lines down
+            int x = leftMargin;
+            int y = topMargin + (lineHeight * 1);  // 6 lines down
             Int32 width = (rightMargin - leftMargin) / 2;
             int length = lineHeight * 6;
             Rectangle rect = new Rectangle(x, y, width, length);
@@ -53,8 +53,8 @@ namespace InvBox
             Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
             Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
 
-            Int32 x = leftMargin + ((leftMargin - rightMargin) / 2);
-            Int32 y = topMargin + (lineHeight * 6);  // 6 lines down
+            Int32 x = leftMargin + ((rightMargin - leftMargin) / 2);
+            Int32 y = topMargin + (lineHeight * 1);  // 1 line down
             Int32 width = (rightMargin - leftMargin) / 2;
             Int32 length = lineHeight * 6;
             Rectangle rect = new Rectangle(x, y, width, length);
@@ -93,7 +93,7 @@ namespace InvBox
             yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
 
             e.Graphics.DrawString("California Accessories", printFont, Brushes.Black, leftMargin, yPos);
-            e.Graphics.DrawString("Phone   510.352.4774", printFont, Brushes.Black, rightMargin - 20, yPos);
+            e.Graphics.DrawString("Phone   510.352.4774", printFont, Brushes.Black, rightMargin - 30, yPos);
             yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("Invoice " + inv.InvoiceNo.ToString(), printFont, Brushes.Black, leftMargin, yPos);
             yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
