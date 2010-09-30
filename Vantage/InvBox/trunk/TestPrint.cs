@@ -17,7 +17,7 @@ namespace InvBox
             this.i = new Invoice();
             this.FillInvoice();
             InvoiceFormater invFormat = new InvoiceFormater(this.i);
-            InvPrintDocument prtDoc = new InvPrintDocument(invFormat.ReportArray);
+            InvPrintDocument prtDoc = new InvPrintDocument(this.i);
             prtDoc.Print();
             // PrtForm prtForm = new PrtForm(invFormat.ReportArray);
         }
@@ -28,7 +28,7 @@ namespace InvBox
             this.i = new Invoice();
             
             InvoiceFormater invFormat = new InvoiceFormater(this.i);
-            InvPrintDocument prtDoc = new InvPrintDocument(invFormat.ReportArray);
+            InvPrintDocument prtDoc = new InvPrintDocument(this.i);
             prtDoc.Print();
             // PrtForm prtForm = new PrtForm(invFormat.ReportArray);
         }
