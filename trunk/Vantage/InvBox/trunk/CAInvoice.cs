@@ -40,8 +40,8 @@ namespace InvBox
             this.NewInvcMiscChrg(this.ShipMgr.TotalFreight, this.ShipMgr.TrackingNumbers);
             this.FillInvoiceInfo();
             // then these two objects print the invoice
-            InvoiceFormater invForm = new InvoiceFormater(this.TheInvoice);
-            InvPrintDocument printer = new InvPrintDocument(invForm.ReportArray);
+            // InvoiceFormater invForm = new InvoiceFormater(this.TheInvoice);
+            InvPrintDocument printer = new InvPrintDocument(this.TheInvoice);
             printer.Print();
         }
         public int GetInvoiceFromPack(int pack)
