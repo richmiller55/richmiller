@@ -74,6 +74,28 @@ namespace InvBox
                 this.FreightFree = true;
             }
         }
+        public string AddressStr
+        {
+            get
+            {
+                string crlf = "\n";
+                string buffer = CustName + crlf;
+                buffer += Address1 + crlf;
+                if (Address2.CompareTo("") != 0)
+                {
+                    buffer += Address2 + crlf;
+                }
+                if (Address3.CompareTo("") != 0)
+                {
+                    buffer += Address3 + crlf;
+                }
+                buffer += City + ", " + State + " " + ZipCode;
+                return buffer;
+            }
+            set
+            {
+            }
+        }
         public int AddressType
         {
             get
