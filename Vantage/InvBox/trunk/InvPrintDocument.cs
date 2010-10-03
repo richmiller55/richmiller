@@ -73,6 +73,7 @@ namespace InvBox
             float topMargin = e.MarginBounds.Top;
             float bottomMargin = e.MarginBounds.Bottom;
             float lineHeight = printFont.GetHeight(gdiPage);
+            
             float linesPerPage = e.MarginBounds.Height / lineHeight;
             count = 0;
             int totalLinesPrinted = 0;
@@ -92,6 +93,15 @@ namespace InvBox
         void FillSoldTo(PrintPageEventArgs e)
         {
             string address = inv.SoldTo.AddressStr;
+        }
+        SizeF RightJust(PrintPageEventArgs e, string number)
+        {
+
+            SizeF six = new SizeF();
+            six = e.Graphics.MeasureString(number, printFont);
+            float height = six.Height;
+            float width = six.Width;
+            return six;
         }
         void Header(PrintPageEventArgs e)
         {
@@ -157,7 +167,9 @@ namespace InvBox
                 e.Graphics.DrawString(l.Description, printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
                 e.Graphics.DrawString(l.SellingShipQty.ToString(), printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
                 e.Graphics.DrawString(l.UnitPrice.ToString(), printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-                e.Graphics.DrawString(l.ExtPrice.ToString(), printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
+                SizeF result = RightJust(e,l.ExtPrice.ToString());
+                float xPos = leftMargin + (float)columns[colNo++] - result.Width;
+                e.Graphics.DrawString(l.ExtPrice.ToString(), printFont, Brushes.Black, xPos , yPos);
             }
         }
 
