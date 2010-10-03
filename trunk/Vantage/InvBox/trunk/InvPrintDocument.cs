@@ -139,7 +139,7 @@ namespace InvBox
             float topMargin = e.MarginBounds.Top;
             float rightMargin = e.MarginBounds.Right;
             float width = rightMargin - leftMargin;
-
+            float column = (rightMargin - leftMargin) / 6;
             yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
 
             int colNo = 0;
@@ -148,8 +148,12 @@ namespace InvBox
             e.Graphics.DrawString("Descr", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
 
             e.Graphics.DrawString("Qty", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-            e.Graphics.DrawString("Unit Price", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-            e.Graphics.DrawString("Ext Price", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
+            SizeF result = RightJust(e, "Unit Price");
+            e.Graphics.DrawString("Unit Price", printFont, Brushes.Black,
+                                  leftMargin + (float)columns[colNo++] + column - result.Width, yPos);
+            result = RightJust(e, "Ext Price");
+            e.Graphics.DrawString("Ext Price", printFont, Brushes.Black,
+                                  leftMargin + (float)columns[colNo++] + column  - result.Width, yPos);
         }
         void DetailLines(PrintPageEventArgs e)
         {
@@ -166,10 +170,17 @@ namespace InvBox
                 e.Graphics.DrawString(l.Part, printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
                 e.Graphics.DrawString(l.Description, printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
                 e.Graphics.DrawString(l.SellingShipQty.ToString(), printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-                e.Graphics.DrawString(l.UnitPrice.ToString(), printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-                SizeF result = RightJust(e,l.ExtPrice.ToString());
-                float xPos = leftMargin + (float)columns[colNo++] - result.Width;
-                e.Graphics.DrawString(l.ExtPrice.ToString(), printFont, Brushes.Black, xPos , yPos);
+
+                SizeF result = RightJust(e, l.UnitPrice.ToString("#,###,##0.00"));
+                // extra column right justtify adjustment
+                float xPos = leftMargin + (float)columns[colNo++] + column - result.Width; 
+                e.Graphics.DrawString(l.UnitPrice.ToString(), printFont, Brushes.Black, 
+                                      xPos, yPos);
+
+                result = RightJust(e, l.ExtPrice.ToString("#,###,##0.00"));
+                xPos = leftMargin + (float)columns[colNo++] + column - result.Width;
+                e.Graphics.DrawString(l.ExtPrice.ToString("#,###,##0.00"), printFont, Brushes.Black, 
+                                      xPos , yPos);
             }
         }
 
