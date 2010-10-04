@@ -34,6 +34,39 @@ namespace InvBox
             base.OnEndPrint(e);
             printFont.Dispose();
         }
+        
+        private ArrayList InfoRectangles(PrintEventArgs e)
+        {
+            ArrayList rectangles = new ArrayList(3);
+            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
+            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
+            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
+            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
+            int x = leftMargin;
+            int y = topMargin + (lineHeight * 2);  // 2 lines down
+            Int32 width = (rightMargin - leftMargin) / 3;
+            int length = lineHeight * 6;
+            Rectangle rect = new Rectangle(x, y, width, length);
+            rectangles.Add(rect);
+            // recalculate x now in the first third
+            int x2 = (rightMargin - leftMargin) / 3;
+            rect = new Rectangle(x2, y, width, length);
+            retangles.Add(rect);
+            int x3 = x2 * 2;
+            rect = new Rectangle(x3, y, width, length);
+            rectangles.Add(rect);
+            // then stuff them with text render the boxes with a light brush, and 
+            InfoRectText(e, rectangles);
+            return rectangles;
+        }
+        private void InfoRectText(PrintPageEventArgs e, ArrayList rectangles)
+        {
+            Rectangle rect1 = rectangles[0];
+            string crlf = "\n";
+            string invDate = "Invoice Date " + inv.InvoiceDate.ToShortDateString();
+            string PoNumber = "P O No. " + inv.PoNo;
+            string SalesRep = "Sales Rep " + inv.SalesRepName1;
+        }
         private Rectangle RectLeftAddress(PrintPageEventArgs e)
         {
             Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
@@ -66,17 +99,16 @@ namespace InvBox
         {
             base.OnPrintPage(e);
             gdiPage = e.Graphics;
-            float yPos = 0;
+
             SetColumnWidths(e);
-            float leftMargin = e.MarginBounds.Left;
-            float rightMargin = e.MarginBounds.Right;
-            float topMargin = e.MarginBounds.Top;
-            float bottomMargin = e.MarginBounds.Bottom;
-            float lineHeight = printFont.GetHeight(gdiPage);
-            
-            float linesPerPage = e.MarginBounds.Height / lineHeight;
-            count = 0;
-            int totalLinesPrinted = 0;
+            AddressBoxes(e);
+            Header(e);
+            DetailHeading(e);
+            DetailLines(e);
+            e.HasMorePages = false;
+        }
+        void AddressBoxes(PrintPageEventArgs e)
+        {
             float penSize = 2.0f;
             Pen pen = new Pen(Brushes.Black, penSize);
             Rectangle rect = RectLeftAddress(e);
@@ -85,10 +117,6 @@ namespace InvBox
             rect = RectRightAddress(e);
             e.Graphics.DrawRectangle(pen, rect);
             e.Graphics.DrawString(inv.BillTo.AddressStr, printFont, Brushes.Black, rect);
-            Header(e);
-            DetailHeading(e);
-            DetailLines(e);
-            e.HasMorePages = false;
         }
         void FillSoldTo(PrintPageEventArgs e)
         {
@@ -96,12 +124,7 @@ namespace InvBox
         }
         SizeF RightJust(PrintPageEventArgs e, string number)
         {
-
-            SizeF six = new SizeF();
-            six = e.Graphics.MeasureString(number, printFont);
-            float height = six.Height;
-            float width = six.Width;
-            return six;
+            return e.Graphics.MeasureString(number, printFont);
         }
         void Header(PrintPageEventArgs e)
         {
@@ -176,7 +199,6 @@ namespace InvBox
                 float xPos = leftMargin + (float)columns[colNo++] + column - result.Width; 
                 e.Graphics.DrawString(l.UnitPrice.ToString(), printFont, Brushes.Black, 
                                       xPos, yPos);
-
                 result = RightJust(e, l.ExtPrice.ToString("#,###,##0.00"));
                 xPos = leftMargin + (float)columns[colNo++] + column - result.Width;
                 e.Graphics.DrawString(l.ExtPrice.ToString("#,###,##0.00"), printFont, Brushes.Black, 
@@ -185,6 +207,17 @@ namespace InvBox
         }
 
 #if trace
+            float leftMargin = e.MarginBounds.Left;
+            float rightMargin = e.MarginBounds.Right;
+            float topMargin = e.MarginBounds.Top;
+            float bottomMargin = e.MarginBounds.Bottom;
+            float lineHeight = printFont.GetHeight(gdiPage);
+            
+            float linesPerPage = e.MarginBounds.Height / lineHeight;
+            count = 0;
+            int totalLinesPrinted = 0;
+
+
             foreach (string line in this.ra)
             {
                 if (count < linesPerPage)
