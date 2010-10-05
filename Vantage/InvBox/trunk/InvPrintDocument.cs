@@ -34,8 +34,8 @@ namespace InvBox
             base.OnEndPrint(e);
             printFont.Dispose();
         }
-        
-        private ArrayList InfoRectangles(PrintEventArgs e)
+
+        private ArrayList InfoRectangles(PrintPageEventArgs e)
         {
             ArrayList rectangles = new ArrayList(3);
             Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
@@ -43,29 +43,60 @@ namespace InvBox
             Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
             Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
             int x = leftMargin;
-            int y = topMargin + (lineHeight * 2);  // 2 lines down
+            int y = topMargin + (lineHeight * 8);  // 8 lines down
             Int32 width = (rightMargin - leftMargin) / 3;
             int length = lineHeight * 6;
             Rectangle rect = new Rectangle(x, y, width, length);
             rectangles.Add(rect);
             // recalculate x now in the first third
-            int x2 = (rightMargin - leftMargin) / 3;
+            int x2 = ((rightMargin - leftMargin) / 3) + leftMargin;
             rect = new Rectangle(x2, y, width, length);
-            retangles.Add(rect);
-            int x3 = x2 * 2;
+            rectangles.Add(rect);
+            int x3 = ((rightMargin - leftMargin) / 3) * 2 + leftMargin;
             rect = new Rectangle(x3, y, width, length);
             rectangles.Add(rect);
             // then stuff them with text render the boxes with a light brush, and 
-            InfoRectText(e, rectangles);
+            InfoBoxes(e, rectangles);
             return rectangles;
         }
-        private void InfoRectText(PrintPageEventArgs e, ArrayList rectangles)
+        void InfoBoxes(PrintPageEventArgs e, ArrayList rectangles)
         {
-            Rectangle rect1 = rectangles[0];
+            float penSize = 1.0f;
+            Pen pen = new Pen(Brushes.Black, penSize);
+            Rectangle rect = (Rectangle)rectangles[0];
+            e.Graphics.DrawRectangle(pen, rect);
+            e.Graphics.DrawString(InfoRectTextLeft(e), printFont, Brushes.Black, rect);
+            rect = (Rectangle)rectangles[1];
+            e.Graphics.DrawRectangle(pen, rect);
+            e.Graphics.DrawString(InfoRectTextCenter(e), printFont, Brushes.Black, rect);
+            rect = (Rectangle)rectangles[2];
+            e.Graphics.DrawRectangle(pen, rect);
+            e.Graphics.DrawString(InfoRectTextRight(e), printFont, Brushes.Black, rect);
+            count += 5;
+        }
+        private string InfoRectTextLeft(PrintPageEventArgs e)
+        {
             string crlf = "\n";
-            string invDate = "Invoice Date " + inv.InvoiceDate.ToShortDateString();
-            string PoNumber = "P O No. " + inv.PoNo;
-            string SalesRep = "Sales Rep " + inv.SalesRepName1;
+            string text = "P O No. " + inv.PoNo + crlf;
+            text += "Sales Rep " + inv.SalesRepName1 + crlf;
+            text += "Packing Slip " + inv.PackID.ToString();
+            return text;
+        }
+        private string InfoRectTextCenter(PrintPageEventArgs e)
+        {
+            string crlf = "\n";
+            string text = "Payment Terms " + crlf + inv.PaymentTermsText + crlf;
+            text += "Order Dt " + inv.OrderDate.ToShortDateString() + crlf;
+            text += "Order No. " + inv.SalesOrder.ToString();
+            return text;
+        }
+        private string InfoRectTextRight(PrintPageEventArgs e)
+        {
+            string crlf = "\n";
+            string text = "Invoice Date " + inv.InvoiceDate.ToShortDateString() + crlf;
+            text += "Ship Via " + inv.ShipVia + crlf;
+            text += "Ship Date " + crlf;
+            return text;
         }
         private Rectangle RectLeftAddress(PrintPageEventArgs e)
         {
@@ -101,8 +132,10 @@ namespace InvBox
             gdiPage = e.Graphics;
 
             SetColumnWidths(e);
-            AddressBoxes(e);
             Header(e);
+            AddressBoxes(e);
+            InfoRectangles(e);
+
             DetailHeading(e);
             DetailLines(e);
             e.HasMorePages = false;
@@ -135,12 +168,12 @@ namespace InvBox
             yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
 
             e.Graphics.DrawString("California Accessories", printFont, Brushes.Black, leftMargin, yPos);
-            e.Graphics.DrawString("Phone   510.352.4774", printFont, Brushes.Black, rightMargin - 100, yPos);
+            string phone = "Phone   510.352.4774";
+            SizeF phoneSize = RightJust(e, phone); 
+            e.Graphics.DrawString(phone , printFont, Brushes.Black, rightMargin - phoneSize.Width, yPos);
             yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
             e.Graphics.DrawString("Invoice " + inv.InvoiceNo.ToString(), printFont, Brushes.Black, leftMargin, yPos);
             count += 7; // skip lines where the address boxes go
-            yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
-            e.Graphics.DrawString("Date " + inv.InvoiceDate.ToString(), printFont, Brushes.Black, leftMargin, yPos);
         }
         void SetColumnWidths(PrintPageEventArgs e)
         {
@@ -152,8 +185,8 @@ namespace InvBox
             columns.Add(width * .07f);
             columns.Add(width * .30f);
             columns.Add(width * .65f);
-            columns.Add(width * .75f);
-            columns.Add(width * .90f);
+            columns.Add(width * .70f);
+            columns.Add(width * .80f);
         }
         void DetailHeading(PrintPageEventArgs e)
         {
@@ -185,6 +218,7 @@ namespace InvBox
             float topMargin = e.MarginBounds.Top;
             float rightMargin = e.MarginBounds.Right;
             float column = (rightMargin - leftMargin) / 6;
+            
             foreach (InvLine l in inv.Lines)
             {
                 int colNo = 0;
