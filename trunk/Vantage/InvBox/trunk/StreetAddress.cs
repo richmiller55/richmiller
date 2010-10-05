@@ -16,6 +16,7 @@ namespace InvBox
         Epicor.Mfg.Core.Session session;
         Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
         private int  addressType;
+
         private string custID = "";
         private int custNo = 0;
         private string custName = "";
@@ -29,7 +30,6 @@ namespace InvBox
         private string termsCode = "";
         private string termsDescr = "";
         private string custFrtTerms = "";
-
         private bool freightFree = false;
 
         public StreetAddress(Epicor.Mfg.Core.Session session,
@@ -79,7 +79,8 @@ namespace InvBox
             get
             {
                 string crlf = "\n";
-                string buffer = CustName + crlf;
+                string buffer = AddressTypeDescr + crlf;
+                buffer += CustName + crlf;
                 buffer += Address1 + crlf;
                 if (Address2.CompareTo("") != 0)
                 {
@@ -105,6 +106,30 @@ namespace InvBox
             set
             {
                 addressType = value;
+            }
+        }
+        public string AddressTypeDescr
+        {
+            get
+            {
+                string result = "";
+                if (AddressType == (int)AddrTypes.BillTo)
+                {
+                    result = "Bill To";
+                }
+                if (AddressType == (int)AddrTypes.SoldTo)
+                {
+                    result = "Sold To";
+                }
+                if (AddressType == (int)AddrTypes.ShipTo)
+                {
+                    result = "Ship To";
+                }
+                return result;
+            }
+            set
+            {
+
             }
         }
         public string CustID
