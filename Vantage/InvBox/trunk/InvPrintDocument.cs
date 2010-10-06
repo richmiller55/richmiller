@@ -15,12 +15,14 @@ namespace InvBox
         private ArrayList ra;
         private Invoice inv;
         ArrayList columns;
-        int count = 0;
+        Int32 leftMargin;
+      int count = 0;
         public InvPrintDocument(Invoice inv)
         {
             
             this.inv = inv;
-            this.PrinterSettings.PrinterName = "Adobe PDF";
+//            this.PrinterSettings.PrinterName = "Adobe PDF";
+            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
             this.PrinterSettings.PrintFileName = "rich.pdf";
             
         }
@@ -34,7 +36,6 @@ namespace InvBox
             base.OnEndPrint(e);
             printFont.Dispose();
         }
-
         private ArrayList InfoRectangles(PrintPageEventArgs e)
         {
             ArrayList rectangles = new ArrayList(3);
@@ -138,6 +139,7 @@ namespace InvBox
 
             DetailHeading(e);
             DetailLines(e);
+            WriteTermsConditions(e);
             e.HasMorePages = false;
         }
         void AddressBoxes(PrintPageEventArgs e)
@@ -158,6 +160,26 @@ namespace InvBox
         SizeF RightJust(PrintPageEventArgs e, string number)
         {
             return e.Graphics.MeasureString(number, printFont);
+        }
+        void WriteTermsConditions(PrintPageEventArgs e)
+        {
+            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
+            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
+            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
+            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
+            Int32 bottomMargin = Convert.ToInt32(e.MarginBounds.Bottom);
+
+            Int32 linesFromBottom = 7;
+            Int32 x = leftMargin;
+            Int32 y = bottomMargin - (lineHeight * linesFromBottom);
+            Int32 width = rightMargin - leftMargin;
+            Int32 length = lineHeight * 7;
+            Rectangle rect = new Rectangle(x, y, width, length);
+            float currentSize = printFont.SizeInPoints;
+            currentSize -= 1;
+            Font smaller = new Font(printFont.Name, currentSize);
+            TermsConditions tc = new TermsConditions();
+            e.Graphics.DrawString(tc.InvoiceTerms, smaller, Brushes.Black, rect);
         }
         void Header(PrintPageEventArgs e)
         {
@@ -239,7 +261,17 @@ namespace InvBox
                                       xPos , yPos);
             }
         }
-
+        private int LeftMargin
+        {
+            get
+            {
+                return leftMargin;
+            }
+            set
+            {
+                leftMargin = value;
+            }
+        }
 #if trace
             float leftMargin = e.MarginBounds.Left;
             float rightMargin = e.MarginBounds.Right;

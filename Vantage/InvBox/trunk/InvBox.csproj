@@ -104,6 +104,7 @@
     <Compile Include="Shipment.cs" />
     <Compile Include="ShipMgr.cs" />
     <Compile Include="StreetAddress.cs" />
+    <Compile Include="TermsConditions.cs" />
     <Compile Include="TestPrint.cs" />
     <Compile Include="UPSReader.cs" />
     <Compile Include="Watcher.cs" />
