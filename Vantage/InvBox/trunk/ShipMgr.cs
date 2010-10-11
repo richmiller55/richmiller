@@ -11,15 +11,17 @@ namespace InvBox
         public ArrayList trackingNumbers;
         decimal totalFreight;
         decimal totalWeight;
-
+        decimal freightCharge;
+        decimal surCharge;
         int nPacks;
         public ShipMgr()
         {
-            this.totalFreight = 0;
-            this.totalWeight = 0;
-            this.nPacks = 0;
-            this.trackingNumbers = new ArrayList();
-            this.shipments = new Hashtable();
+            freightCharge = 0;
+            totalWeight = 0;
+            surCharge = 2.50m;
+            nPacks = 0;
+            trackingNumbers = new ArrayList();
+            shipments = new Hashtable();
         }
         public void TotalShipments()
         {
@@ -41,7 +43,7 @@ namespace InvBox
         {
             Shipment ship = GetShipment(packSlip);
             ship.AddLine(trackingNo, shipDate,classOfService,orderNo,weight, charge);
-            this.totalFreight += charge;
+            this.FreightCharge += charge;
             this.totalWeight += weight;
             this.trackingNumbers.Add(trackingNo);
         }
@@ -73,11 +75,33 @@ namespace InvBox
         {
             get
             {
-                return totalFreight;
+                return freightCharge + surCharge;
             }
             set
             {
-                totalFreight = value;
+                freightCharge = value;
+            }
+        }
+        public decimal FreightSurCharge
+        {
+            get
+            {
+                return surCharge;
+            }
+            set
+            {
+                surCharge = value;
+            }
+        }
+        public decimal FreightCharge
+        {
+            get
+            {
+                return freightCharge;
+            }
+            set
+            {
+                freightCharge = value;
             }
         }
         public string TrackingNumbers

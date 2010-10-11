@@ -163,6 +163,9 @@ namespace InvBox
                 Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row =
                     (Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow)ds.InvcHead.Rows[0];
                 this.inv = new Invoice(this.session, row);
+
+                this.inv.FreightCharge = this.ShipMgr.FreightCharge;
+                this.inv.TotalFreight = this.ShipMgr.TotalFreight;
                 this.FillInvoiceLines();
             }
             catch (Exception e)

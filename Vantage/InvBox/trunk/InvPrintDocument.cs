@@ -21,6 +21,11 @@ namespace InvBox
         int rightMargin;
         int topMargin;
         int bottomMargin;
+        float fltLeftMargin;
+        float fltRightMargin;
+        float fltTopMargin;
+        float fltBottomMargin;
+        
         int count = 0;
         public InvPrintDocument(Invoice inv)
         {
@@ -126,12 +131,19 @@ namespace InvBox
             InfoRectangles(e);
             DetailHeading(e);
             DetailLines(e);
+            FreightLine(e);
+            TotalLine(e);
             WriteTermsConditions(e);
             e.HasMorePages = false;
         }
         void SetPageSize(PrintPageEventArgs e)
         {
             LineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
+            fltLeft = e.MarginBounds.Left;
+            fltRight = e.MarginBounds.Right;
+            fltTop = e.MarginBounds.Top;
+            fltBottom = e.MarginBounds.Bottom;
+            
             Left = Convert.ToInt32(e.MarginBounds.Left);
             Right = Convert.ToInt32(e.MarginBounds.Right);
             Top = Convert.ToInt32(e.MarginBounds.Top);
@@ -151,31 +163,25 @@ namespace InvBox
         void Header(PrintPageEventArgs e)
         {
             float yPos = 0;
-            float leftMargin = e.MarginBounds.Left;
-            float topMargin = e.MarginBounds.Top;
-            float rightMargin = e.MarginBounds.Right;
-            yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
+            yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
 
             e.Graphics.DrawString("California Accessories", printFont, Brushes.Black, leftMargin, yPos);
             string phone = "Phone   510.352.4774";
             SizeF phoneSize = RightJust(e, phone); 
-            e.Graphics.DrawString(phone , printFont, Brushes.Black, rightMargin - phoneSize.Width, yPos);
-            yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
-            e.Graphics.DrawString("Invoice " + inv.InvoiceNo.ToString(), printFont, Brushes.Black, leftMargin, yPos);
+            e.Graphics.DrawString(phone , printFont, Brushes.Black, fltRight - phoneSize.Width, yPos);
+            yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
+            e.Graphics.DrawString("Invoice " + inv.InvoiceNo.ToString(), printFont, Brushes.Black, fltLeft, yPos);
             count += 7; // skip lines where the address boxes go
         }
         void SetColumnWidths(PrintPageEventArgs e)
         {
             columns = new ArrayList();
-            float leftMargin = e.MarginBounds.Left;
-            float topMargin = e.MarginBounds.Top;
-            float rightMargin = e.MarginBounds.Right;
-            float width = rightMargin - leftMargin;
+            float width = fltRight - fltLeft;
             columns.Add(width * .07f);
             columns.Add(width * .30f);
             columns.Add(width * .65f);
             columns.Add(width * .70f);
-            columns.Add(width * .80f);
+            columns.Add(width * .85f);
         }
         void Totals(PrintPageEventArgs e)
         {
@@ -183,55 +189,90 @@ namespace InvBox
         void DetailHeading(PrintPageEventArgs e)
         {
             float yPos = 0;
-            float leftMargin = e.MarginBounds.Left;
-            float topMargin = e.MarginBounds.Top;
-            float rightMargin = e.MarginBounds.Right;
-            float width = rightMargin - leftMargin;
-            float column = (rightMargin - leftMargin) / 6;
-            yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
+//            float leftMargin = e.MarginBounds.Left;
+//            float topMargin = e.MarginBounds.Top;
+//            float rightMargin = e.MarginBounds.Right;
+
+            float width = fltRight - fltLeft;
+            float column = width / 6;
+            yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
 
             int colNo = 0;
-            e.Graphics.DrawString("Line", printFont, Brushes.Black, leftMargin, yPos);
-            e.Graphics.DrawString("Style", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-            e.Graphics.DrawString("Descr", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
+            e.Graphics.DrawString("Line", printFont, Brushes.Black, fltLeft, yPos);
+            e.Graphics.DrawString("Style", printFont, Brushes.Black, fltLeft  + (float)columns[colNo++], yPos);
+            e.Graphics.DrawString("Descr", printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
 
-            e.Graphics.DrawString("Qty", printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-            SizeF result = RightJust(e, "Unit Price");
-            e.Graphics.DrawString("Unit Price", printFont, Brushes.Black,
-                                  leftMargin + (float)columns[colNo++] + column - result.Width, yPos);
-            result = RightJust(e, "Ext Price");
+            SizeF textSize = RightJust(e, "Qty");
+            e.Graphics.DrawString("Qty", printFont, Brushes.Black,
+                                   fltLeft + (float)columns[colNo++] + column - textSize.Width, yPos);
+            textSize = RightJust(e, "Unit");
+            e.Graphics.DrawString("Unit", printFont, Brushes.Black,
+                                  fltLeft + (float)columns[colNo++] + column - textSize.Width, yPos);
+            textSize = RightJust(e, "Ext Price");
             e.Graphics.DrawString("Ext Price", printFont, Brushes.Black,
-                                  leftMargin + (float)columns[colNo++] + column  - result.Width, yPos);
+                                  fltLeft + (float)columns[colNo++] + column  - textSize.Width, yPos);
+        }
+        void FreightLine(PrintPageEventArgs e)
+        {
+            if (inv.FreightCharge > 0)
+            {
+                this.InvoiceTotal += inv.TotalFreight;
+                float column = (fltRight - fltLeft) / 6;
+                int labelColumn = 1;
+                string descr = "Freight";
+                int lastColNo = columns.Count - 1;
+
+                SizeF textSize = RightJust(e, inv.TotalFreight.ToString("#,###,##0.00"));
+                float xPos = fltLeft + (float)columns[lastColNo] + column - textSize.Width;
+                float yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
+                e.Graphics.DrawString(descr, printFont, Brushes.Black,
+                                      fltLeft + (float)columns[labelColumn], yPos);
+                e.Graphics.DrawString(inv.TotalFreight.ToString("#,###,##0.00"), printFont, Brushes.Black,
+                                      xPos, yPos);
+            }
+        }
+        void TotalLine(PrintPageEventArgs e)
+        {
+            float column = (fltRight - fltLeft) / 6;
+            string descr = "Invoice Total";
+            int labelColumn = 1;
+
+            int lastColNo = columns.Count - 1;
+            SizeF textSize = RightJust(e, InvoiceTotal.ToString("#,###,##0.00"));
+            float xPos = fltLeft + (float)columns[lastColNo] + column - textSize.Width;
+            float yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
+            e.Graphics.DrawString(descr, printFont, Brushes.Black,
+                                  fltLeft + (float)columns[labelColumn], yPos);
+            e.Graphics.DrawString(InvoiceTotal.ToString("#,###,##0.00"), printFont, Brushes.Black,
+                                  xPos, yPos);
         }
         void DetailLines(PrintPageEventArgs e)
         {
-        }
-        void DetailLinesOld(PrintPageEventArgs e)
-        {
             float yPos = 0;
-            float leftMargin = e.MarginBounds.Left;
-            float topMargin = e.MarginBounds.Top;
-            float rightMargin = e.MarginBounds.Right;
-            float column = (rightMargin - leftMargin) / 6;
+            float column = (fltRight - fltLeft) / 6;
             
             foreach (InvLine l in inv.Lines)
             {
                 int colNo = 0;
-                yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
-                e.Graphics.DrawString(l.InvoiceLineNo.ToString(), printFont, Brushes.Black, leftMargin, yPos);
-                e.Graphics.DrawString(l.Part, printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-                e.Graphics.DrawString(l.Description, printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
-                e.Graphics.DrawString(l.SellingShipQty.ToString(), printFont, Brushes.Black, leftMargin + (float)columns[colNo++], yPos);
+                yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
+                e.Graphics.DrawString(l.InvoiceLineNo.ToString(), printFont, Brushes.Black, fltLeft, yPos);
+                e.Graphics.DrawString(l.Part, printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
+                e.Graphics.DrawString(l.Description, printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
 
-                SizeF result = RightJust(e, l.UnitPrice.ToString("#,###,##0.00"));
-                // extra column right justtify adjustment
-                float xPos = leftMargin + (float)columns[colNo++] + column - result.Width; 
-                e.Graphics.DrawString(l.UnitPrice.ToString(), printFont, Brushes.Black, 
+                SizeF textSize = RightJust(e, l.SellingShipQty.ToString("#,###,##0.00"));
+                float xPos = fltLeft + (float)columns[colNo++] + column - textSize.Width;
+                e.Graphics.DrawString(l.SellingShipQty.ToString("#,###,##0"), printFont, 
+                                      Brushes.Black, xPos , yPos);
+
+                textSize = RightJust(e, l.UnitPrice.ToString("#,###,##0.00"));
+                xPos = fltLeft + (float)columns[colNo++] + column - textSize.Width;
+                e.Graphics.DrawString(l.UnitPrice.ToString("#,###,##0.00"), printFont, Brushes.Black, 
                                       xPos, yPos);
-                result = RightJust(e, l.ExtPrice.ToString("#,###,##0.00"));
-                xPos = leftMargin + (float)columns[colNo++] + column - result.Width;
-                e.Graphics.DrawString(l.ExtPrice.ToString("#,###,##0.00"), printFont, Brushes.Black, 
-                                      xPos , yPos);
+
+                textSize = RightJust(e, l.ExtPrice.ToString("#,###,##0.00"));
+                xPos = fltLeft + (float)columns[colNo++] + column - textSize.Width;
+                e.Graphics.DrawString(l.ExtPrice.ToString("#,###,##0.00"), printFont, Brushes.Black,
+                                      xPos, yPos);
                 this.InvoiceTotal += l.ExtPrice;
             }
         }
@@ -288,6 +329,50 @@ namespace InvBox
             set
             {
                 bottomMargin = value;
+            }
+        }
+        private float fltLeft
+        {
+            get
+            {
+                return fltLeftMargin;
+            }
+            set
+            {
+                fltLeftMargin = value;
+            }
+        }
+        private float fltRight
+        {
+            get
+            {
+                return fltRightMargin;
+            }
+            set
+            {
+                fltRightMargin = value;
+            }
+        }
+        private float fltTop
+        {
+            get
+            {
+                return fltTopMargin;
+            }
+            set
+            {
+                fltTopMargin = value;
+            }
+        }
+        private float fltBottom
+        {
+            get
+            {
+                return fltBottomMargin;
+            }
+            set
+            {
+                fltBottomMargin = value;
             }
         }
         private decimal InvoiceTotal

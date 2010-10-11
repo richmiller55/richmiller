@@ -20,7 +20,8 @@ namespace InvBox
         StreetAddress billTo;
 //        StreetAddress shipTo;  implement ship to type of StreetAddress that looks up from 
 //                               the shipTo file
-
+        decimal freightCharge;
+        decimal totalFreight;
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
@@ -50,9 +51,8 @@ namespace InvBox
             packFound = false;
             orderFF = false;
             packNeedsTracking = true;
-
-
-            // init on your own for testing
+            FreightCharge = 0;
+            TotalFreight = 0;
         }
 
         public Invoice(Epicor.Mfg.Core.Session session,
@@ -369,6 +369,28 @@ namespace InvBox
             set
             {
                 memberBuyGroup = value;
+            }
+        }
+        public decimal FreightCharge
+        {
+            get
+            {
+                return freightCharge;
+            }
+            set
+            {
+                freightCharge = value;
+            }
+        }
+        public decimal TotalFreight
+        {
+            get
+            {
+                return totalFreight;
+            }
+            set
+            {
+                totalFreight = value;
             }
         }
         void GetOrderInfo()
