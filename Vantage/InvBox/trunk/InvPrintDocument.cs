@@ -15,14 +15,19 @@ namespace InvBox
         private ArrayList ra;
         private Invoice inv;
         ArrayList columns;
-        Int32 leftMargin;
-      int count = 0;
+        decimal invoiceTotal;
+        int lineHeight;
+        int leftMargin;
+        int rightMargin;
+        int topMargin;
+        int bottomMargin;
+        int count = 0;
         public InvPrintDocument(Invoice inv)
         {
-            
             this.inv = inv;
-//            this.PrinterSettings.PrinterName = "Adobe PDF";
-            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
+            invoiceTotal = 0;
+            this.PrinterSettings.PrinterName = "Adobe PDF";
+//            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
             this.PrinterSettings.PrintFileName = "rich.pdf";
             
         }
@@ -39,21 +44,17 @@ namespace InvBox
         private ArrayList InfoRectangles(PrintPageEventArgs e)
         {
             ArrayList rectangles = new ArrayList(3);
-            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
-            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
-            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
-            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
-            int x = leftMargin;
-            int y = topMargin + (lineHeight * 8);  // 8 lines down
-            Int32 width = (rightMargin - leftMargin) / 3;
-            int length = lineHeight * 6;
-            Rectangle rect = new Rectangle(x, y, width, length);
+            int y = Top + (LineHeight * 8);  // 8 lines down
+            Int32 width = (Right - Left) / 3;
+            int length = LineHeight * 6;
+            Rectangle rect = new Rectangle(Left, y, width, length);
             rectangles.Add(rect);
+
             // recalculate x now in the first third
-            int x2 = ((rightMargin - leftMargin) / 3) + leftMargin;
+            int x2 = ((Right - Left) / 3) + Left;
             rect = new Rectangle(x2, y, width, length);
             rectangles.Add(rect);
-            int x3 = ((rightMargin - leftMargin) / 3) * 2 + leftMargin;
+            int x3 = ((Right - Left) / 3) * 2 + Left;
             rect = new Rectangle(x3, y, width, length);
             rectangles.Add(rect);
             // then stuff them with text render the boxes with a light brush, and 
@@ -101,46 +102,40 @@ namespace InvBox
         }
         private Rectangle RectLeftAddress(PrintPageEventArgs e)
         {
-            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
-            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
-            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
-            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
-            int x = leftMargin;
-            int y = topMargin + (lineHeight * 2);  // 2 lines down
-            Int32 width = (rightMargin - leftMargin) / 2;
-            int length = lineHeight * 6;
-            Rectangle rect = new Rectangle(x, y, width, length);
-
-            return rect;
+            int y = Top + (LineHeight * 2);  // 2 lines down
+            int width = (Right - Left) / 2;
+            int length = LineHeight * 6;
+            return new Rectangle(Left, y, width, length);
         }
         private Rectangle RectRightAddress(PrintPageEventArgs e)
         {
-            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
-            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
-            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
-            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
-
-            Int32 x = leftMargin + ((rightMargin - leftMargin) / 2);
-            Int32 y = topMargin + (lineHeight * 2);  // 2 lines down
-            Int32 width = (rightMargin - leftMargin) / 2;
-            Int32 length = lineHeight * 6;
-            Rectangle rect = new Rectangle(x, y, width, length);
-            return rect;
+            int x = Left + ((Right - Left) / 2);
+            int y = Top + (LineHeight * 2);  // 2 lines down
+            int width = (Right - Left) / 2;
+            int length = LineHeight * 6;
+            return new Rectangle(x, y, width, length);
         }
         protected override void OnPrintPage(PrintPageEventArgs e)
         {
             base.OnPrintPage(e);
             gdiPage = e.Graphics;
-
+            SetPageSize(e);
             SetColumnWidths(e);
             Header(e);
             AddressBoxes(e);
             InfoRectangles(e);
-
             DetailHeading(e);
             DetailLines(e);
             WriteTermsConditions(e);
             e.HasMorePages = false;
+        }
+        void SetPageSize(PrintPageEventArgs e)
+        {
+            LineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
+            Left = Convert.ToInt32(e.MarginBounds.Left);
+            Right = Convert.ToInt32(e.MarginBounds.Right);
+            Top = Convert.ToInt32(e.MarginBounds.Top);
+            Bottom = Convert.ToInt32(e.MarginBounds.Bottom);
         }
         void AddressBoxes(PrintPageEventArgs e)
         {
@@ -152,34 +147,6 @@ namespace InvBox
             rect = RectRightAddress(e);
             e.Graphics.DrawRectangle(pen, rect);
             e.Graphics.DrawString(inv.BillTo.AddressStr, printFont, Brushes.Black, rect);
-        }
-        void FillSoldTo(PrintPageEventArgs e)
-        {
-            string address = inv.SoldTo.AddressStr;
-        }
-        SizeF RightJust(PrintPageEventArgs e, string number)
-        {
-            return e.Graphics.MeasureString(number, printFont);
-        }
-        void WriteTermsConditions(PrintPageEventArgs e)
-        {
-            Int32 lineHeight = Convert.ToInt32(printFont.GetHeight(gdiPage));
-            Int32 leftMargin = Convert.ToInt32(e.MarginBounds.Left);
-            Int32 rightMargin = Convert.ToInt32(e.MarginBounds.Right);
-            Int32 topMargin = Convert.ToInt32(e.MarginBounds.Top);
-            Int32 bottomMargin = Convert.ToInt32(e.MarginBounds.Bottom);
-
-            Int32 linesFromBottom = 7;
-            Int32 x = leftMargin;
-            Int32 y = bottomMargin - (lineHeight * linesFromBottom);
-            Int32 width = rightMargin - leftMargin;
-            Int32 length = lineHeight * 7;
-            Rectangle rect = new Rectangle(x, y, width, length);
-            float currentSize = printFont.SizeInPoints;
-            currentSize -= 1;
-            Font smaller = new Font(printFont.Name, currentSize);
-            TermsConditions tc = new TermsConditions();
-            e.Graphics.DrawString(tc.InvoiceTerms, smaller, Brushes.Black, rect);
         }
         void Header(PrintPageEventArgs e)
         {
@@ -210,6 +177,9 @@ namespace InvBox
             columns.Add(width * .70f);
             columns.Add(width * .80f);
         }
+        void Totals(PrintPageEventArgs e)
+        {
+        }
         void DetailHeading(PrintPageEventArgs e)
         {
             float yPos = 0;
@@ -235,6 +205,9 @@ namespace InvBox
         }
         void DetailLines(PrintPageEventArgs e)
         {
+        }
+        void DetailLinesOld(PrintPageEventArgs e)
+        {
             float yPos = 0;
             float leftMargin = e.MarginBounds.Left;
             float topMargin = e.MarginBounds.Top;
@@ -259,9 +232,21 @@ namespace InvBox
                 xPos = leftMargin + (float)columns[colNo++] + column - result.Width;
                 e.Graphics.DrawString(l.ExtPrice.ToString("#,###,##0.00"), printFont, Brushes.Black, 
                                       xPos , yPos);
+                this.InvoiceTotal += l.ExtPrice;
             }
         }
-        private int LeftMargin
+        private int LineHeight
+        {
+            get
+            {
+                return lineHeight;
+            }
+            set
+            {
+                lineHeight = value;
+            }
+        }
+        private int Left
         {
             get
             {
@@ -272,51 +257,74 @@ namespace InvBox
                 leftMargin = value;
             }
         }
-#if trace
-            float leftMargin = e.MarginBounds.Left;
-            float rightMargin = e.MarginBounds.Right;
-            float topMargin = e.MarginBounds.Top;
-            float bottomMargin = e.MarginBounds.Bottom;
-            float lineHeight = printFont.GetHeight(gdiPage);
-            
-            float linesPerPage = e.MarginBounds.Height / lineHeight;
-            count = 0;
-            int totalLinesPrinted = 0;
-
-
-            foreach (string line in this.ra)
-            {
-                if (count < linesPerPage)
-                {
-                    yPos = topMargin + (count++ * printFont.GetHeight(e.Graphics));
-                    e.Graphics.DrawString(line, printFont, Brushes.Black, leftMargin, yPos);
-                    totalLinesPrinted++;
-                }
-                else
-                {
-                    count = 0;
-                }
-                if (totalLinesPrinted < this.ra.Count)
-                    e.HasMorePages = true;
-                else
-                    e.HasMorePages = false;
-            }
-
-        void Detail()
+        private int Right
         {
-            foreach (InvLine l in i.Lines)
+            get
             {
-                string strOut = l.InvoiceLineNo.ToString() + "     ";
-                strOut += l.SellingShipQty.ToString() + "       ";
-                strOut += l.Part + "         ";
-                strOut += l.Description + "      ";
-                strOut += l.UnitPrice + "    ";
-                strOut += l.UnitOfMeasure + "    ";
-                strOut += l.Discount.ToString() + "   ";
-                strOut += l.ExtPrice.ToString();
-                ra.Add(strOut);
+                return rightMargin;
+            }
+            set
+            {
+                rightMargin = value;
             }
         }
+        private int Top
+        {
+            get
+            {
+                return topMargin;
+            }
+            set
+            {
+                topMargin = value;
+            }
+        }
+        private int Bottom
+        {
+            get
+            {
+                return bottomMargin;
+            }
+            set
+            {
+                bottomMargin = value;
+            }
+        }
+        private decimal InvoiceTotal
+        {
+            get
+            {
+                return invoiceTotal;
+            }
+            set
+            {
+                invoiceTotal = value;
+            }
+        }
+        void FillSoldTo(PrintPageEventArgs e)
+        {
+            string address = inv.SoldTo.AddressStr;
+        }
+        SizeF RightJust(PrintPageEventArgs e, string number)
+        {
+            return e.Graphics.MeasureString(number, printFont);
+        }
+        void WriteTermsConditions(PrintPageEventArgs e)
+        {
+            float currentSize = printFont.SizeInPoints;
+            currentSize -= 1;
+            Font smallerFont = new Font(printFont.Name, currentSize);
+            int lineHeight = Convert.ToInt32(smallerFont.GetHeight(gdiPage));
+            int linesFromBottom = 7;
+            int y = Bottom - (lineHeight * linesFromBottom);
+            int width = Right - Left;
+            int length = lineHeight * 7;
+            Rectangle rect = new Rectangle(Left, y, width, length);
+
+            TermsConditions tc = new TermsConditions();
+            e.Graphics.DrawString(tc.InvoiceTerms, smallerFont, Brushes.Black, rect);
+        }
+#if trace
 #endif
         public ArrayList ReportArray
         {
