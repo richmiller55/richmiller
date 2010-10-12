@@ -31,9 +31,9 @@ namespace InvBox
         {
             this.inv = inv;
             invoiceTotal = 0;
-            this.PrinterSettings.PrinterName = "Adobe PDF";
-//            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
-            this.PrinterSettings.PrintFileName = "rich.pdf";
+//            this.PrinterSettings.PrinterName = "Adobe PDF";
+            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
+//            this.PrinterSettings.PrintFileName = "rich.pdf";
             
         }
         protected override void OnBeginPrint(PrintEventArgs e)
@@ -166,7 +166,7 @@ namespace InvBox
             yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
 
             e.Graphics.DrawString("California Accessories", printFont, Brushes.Black, leftMargin, yPos);
-            string phone = "Phone   510.352.4774";
+            string phone = "Phone   510.675.8600";
             SizeF phoneSize = RightJust(e, phone); 
             e.Graphics.DrawString(phone , printFont, Brushes.Black, fltRight - phoneSize.Width, yPos);
             yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
@@ -197,13 +197,13 @@ namespace InvBox
             int colNo = 0;
             e.Graphics.DrawString("Line", printFont, Brushes.Black, fltLeft, yPos);
             e.Graphics.DrawString("Style", printFont, Brushes.Black, fltLeft  + (float)columns[colNo++], yPos);
-            e.Graphics.DrawString("Descr", printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
+            e.Graphics.DrawString("Description", printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
 
             SizeF textSize = RightJust(e, "Qty");
             e.Graphics.DrawString("Qty", printFont, Brushes.Black,
                                    fltLeft + (float)columns[colNo++] + column - textSize.Width, yPos);
-            textSize = RightJust(e, "Unit");
-            e.Graphics.DrawString("Unit", printFont, Brushes.Black,
+            textSize = RightJust(e, "Price");
+            e.Graphics.DrawString("", printFont, Brushes.Black,
                                   fltLeft + (float)columns[colNo++] + column - textSize.Width, yPos);
             textSize = RightJust(e, "Ext Price");
             e.Graphics.DrawString("Ext Price", printFont, Brushes.Black,

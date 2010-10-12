@@ -79,7 +79,7 @@ namespace InvBox
             get
             {
                 string crlf = "\n";
-                string buffer = AddressTypeDescr + crlf;
+                string buffer = AddressTypeDescr + " " + CustID + crlf;
                 buffer += CustName + crlf;
                 buffer += Address1 + crlf;
                 if (Address2.CompareTo("") != 0)
