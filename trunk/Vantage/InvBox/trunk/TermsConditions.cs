@@ -14,7 +14,7 @@ namespace InvBox
             invoiceTerms += @"on all Amounts Due Beyond 30 days from the date of ";
             invoiceTerms += @"invoice. Goods may not be returned without prior ";
             invoiceTerms += @"authorization. Authorization must be obtained ";
-            invoiceTerms += @"within 30 days of receipts of product unless ";
+            invoiceTerms += @"within 30 days of receipt of product unless ";
             invoiceTerms += @"goods are covered by warranty. Claims for  ";
             invoiceTerms += @"freight damage must be made with the carrier ";
         }
