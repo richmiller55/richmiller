@@ -19,7 +19,8 @@ namespace InvBox
     }
     class UPSReader
     {
-        string fullPath = @"D:/users/UPS";
+        string fullPath = @"D:\users\UPS";
+        string dumpPath = @"D:\users\rich\ProcessedFrt";
         StreamReader tr;
         ShipMgr m_shipMgr;
         string packSlipStr;
@@ -32,18 +33,32 @@ namespace InvBox
             string[] filePaths = Directory.GetFiles(this.fullPath);
             foreach (string fileName in filePaths)
             {
-                this.tr = new StreamReader(fileName);
-                this.processFile();
-                this.InvoiceShipment();
+                tr = new StreamReader(fileName);
+                ProcessFile();
+                tr.Close();
+                MoveFile(fileName);
+                InvoiceShipment();
             }
         }
+
         public ShipMgr GetShipMgr() { return m_shipMgr; }
+
+        private void MoveFile(string fullName)
+        {
+            string fileName = Path.GetFileName(fullName);
+            string prefix = Path.GetFileNameWithoutExtension(fullName);
+            
+            DateTime now = DateTime.Now;
+            string date = now.Year.ToString("0000") + now.Month.ToString("00") + now.Day.ToString("00");
+            string time = now.Hour.ToString("00") + now.Minute.ToString("00") + now.Second.ToString("00");
+            File.Move(fullName, dumpPath + "\\" + prefix + "_" + date + "_" + time + ".txt");
+        }
 
         private void InvoiceShipment()
         {
             CAInvoice cainv = new CAInvoice(this.session, "RLM85", this.packSlipStr,GetShipMgr());
         }
-        private void processFile()
+        private void ProcessFile()
         {
             string linePre = "";
             

@@ -68,7 +68,7 @@ namespace InvBox
         }
         void InfoBoxes(PrintPageEventArgs e, ArrayList rectangles)
         {
-            float penSize = 1.0f;
+            float penSize = 2.0f;
             Pen pen = new Pen(Brushes.Black, penSize);
             Rectangle rect = (Rectangle)rectangles[0];
             e.Graphics.DrawRectangle(pen, rect);
@@ -181,7 +181,7 @@ namespace InvBox
             columns.Add(width * .30f);
             columns.Add(width * .65f);
             columns.Add(width * .70f);
-            columns.Add(width * .85f);
+            columns.Add(width * .84f);
         }
         void Totals(PrintPageEventArgs e)
         {
@@ -189,9 +189,6 @@ namespace InvBox
         void DetailHeading(PrintPageEventArgs e)
         {
             float yPos = 0;
-//            float leftMargin = e.MarginBounds.Left;
-//            float topMargin = e.MarginBounds.Top;
-//            float rightMargin = e.MarginBounds.Right;
 
             float width = fltRight - fltLeft;
             float column = width / 6;
