@@ -15,13 +15,19 @@ namespace InvBox
         System.DateTime invoiceDate;
         System.DateTime orderDate;
         System.DateTime shipDate;
-//         StreetAddress remitTo; implement
+
         StreetAddress soldTo;
         StreetAddress billTo;
+        int shipToNo;
+        StreetAddress shipTo;
 //        StreetAddress shipTo;  implement ship to type of StreetAddress that looks up from 
 //                               the shipTo file
+        // freight related
         decimal freightCharge;
         decimal totalFreight;
+        string trackingNo;
+        string shipVia;
+
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
@@ -30,15 +36,15 @@ namespace InvBox
         string billToCustName;
         bool billToInvoiceAddress;
         string poNo;
-        string shipVia;
 
         string paymentTerms;
         string paymentTermsText;
         string salesRepCode1;
         string salesRepName1;
+        string salesRepPhone;
+
         bool orderFF;
         bool invoiced;
-
         bool packFound;
         bool orderFound;
         bool packNeedsTracking;
@@ -54,7 +60,6 @@ namespace InvBox
             FreightCharge = 0;
             TotalFreight = 0;
         }
-
         public Invoice(Epicor.Mfg.Core.Session session,
                        Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
         {
@@ -170,6 +175,39 @@ namespace InvBox
                 soldTo = value;
             }
         }
+        public string TrackingNo
+        {
+            get
+            {
+                return trackingNo;
+            }
+            set
+            {
+                trackingNo = value;
+            }
+        }
+        public string SalesRepPhone
+        {
+            get
+            {
+                return salesRepPhone;
+            }
+            set
+            {
+                salesRepPhone = value;
+            }
+        }
+        public StreetAddress ShipTo
+        {
+            get
+            {
+                return shipTo;
+            }
+            set
+            {
+                shipTo = value;
+            }
+        }
         public int PackID
         {
             get
@@ -216,7 +254,6 @@ namespace InvBox
         }
         public string SoldToAddressList
         {
-
             get
             {
                 return soldToAddressList;
@@ -228,7 +265,6 @@ namespace InvBox
         }
         public bool SoldToInvoiceAddress
         {
-
             get
             {
                 return soldToInvoiceAddress;
@@ -262,7 +298,6 @@ namespace InvBox
         }
         public bool BillToInvoiceAddress
         {
-
             get
             {
                 return billToInvoiceAddress;
@@ -406,6 +441,7 @@ namespace InvBox
                 Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow row = (Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow)soDs.OrderHed.Rows[0];
                 this.OrderFF = row.CheckBox03;
                 this.ShipVia = row.ShipViaCode;
+                this.OrderDate = row.OrderDate;
                 soDs.Dispose();
             }
             catch (Exception e)

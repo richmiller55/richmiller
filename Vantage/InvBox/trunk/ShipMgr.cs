@@ -104,7 +104,18 @@ namespace InvBox
                 freightCharge = value;
             }
         }
-        public string TrackingNumbers
+        public ArrayList TrackingNumbers
+        {
+            get
+            {
+                return trackingNumbers;
+            }
+            set
+            {
+                trackingNumbers = value;
+            }
+        }
+        public string TrackingNumber
         {
             get
             {

@@ -15,8 +15,11 @@ namespace InvBox
         string unitOfMeasure;
         decimal sellingShipQty;
         decimal orderQty;
+        decimal openQty;
         decimal unitPrice;
-        decimal discount;  // verify what this thing is a percent or amt
+        decimal listPrice;
+        decimal discountFromList; 
+        decimal discountOnOrder;  // verify what this thing is a percent or amt
         decimal extPrice;
 
         decimal custMiscCharge;
@@ -47,7 +50,7 @@ namespace InvBox
             this.SellingShipQty = row.SellingShipQty;
             this.OrderQty = row.OurOrderQty;
             this.UnitPrice = row.UnitPrice;
-            this.Discount = row.Discount;
+            this.DiscountOnOrder = row.Discount;
             this.ExtPrice = row.ExtPrice;	    
             this.BillToCustID = row.BillToCustID;
             this.BillToCustName = row.BTCustName;
@@ -138,15 +141,37 @@ namespace InvBox
                 orderQty = value;
             }
         }
-        public decimal Discount
+        public decimal OpenQty
         {
             get
             {
-                return discount;
+                return openQty;
             }
             set
             {
-                discount = value;
+                openQty = value;
+            }
+        }
+        public decimal DiscountFromList
+        {
+            get
+            {
+                return discountFromList;
+            }
+            set
+            {
+                discountFromList = value;
+            }
+        }
+        public decimal DiscountOnOrder
+        {
+            get
+            {
+                return discountOnOrder;
+            }
+            set
+            {
+                discountOnOrder = value;
             }
         }
         public decimal UnitPrice
@@ -191,6 +216,17 @@ namespace InvBox
             set
             {
                 extPrice = value;
+            }
+        }
+        public decimal ListPrice
+        {
+            get
+            {
+                return listPrice;
+            }
+            set
+            {
+                listPrice = value;
             }
         }
         public decimal MiscCharge
