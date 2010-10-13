@@ -37,7 +37,7 @@ namespace InvBox
             string errors = string.Empty;
             this.InvoicePack(pack, out invoices, out errors);
             this.SetBatchStats();  // remember this sets lastInvoiceNumber
-            this.NewInvcMiscChrg(this.ShipMgr.TotalFreight, this.ShipMgr.TrackingNumbers);
+            this.NewInvcMiscChrg(this.ShipMgr.TotalFreight, this.ShipMgr.TrackingNumber);
             this.FillInvoiceInfo();
             // then these two objects print the invoice
             // InvoiceFormater invForm = new InvoiceFormater(this.TheInvoice);
@@ -162,11 +162,12 @@ namespace InvBox
                 ds = arInvoice.GetByID(this.lastInvoiceNo);
                 Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row =
                     (Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow)ds.InvcHead.Rows[0];
-                this.inv = new Invoice(this.session, row);
+                inv = new Invoice(this.session, row);
 
-                this.inv.FreightCharge = this.ShipMgr.FreightCharge;
-                this.inv.TotalFreight = this.ShipMgr.TotalFreight;
-                this.FillInvoiceLines();
+                inv.FreightCharge = this.ShipMgr.FreightCharge;
+                inv.TotalFreight = this.ShipMgr.TotalFreight;
+                inv.TrackingNo = this.ShipMgr.TrackingNumber;
+                FillInvoiceLines();
             }
             catch (Exception e)
             {

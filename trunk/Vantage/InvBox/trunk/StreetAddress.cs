@@ -13,25 +13,26 @@ namespace InvBox
     }
     public class StreetAddress
     {
-        Epicor.Mfg.Core.Session session;
-        Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
-        private int  addressType;
-
-        private string custID = "";
-        private int custNo = 0;
-        private string custName = "";
-        private string address1 = "";
-        private string address2 = "";
-        private string address3 = "";
-        private string city = "";
-        private string state = "";
-        private string zipCode = "";
-        private string country = "";
-        private string termsCode = "";
-        private string termsDescr = "";
-        private string custFrtTerms = "";
-        private bool freightFree = false;
-
+        protected Epicor.Mfg.Core.Session session;
+        protected Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
+        protected int  addressType;
+        protected string custID = "";
+        protected int custNo = 0;
+        protected string custName = "";
+        protected string address1 = "";
+        protected string address2 = "";
+        protected string address3 = "";
+        protected string city = "";
+        protected string state = "";
+        protected string zipCode = "";
+        protected string country = "";
+        protected string termsCode = "";
+        protected string termsDescr = "";
+        protected string custFrtTerms = "";
+        protected bool freightFree = false;
+        public StreetAddress()
+        {
+        }
         public StreetAddress(Epicor.Mfg.Core.Session session,
                              AddrTypes addrType, string custID)
         {
@@ -55,9 +56,8 @@ namespace InvBox
             {
                 string message = e.Message;
             }
-
         }
-        void FillCustomerAddress()
+        protected void FillCustomerAddress()
         {
             this.CustFrtTerms = custRow.ShortChar01;
             this.CustName = custRow.Name;

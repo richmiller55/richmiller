@@ -86,13 +86,15 @@ namespace InvBox
             string crlf = "\n";
             string text = "P O No. " + inv.PoNo + crlf;
             text += "Sales Rep " + inv.SalesRepName1 + crlf;
+            text += "Rep Phone " + inv.SalesRepPhone + crlf;
+
             text += "Packing Slip " + inv.PackID.ToString();
             return text;
         }
         private string InfoRectTextCenter(PrintPageEventArgs e)
         {
             string crlf = "\n";
-            string text = "Payment Terms " + crlf + inv.PaymentTermsText + crlf;
+            string text = "Pay Terms " + inv.PaymentTermsText + crlf;
             text += "Order Dt " + inv.OrderDate.ToShortDateString() + crlf;
             text += "Order No. " + inv.SalesOrder.ToString();
             return text;
@@ -102,7 +104,7 @@ namespace InvBox
             string crlf = "\n";
             string text = "Invoice Date " + inv.InvoiceDate.ToShortDateString() + crlf;
             text += "Ship Via " + inv.ShipVia + crlf;
-            text += "Ship Date " + crlf;
+            text += "Tracking " + inv.TrackingNo + crlf;
             return text;
         }
         private Rectangle RectLeftAddress(PrintPageEventArgs e)
@@ -163,15 +165,26 @@ namespace InvBox
         void Header(PrintPageEventArgs e)
         {
             float yPos = 0;
-            yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
+            yPos = fltTop + (count * printFont.GetHeight(e.Graphics));
 
             e.Graphics.DrawString("California Accessories", printFont, Brushes.Black, leftMargin, yPos);
             string phone = "Phone   510.675.8600";
             SizeF phoneSize = RightJust(e, phone); 
             e.Graphics.DrawString(phone , printFont, Brushes.Black, fltRight - phoneSize.Width, yPos);
-            yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
-            e.Graphics.DrawString("Invoice " + inv.InvoiceNo.ToString(), printFont, Brushes.Black, fltLeft, yPos);
+            HeadingInvoice(e);
             count += 7; // skip lines where the address boxes go
+        }
+        void HeadingInvoice(PrintPageEventArgs e)
+        {
+            float currentSize = printFont.SizeInPoints;
+            currentSize += 1;
+            Font largerFont = new Font(printFont.Name, currentSize);
+
+            float yPos = fltTop + (count++ * largerFont.GetHeight(e.Graphics));
+            string invoice = "Original Invoice " + inv.InvoiceNo.ToString();
+            SizeF size = e.Graphics.MeasureString(invoice, largerFont);
+            float xPos = ((fltRight - fltLeft) / 2) - (size.Width / 2);
+            e.Graphics.DrawString(invoice, largerFont, Brushes.Black, xPos, yPos);
         }
         void SetColumnWidths(PrintPageEventArgs e)
         {
@@ -192,6 +205,7 @@ namespace InvBox
 
             float width = fltRight - fltLeft;
             float column = width / 6;
+            count += 2;
             yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
 
             int colNo = 0;
