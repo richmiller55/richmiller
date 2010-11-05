@@ -94,6 +94,28 @@ namespace InvBox
         {
         }
 
+        void GetOrderInfo()
+        {
+            Epicor.Mfg.BO.SalesOrder salesOrderObj;
+            salesOrderObj = new Epicor.Mfg.BO.SalesOrder(session.ConnectionPool);
+            Epicor.Mfg.BO.SalesOrderDataSet soDs = new Epicor.Mfg.BO.SalesOrderDataSet();
+
+            string message;
+            try
+            {
+                soDs = salesOrderObj.GetByID(this.SalesOrder);
+                Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow row = (Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow)soDs.OrderHed.Rows[0];
+                this.OrderFF = row.CheckBox03;
+                this.ShipVia = row.ShipViaCode;
+                this.OrderDate = row.OrderDate;
+                soDs.Dispose();
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                this.OrderFound = false;
+            }
+        }
         public void AddLine(InvLine line)
         {
             this.lines.Add(line);
@@ -426,28 +448,6 @@ namespace InvBox
             set
             {
                 totalFreight = value;
-            }
-        }
-        void GetOrderInfo()
-        {
-            Epicor.Mfg.BO.SalesOrder salesOrderObj;
-            salesOrderObj = new Epicor.Mfg.BO.SalesOrder(session.ConnectionPool);
-            Epicor.Mfg.BO.SalesOrderDataSet soDs = new Epicor.Mfg.BO.SalesOrderDataSet();
-
-            string message;
-            try
-            {
-                soDs = salesOrderObj.GetByID(this.SalesOrder);
-                Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow row = (Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow)soDs.OrderHed.Rows[0];
-                this.OrderFF = row.CheckBox03;
-                this.ShipVia = row.ShipViaCode;
-                this.OrderDate = row.OrderDate;
-                soDs.Dispose();
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-                this.OrderFound = false;
             }
         }
         public bool NeedsTracking
