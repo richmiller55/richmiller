@@ -11,8 +11,9 @@ namespace ShipToLoad
         soldTo,
         shipTo,
         name,
-        center,
-        address,
+        address1,
+        address2,
+        address3,
         city,
         state,
         zip,
@@ -54,8 +55,11 @@ namespace ShipToLoad
                 st.CustId = split[(int)col.soldTo];
                 st.ShipToId = split[(int)col.shipTo];
                 st.Name = split[(int)col.name];
-                st.Center = split[(int)col.center];
-                st.Address1 = split[(int)col.address];
+
+                st.Address1 = split[(int)col.address1];
+                st.Address2 = split[(int)col.address2];
+                st.Address3 = split[(int)col.address3];
+
                 st.City = split[(int)col.city];
                 st.State = split[(int)col.state];
                 st.Zip =  split[(int)col.zip];
