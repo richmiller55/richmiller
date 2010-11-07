@@ -10,8 +10,9 @@ namespace ShipToLoad
         string m_custId;
         string m_shipToId;
         string m_Name;
-        string m_Center;
         string m_Address1;
+        string m_Address2;
+        string m_Address3;
         string m_City;
         string m_State;
         string m_Zip;
@@ -59,17 +60,6 @@ namespace ShipToLoad
                 m_Name = value;
             }
         }
-        public string Center
-        {
-            get
-            {
-                return m_Center;
-            }
-            set
-            {
-                m_Center = value;
-            }
-        }
         public string Address1
         {
             get
@@ -79,6 +69,28 @@ namespace ShipToLoad
             set
             {
                 m_Address1 = value;
+            }
+        }
+        public string Address2
+        {
+            get
+            {
+                return m_Address2;
+            }
+            set
+            {
+                m_Address2 = value;
+            }
+        }
+        public string Address3
+        {
+            get
+            {
+                return m_Address3;
+            }
+            set
+            {
+                m_Address3 = value;
             }
         }
         public string City

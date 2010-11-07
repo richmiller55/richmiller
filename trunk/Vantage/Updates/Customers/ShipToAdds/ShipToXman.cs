@@ -15,7 +15,7 @@ namespace ShipToLoad
         public ShipToXman()
         {
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
             customerObj = new Epicor.Mfg.BO.Customer(objSess.ConnectionPool);
 
             //
@@ -61,8 +61,11 @@ namespace ShipToLoad
                 int index = count - 1;
                 Epicor.Mfg.BO.CustomerDataSet.ShipToRow ShipToRow = (Epicor.Mfg.BO.CustomerDataSet.ShipToRow)ds.ShipTo.Rows[index];
                 ShipToRow.ShipToNum = st.ShipToId;
-                ShipToRow.Address1 = st.Center;
-                ShipToRow.Address2 = st.Address1;
+
+                ShipToRow.Address1 = st.Address1;
+                ShipToRow.Address2 = st.Address2;
+                ShipToRow.Address3 = st.Address3;
+
                 ShipToRow.City     = st.City;
                 ShipToRow.State    = st.State;
                 ShipToRow.ZIP      = st.Zip;
