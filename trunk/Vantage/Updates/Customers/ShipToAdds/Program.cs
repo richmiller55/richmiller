@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace ShipToLoad
 {
@@ -12,10 +11,9 @@ namespace ShipToLoad
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+ //           Application.EnableVisualStyles();
+ //           Application.SetCompatibleTextRenderingDefault(false);
             DataReader reader = new DataReader();
-            Application.Run(new Form1());
-        }
+         }
     }
 }
