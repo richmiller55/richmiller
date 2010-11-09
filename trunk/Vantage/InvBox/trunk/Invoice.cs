@@ -49,7 +49,6 @@ namespace InvBox
         bool orderFound;
         bool packNeedsTracking;
         bool memberBuyGroup;
-
         string newInvoices = string.Empty;
 
         public Invoice()
@@ -85,6 +84,7 @@ namespace InvBox
 
             this.SalesRepCode1 = row.SalesRepCode1;
             this.SalesRepName1 = row.SalesRepName1;
+
             this.BillTo = new StreetAddress(this.session, AddrTypes.BillTo, this.BillToCustID);
             this.SoldTo = new StreetAddress(this.session, AddrTypes.SoldTo, this.SoldToCustID);
             this.GetOrderInfo();

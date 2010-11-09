@@ -44,6 +44,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.BO.SalesOrder.dll</HintPath>
     </Reference>
+    <Reference Include="Epicor.Mfg.BO.SalesTax, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.BO.SalesTax.dll</HintPath>
+    </Reference>
     <Reference Include="Epicor.Mfg.Core.BLConnectionPool, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.Core.BLConnectionPool.dll</HintPath>
@@ -67,6 +71,10 @@
     <Reference Include="Epicor.Mfg.IF.ISalesOrder, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.ISalesOrder.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.IF.ISalesTax, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.ISalesTax.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -101,7 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shipment.cs" />
     <Compile Include="ShipMgr.cs" />
-    <Compile Include="ShipToStreetAddress.cs" />
+    <Compile Include="ShipTo.cs" />
     <Compile Include="StreetAddress.cs" />
     <Compile Include="TermsConditions.cs" />
     <Compile Include="UPSReader.cs" />
