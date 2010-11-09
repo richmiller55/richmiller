@@ -55,6 +55,7 @@ namespace InvBox
 
             }
         }
+
         enum addrListCol5
         {
             name,

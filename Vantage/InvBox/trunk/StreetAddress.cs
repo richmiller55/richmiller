@@ -16,7 +16,7 @@ namespace InvBox
         protected Epicor.Mfg.Core.Session session;
         protected Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
         protected int  addressType;
-        protected string custID = "";
+        protected string custId = "";
         protected int custNo = 0;
         protected string custName = "";
         protected string address1 = "";
@@ -30,7 +30,13 @@ namespace InvBox
         protected string termsDescr = "";
         protected string custFrtTerms = "";
         protected bool freightFree = false;
-        public StreetAddress()
+        protected decimal taxRate = 0.0M;
+        string m_taxExempt;
+        string m_taxAuthorityCode;
+        string m_taxAuthorityDescr;
+        string m_taxRegionCode;
+        string m_taxRegionDescr;
+       public StreetAddress()
         {
         }
         public StreetAddress(Epicor.Mfg.Core.Session session,
@@ -38,7 +44,7 @@ namespace InvBox
         {
             this.session = session;
             this.AddressType = (int)addrType;
-            this.CustID = custID;
+            this.CustId = custID;
             this.CustDSFromID();
             this.FillCustomerAddress();
         }
@@ -49,7 +55,7 @@ namespace InvBox
 
             try
             {
-                Epicor.Mfg.BO.CustomerDataSet custDs = customerObj.GetByCustID(this.CustID);
+                Epicor.Mfg.BO.CustomerDataSet custDs = customerObj.GetByCustID(this.CustId);
                 this.custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
             }
             catch (Exception e)
@@ -57,7 +63,24 @@ namespace InvBox
                 string message = e.Message;
             }
         }
-        protected void FillCustomerAddress()
+        protected void LoadTaxRates()
+        {
+            Epicor.Mfg.BO.SalesTax taxObj;
+            Epicor.Mfg.BO.SalesTaxDataSet ds;
+            taxObj = new Epicor.Mfg.BO.SalesTax(session.ConnectionPool);
+            try
+            {
+                ds = taxObj.GetByID(this.ZipCode);
+                Epicor.Mfg.BO.SalesTaxDataSet.SalesTaxRow taxRow = (Epicor.Mfg.BO.SalesTaxDataSet.SalesTaxRow)
+                  ds.SalesTax.Rows[0];
+                TaxRate = taxRow.Percent;
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+        }
+        void FillCustomerAddress()
         {
             this.CustFrtTerms = custRow.ShortChar01;
             this.CustName = custRow.Name;
@@ -69,6 +92,12 @@ namespace InvBox
             this.ZipCode = custRow.Zip;
             this.TermsCode = custRow.TermsCode;
             this.TermsDescr = custRow.TermsDescription;
+            this.TaxAuthorityCode = custRow.TATaxAuthorityDescription;
+            this.TaxAuthorityDescr = custRow.TaxAuthorityCode;
+            this.TaxExempt = custRow.TaxExempt;
+            this.TaxRegionCode = custRow.TaxRegionCode;
+            this.TaxRegionDescr = custRow.TaxRegionDescription;
+
             if (custRow.ShortChar01.CompareTo("FF") == 0)
             {
                 this.FreightFree = true;
@@ -79,7 +108,7 @@ namespace InvBox
             get
             {
                 string crlf = "\n";
-                string buffer = AddressTypeDescr + " " + CustID + crlf;
+                string buffer = AddressTypeDescr + " " + CustId + crlf;
                 buffer += CustName + crlf;
                 buffer += Address1 + crlf;
                 if (Address2.CompareTo("") != 0)
@@ -132,15 +161,15 @@ namespace InvBox
 
             }
         }
-        public string CustID
+        public string CustId
         {
             get
             {
-                return custID;
+                return custId;
             }
             set
             {
-                custID = value;
+                custId = value;
             }
         }
         public int CustNo
@@ -286,5 +315,72 @@ namespace InvBox
                 freightFree = value;
             }
         }
+        public string TaxAuthorityCode
+        {
+            get
+            {
+                return m_taxAuthorityCode;
+            }
+            set
+            {
+                m_taxAuthorityCode = value;
+            }
+        }
+        public string TaxAuthorityDescr
+        {
+            get
+            {
+                return m_taxAuthorityDescr;
+            }
+            set
+            {
+                m_taxAuthorityDescr = value;
+            }
+        }
+        public string TaxExempt
+        {
+            get
+            {
+                return m_taxExempt;
+            }
+            set
+            {
+                m_taxExempt = value;
+            }
+        }
+        public string TaxRegionCode
+        {
+            get
+            {
+                return m_taxRegionCode;
+            }
+            set
+            {
+                m_taxRegionCode = value;
+            }
+        }
+        public string TaxRegionDescr
+        {
+            get
+            {
+                return m_taxRegionDescr;
+            }
+            set
+            {
+                m_taxRegionDescr = value;
+            }
+        }
+        public decimal TaxRate
+        {
+            get
+            {
+                return taxRate;
+            }
+            set
+            {
+                taxRate = value;
+            }
+        }
+
     }
 }
