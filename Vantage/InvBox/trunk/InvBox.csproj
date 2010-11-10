@@ -97,12 +97,6 @@
     <Compile Include="PrtForm.Designer.cs">
       <DependentUpon>PrtForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InvBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="InvBox.Designer.cs">
-      <DependentUpon>InvBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="InvLine.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="Program.cs" />
