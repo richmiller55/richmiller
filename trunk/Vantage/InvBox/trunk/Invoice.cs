@@ -18,10 +18,9 @@ namespace InvBox
 
         StreetAddress soldTo;
         StreetAddress billTo;
-        int shipToNo;
-        StreetAddress shipTo;
-//        StreetAddress shipTo;  implement ship to type of StreetAddress that looks up from 
-//                               the shipTo file
+        string shipToId = "";
+        ShipTo shipToAddress;
+
         // freight related
         decimal freightCharge;
         decimal totalFreight;
@@ -31,7 +30,7 @@ namespace InvBox
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
-        bool soldToInvoiceAddress;  // what the hell is this for?
+        // bool soldToInvoiceAddress;  // what the hell is this for?
         string billToCustID;
         string billToCustName;
         bool billToInvoiceAddress;
@@ -47,8 +46,9 @@ namespace InvBox
         bool invoiced;
         bool packFound;
         bool orderFound;
-        bool packNeedsTracking;
-        bool memberBuyGroup;
+        bool packNeedsTracking = false;
+        bool memberBuyGroup = false;
+        bool printShipToAddr = false;
         string newInvoices = string.Empty;
 
         public Invoice()
@@ -71,7 +71,7 @@ namespace InvBox
             // todo ShipDate and OrderDate
             this.SoldToCustID = row.SoldToCustID;
             this.SoldToCustName = row.SoldToCustomerName;
-            this.SoldToInvoiceAddress = row.SoldToInvoiceAddress;
+
             this.SoldToAddressList = row.SoldToAddressList;
 
             this.BillToCustID = row.BTCustID;
@@ -90,10 +90,13 @@ namespace InvBox
             this.GetOrderInfo();
 
         }
+        public void FillShipTo()
+        {
+            ShipToAddress = new ShipTo(session, AddrTypes.ShipTo, this.SoldToCustID, this.ShipToId); 
+        }
         void FillAddresses()
         {
         }
-
         void GetOrderInfo()
         {
             Epicor.Mfg.BO.SalesOrder salesOrderObj;
@@ -118,6 +121,7 @@ namespace InvBox
         }
         public void AddLine(InvLine line)
         {
+            this.ShipToId = line.ShipToId;
             this.lines.Add(line);
         }
         public ArrayList Lines
@@ -219,15 +223,26 @@ namespace InvBox
                 salesRepPhone = value;
             }
         }
-        public StreetAddress ShipTo
+        public string ShipToId
         {
             get
             {
-                return shipTo;
+                return shipToId;
             }
             set
             {
-                shipTo = value;
+                shipToId = value;
+            }
+        }
+        public ShipTo ShipToAddress
+        {
+            get
+            {
+                return shipToAddress;
+            }
+            set
+            {
+                shipToAddress = value;
             }
         }
         public int PackID
@@ -283,17 +298,6 @@ namespace InvBox
             set
             {
                 soldToAddressList = value;
-            }
-        }
-        public bool SoldToInvoiceAddress
-        {
-            get
-            {
-                return soldToInvoiceAddress;
-            }
-            set
-            {
-                soldToInvoiceAddress = value;
             }
         }
         public string BillToCustID
@@ -481,6 +485,17 @@ namespace InvBox
             set
             {
                 orderFF = value;
+            }
+        }
+        public bool PrintShipToAddr
+        {
+            get
+            {
+                return printShipToAddr;
+            }
+            set
+            {
+                printShipToAddr = value;
             }
         }
     }

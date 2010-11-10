@@ -168,6 +168,7 @@ namespace InvBox
                 inv.TotalFreight = this.ShipMgr.TotalFreight;
                 inv.TrackingNo = this.ShipMgr.TrackingNumber;
                 FillInvoiceLines();
+                this.inv.FillShipTo();
             }
             catch (Exception e)
             {

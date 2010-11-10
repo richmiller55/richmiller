@@ -33,6 +33,7 @@ namespace InvBox
         string billToCustID;
         string billToCustName;
         string termsID;
+        string shipToId = "";
 
         public InvLine()
         {
@@ -57,6 +58,7 @@ namespace InvBox
             this.SoldToCustID = row.SoldToCustID;
             this.SoldToCustName = row.SoldToCustName;
             this.InvoiceDate = row.InvoiceDate;
+            this.ShipToId = row.ShipToNum;
             this.CalcDueDate();
         }
         void CalcDueDate()
@@ -271,6 +273,17 @@ namespace InvBox
             set
             {
                 custName = value;
+            }
+        }
+        public string ShipToId
+        {
+            get
+            {
+                return shipToId;
+            }
+            set
+            {
+                shipToId = value;
             }
         }
         public System.DateTime InvoiceDate
