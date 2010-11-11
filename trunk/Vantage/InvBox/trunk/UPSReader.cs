@@ -17,6 +17,16 @@ namespace InvBox
         charge,
         tranType
     }
+    public enum ups
+    {
+        trackingNo,
+        packSlipNo,
+        shipDate,
+        serviceClass,
+        weight,
+        charge,
+        tranType
+    }
     class UPSReader
     {
         string fullPath = @"D:\users\UPS";
@@ -33,7 +43,14 @@ namespace InvBox
             string[] filePaths = Directory.GetFiles(this.fullPath);
             foreach (string fileName in filePaths)
             {
-                tr = new StreamReader(fileName);
+                try
+                {
+                    tr = new StreamReader(fileName);
+                }
+                catch (Exception e)
+                {
+                    string message = e.Message;
+                }
                 ProcessFile();
                 tr.Close();
                 MoveFile(fileName);
@@ -69,7 +86,7 @@ namespace InvBox
                 int result = split[0].CompareTo("");
                 if (result == 0) continue;
 
-                this.packSlipStr = split[(int)fedEx.packSlipNo];
+                this.packSlipStr = split[(int)ups.packSlipNo];
                 
                 result = packSlipStr.CompareTo("po"); // to do modifiy for ups heading
                 if (result == 0) continue;
@@ -78,23 +95,24 @@ namespace InvBox
                 if (result == 0) continue;
 
                 int packSlip = Convert.ToInt32(packSlipStr);                                
-                string trackingNo = split[(int)fedEx.trackingNo];
+                string trackingNo = split[(int)ups.trackingNo];
                 
-                string shipDateStr = split[(int)fedEx.shipDate];
+                string shipDateStr = split[(int)ups.shipDate];
 
                 System.DateTime shipDate = convertStrToDate(shipDateStr);
-                string serviceClass = split[(int)fedEx.serviceClass];
+                string serviceClass = split[(int)ups.serviceClass];
 
-                string orderStr = split[(int)fedEx.orderNo];
-                int orderNo = 0;
-                if (orderStr.Length > 0)
-                {
-                    orderNo = Convert.ToInt32(orderStr);
-                }
-                string weightStr = split[(int)fedEx.weight];
+                // string orderStr = split[(int)ups.orderNo];
+                // int orderNo = 0;
+                // if (orderStr.Length > 0)
+                //{
+                  //  orderNo = Convert.ToInt32(orderStr);
+                //}
+                int orderNo = 656565; 
+                string weightStr = split[(int)ups.weight];
                 decimal weight = Convert.ToDecimal(weightStr);
 
-                string chargeStr = split[(int)fedEx.charge];
+                string chargeStr = split[(int)ups.charge];
                 decimal charge = Convert.ToDecimal(chargeStr);
                 decimal zero = 0.0M;
                 result = charge.CompareTo(zero);

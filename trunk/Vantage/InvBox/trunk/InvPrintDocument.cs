@@ -160,8 +160,14 @@ namespace InvBox
             e.Graphics.DrawString(inv.SoldTo.AddressStr, printFont, Brushes.Black, rect);
             rect = RectRightAddress(e);
             e.Graphics.DrawRectangle(pen, rect);
-            //e.Graphics.DrawString(inv.BillTo.AddressStr, printFont, Brushes.Black, rect);
-            e.Graphics.DrawString(inv.ShipToAddress.AddressStr, printFont, Brushes.Black, rect);
+            if (inv.ShipToId.CompareTo("") == 0)
+            {
+                e.Graphics.DrawString(inv.BillTo.AddressStr, printFont, Brushes.Black, rect);
+            }
+            else
+            {
+                e.Graphics.DrawString(inv.ShipToAddress.AddressStr, printFont, Brushes.Black, rect);
+            }
         }
         void Header(PrintPageEventArgs e)
         {
