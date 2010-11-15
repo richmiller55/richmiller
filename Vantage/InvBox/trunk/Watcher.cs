@@ -17,9 +17,15 @@ namespace InvBox
             string user = appVars.User;
             string pass = appVars.Password;
             string connectionStr = @"AppServerDC://VantageDB1:" + appVars.DataPort;
-            session = new Epicor.Mfg.Core.Session(user,pass,connectionStr,
-                Epicor.Mfg.Core.Session.LicenseType.Default);
-            
+            try
+            {
+                session = new Epicor.Mfg.Core.Session(user, pass, connectionStr,
+                    Epicor.Mfg.Core.Session.LicenseType.Default);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
             watcher = new FileSystemWatcher(dir, "*.*");
             watcher.Created += new FileSystemEventHandler(watcher_Created);
             watcher.Changed += new FileSystemEventHandler(watcher_Changed);
