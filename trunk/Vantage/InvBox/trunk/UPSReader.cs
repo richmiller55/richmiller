@@ -25,7 +25,10 @@ namespace InvBox
         serviceClass,
         weight,
         charge,
-        tranType
+        tranType,
+        xnumber,
+        funnyInt,
+        frtBilledTo
     }
     class UPSReader
     {
@@ -118,7 +121,7 @@ namespace InvBox
                 result = charge.CompareTo(zero);
                 // if (result == 0) continue;  // if collect then do not process
 
-                string tranType = split[(int)fedEx.tranType];
+                string tranType = split[(int)ups.tranType];
                 if (tranType.CompareTo("N") == 0)
                 {
                     m_shipMgr.AddShipmentLine(packSlip,trackingNo,shipDate,

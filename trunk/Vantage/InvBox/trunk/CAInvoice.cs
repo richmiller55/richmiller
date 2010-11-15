@@ -17,7 +17,6 @@ namespace InvBox
         int packSlipNo;
         ShipMgr shipMgr;
         int lastInvoiceNo;
-//        string batchName;
         string newInvoices = string.Empty;
         Invoice inv;
         public CAInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack,
@@ -35,12 +34,17 @@ namespace InvBox
 
             string invoices = string.Empty;
             string errors = string.Empty;
-            this.InvoicePack(pack, out invoices, out errors);
-            this.SetBatchStats();  // remember this sets lastInvoiceNumber
-            this.NewInvcMiscChrg(this.ShipMgr.TotalFreight, this.ShipMgr.TrackingNumber);
-            this.FillInvoiceInfo();
-            // then these two objects print the invoice
-            // InvoiceFormater invForm = new InvoiceFormater(this.TheInvoice);
+            InvoicePack(pack, out invoices, out errors);
+            SetBatchStats();  // remember this sets lastInvoiceNumber
+            FillInvoiceInfo();
+            if (inv.FreeFreight())
+            {
+                // logging
+            }
+            else
+            {
+                NewInvcMiscChrg(ShipMgr.TotalFreight, ShipMgr.TrackingNumber);
+            }
             InvPrintDocument printer = new InvPrintDocument(this.TheInvoice);
             printer.Print();
         }
@@ -145,7 +149,6 @@ namespace InvBox
          * */
         public void FillInvoiceLines()
         {
-
             ARInvoiceDataSet ds = new ARInvoiceDataSet();
             ds = arInvoice.GetByID(this.lastInvoiceNo);
             foreach (ARInvoiceDataSet.InvcDtlRow row in ds.InvcDtl.Rows)
@@ -177,38 +180,44 @@ namespace InvBox
         }
         public void NewInvcMiscChrg(decimal amount, string trackingNo)
         {
-            Epicor.Mfg.BO.ARInvoiceDataSet ds = new Epicor.Mfg.BO.ARInvoiceDataSet();
-            ds = arInvoice.GetByID(this.lastInvoiceNo);  // maybe better to lookup from pack
-            int invoiceLineDefault = 1;
-            arInvoice.GetNewInvcMisc(ds, this.lastInvoiceNo, invoiceLineDefault);
-            Epicor.Mfg.BO.ARInvoiceDataSet.InvcMiscRow miscRow =
-                (Epicor.Mfg.BO.ARInvoiceDataSet.InvcMiscRow)ds.InvcMisc.Rows[0];
-            string frtMiscCode = "1";
-            miscRow.MiscAmt = amount;
-            miscRow.DocMiscAmt = amount;
-            miscRow.DspDocMiscAmt = amount;
-            miscRow.DspMiscAmt = amount;
-            miscRow.Description = "Freight Charge";
-            miscRow.MiscCode = frtMiscCode;
-            miscRow.TaxCatID = "FREIGHT";
-            if (trackingNo.Length > 50)
+            bool billFreight = false;
+            if (shipMgr.FreightCharge.CompareTo(0.0M) == 1)
+                billFreight = true;
+            if (billFreight)
             {
-                miscRow.ShortChar01 = trackingNo.Substring(0, 49);
+                Epicor.Mfg.BO.ARInvoiceDataSet ds = new Epicor.Mfg.BO.ARInvoiceDataSet();
+                ds = arInvoice.GetByID(this.lastInvoiceNo);  // maybe better to lookup from pack
+                int invoiceLineDefault = 1;
+                arInvoice.GetNewInvcMisc(ds, this.lastInvoiceNo, invoiceLineDefault);
+                Epicor.Mfg.BO.ARInvoiceDataSet.InvcMiscRow miscRow =
+                    (Epicor.Mfg.BO.ARInvoiceDataSet.InvcMiscRow)ds.InvcMisc.Rows[0];
+                string frtMiscCode = "1";
+                miscRow.MiscAmt = amount;
+                miscRow.DocMiscAmt = amount;
+                miscRow.DspDocMiscAmt = amount;
+                miscRow.DspMiscAmt = amount;
+                miscRow.Description = "Freight Charge";
+                miscRow.MiscCode = frtMiscCode;
+                miscRow.TaxCatID = "FREIGHT";
+                if (trackingNo.Length > 50)
+                {
+                    miscRow.ShortChar01 = trackingNo.Substring(0, 49);
+                }
+                else
+                {
+                    miscRow.ShortChar01 = trackingNo;
+                }
+                string message = "Posted";
+                try
+                {
+                    arInvoice.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+                this.SetBatchStats();
             }
-            else
-            {
-                miscRow.ShortChar01 = trackingNo;
-            }
-            string message = "Posted";
-            try
-            {
-                arInvoice.Update(ds);
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-            }
-            this.SetBatchStats();
         }
         public Invoice TheInvoice
         {

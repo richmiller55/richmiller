@@ -7,15 +7,17 @@ namespace InvBox
     public class Customer
     {
         Epicor.Mfg.Core.Session session;
-        bool m_customerFound;
-        string m_custId;
-        string m_taxExempt;
-        string m_taxAuthorityCode;
-        string m_taxAuthorityDescr;
-        string m_taxRegionCode;
-        string m_taxRegionDescr;
-        string m_termsCode;
-        string m_termsDescr;
+
+        protected string m_custId;
+        protected string m_taxExempt;
+        protected string m_taxAuthorityCode;
+        protected string m_taxAuthorityDescr;
+        protected string m_taxRegionCode;
+        protected string m_taxRegionDescr;
+        protected string m_termsCode;
+        protected string m_termsDescr;
+        protected bool m_customerFound = false;
+        protected bool m_custFF = false;
 
         public Customer(Epicor.Mfg.Core.Session session, string custId)
         {
@@ -42,6 +44,11 @@ namespace InvBox
                 this.TaxRegionDescr = row.TaxRegionDescription;
                 this.TermsCode = row.TermsCode;
                 this.TermsDescr = row.TermsDescription;
+                string freightTerms = row.ShortChar01;
+                if (freightTerms.CompareTo("FF") == 0)
+                {
+                    this.CustFF = true;
+                }
                 custDs.Dispose();
             }
             catch (Exception e)
@@ -148,6 +155,17 @@ namespace InvBox
             set
             {
                 m_customerFound = value;
+            }
+        }
+        public bool CustFF
+        {
+            get
+            {
+                return m_custFF;
+            }
+            set
+            {
+                m_custFF = value;
             }
         }
     }
