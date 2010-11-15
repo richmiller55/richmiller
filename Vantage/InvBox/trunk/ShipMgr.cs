@@ -10,16 +10,12 @@ namespace InvBox
         public Hashtable shipments; // keyed by packSlip
         public ArrayList trackingNumbers;
         decimal totalFreight;
-        decimal totalWeight;
-        decimal freightCharge;
-        decimal surCharge;
-        int nPacks;
+        decimal totalWeight = 0.0M;
+        decimal freightCharge = 0.0M;
+        decimal surCharge = 2.5M;
+        int nPacks = 0;
         public ShipMgr()
         {
-            freightCharge = 0;
-            totalWeight = 0;
-            surCharge = 2.50m;
-            nPacks = 0;
             trackingNumbers = new ArrayList();
             shipments = new Hashtable();
         }

@@ -20,10 +20,10 @@ namespace InvBox
         StreetAddress billTo;
         string shipToId = "";
         ShipTo shipToAddress;
-
+        Customer soldToCustomer;
         // freight related
-        decimal freightCharge;
-        decimal totalFreight;
+        decimal freightCharge = 0.0M;
+        decimal totalFreight = 0.0M;
         string trackingNo;
         string shipVia;
 
@@ -42,22 +42,19 @@ namespace InvBox
         string salesRepName1;
         string salesRepPhone;
 
-        bool orderFF;
+        bool orderFF = false;
         bool invoiced;
-        bool packFound;
+        bool packFound = false;
         bool orderFound;
         bool packNeedsTracking = false;
         bool memberBuyGroup = false;
         bool printShipToAddr = false;
         string newInvoices = string.Empty;
 
-        public Invoice()
+        public bool FreeFreight()
         {
-            packFound = false;
-            orderFF = false;
-            packNeedsTracking = true;
-            FreightCharge = 0;
-            TotalFreight = 0;
+            bool result =  (soldToCustomer.CustFF | OrderFF);
+            return result;
         }
         public Invoice(Epicor.Mfg.Core.Session session,
                        Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
@@ -87,6 +84,8 @@ namespace InvBox
 
             this.BillTo = new StreetAddress(this.session, AddrTypes.BillTo, this.BillToCustID);
             this.SoldTo = new StreetAddress(this.session, AddrTypes.SoldTo, this.SoldToCustID);
+            this.SoldToCustomer = new Customer(session, SoldToCustID);
+
             this.GetOrderInfo();
 
         }
@@ -133,6 +132,17 @@ namespace InvBox
             set
             {
                 lines = value;
+            }
+        }
+        public Customer SoldToCustomer
+        {
+            get
+            {
+                return soldToCustomer;
+            }
+            set
+            {
+                soldToCustomer = value;
             }
         }
         public int InvoiceNo

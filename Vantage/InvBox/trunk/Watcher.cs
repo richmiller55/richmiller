@@ -7,14 +7,18 @@ namespace InvBox
 {
     class Watcher
     {
-        string dir = @"d:/users/UPS";
         FileSystemWatcher watcher;
         Epicor.Mfg.Core.Session session;
+        AppVarsMgr appVars;
         public Watcher()
         {
-
-            session = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
+            this.appVars = new AppVarsMgr();
+            string dir = appVars.WatchDirectory;
+            string user = appVars.User;
+            string pass = appVars.Password;
+            string connectionStr = @"AppServerDC://VantageDB1:" + appVars.DataPort;
+            session = new Epicor.Mfg.Core.Session(user,pass,connectionStr,
+                Epicor.Mfg.Core.Session.LicenseType.Default);
             
             watcher = new FileSystemWatcher(dir, "*.*");
             watcher.Created += new FileSystemEventHandler(watcher_Created);

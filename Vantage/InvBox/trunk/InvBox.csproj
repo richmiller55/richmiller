@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppVars.cs" />
     <Compile Include="BuyGroup.cs" />
     <Compile Include="CAInvoice.cs" />
     <Compile Include="Customer.cs" />
