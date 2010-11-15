@@ -25,7 +25,7 @@ namespace InvBox
             XmlTextReader reader = new XmlTextReader(file);
             reader.WhitespaceHandling = WhitespaceHandling.None;
             string element = "";
-            string readValue = "" ;
+            string readValue = "";
             while (reader.Read())
             {
                 bool ready = false;
@@ -54,6 +54,9 @@ namespace InvBox
                             WatchDirectory = readValue;
                             break;
                         case "database":
+                            break;
+                        case "dataPort":
+                            DataPort = readValue;
                             break;
                         case "buyGroupBatch":
                             BuyGroupBatch = readValue;
