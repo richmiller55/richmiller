@@ -38,7 +38,7 @@ namespace UpdateCustomerGeneral
 
     class UpdateTerritoryReader
     {
-        string file = "D:/users/rich/data/customerUpdates/terrTransfers109_83_6Jul10.txt";
+        string file = "D:/users/rich/data/customerUpdates/terrTransfer74_71_15Nov10.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
@@ -54,6 +54,7 @@ namespace UpdateCustomerGeneral
             {
                 string[] split = line.Split(new Char[] { '\t' });
                 string CustId = split[(int)enumTransfer.custId];
+                if (CustId.CompareTo("CustId") == 0) continue;
                 string NewTerr = split[(int)enumTransfer.newTerr];
                 string SalesRepNum = split[(int)enumTransfer.salesRepNum];
                 xman.ChangeTerrByID(CustId, NewTerr, SalesRepNum);
