@@ -23,7 +23,7 @@ namespace PartUpdate
 
         public PartUpdateXman()
         {
-            objSess = new Epicor.Mfg.Core.Session("rich", "xxx",
+            objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
                 "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.partObj = new Epicor.Mfg.BO.Part(objSess.ConnectionPool);
         }
@@ -84,6 +84,8 @@ namespace PartUpdate
                 ds = partObj.GetByID(partNum);
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
                 string ShortChar03 = split[(int)catalog.ShortChar03];
+                // row.PartDescription = catalog.description;
+
                 if (ShortChar03 != "N/A")
                 {
                     row.ShortChar03 = ShortChar03;
@@ -93,104 +95,43 @@ namespace PartUpdate
                 {
                     row.ShortChar04 = ShortChar04;
                 }
-                string ShortChar07 = split[(int)catalog.ShortChar07];
-                if (ShortChar07 != "N/A")
+                string ShortChar06 = split[(int)catalog.ShortChar06];
+                if (ShortChar06 != "N/A" && ShortChar06 != "")
                 {
-                    row.ShortChar07 = ShortChar07;
+                    row.ShortChar06 = ShortChar06;
                 }
-
+                string UserChar2 = split[(int)catalog.UserChar2];
+                if (UserChar2 != "N/A" && UserChar2 != "")
+                {
+                    row.UserChar2 = UserChar2;
+                }
                 string Character01 = split[(int)catalog.Character01];
                 if (Character01 != "N/A" && Character01 != "")
                 {
                     row.Character01 = Character01;
                 }
-
                 string Character02 = split[(int)catalog.Character02];
                 if (Character02 != "N/A" && Character02 != "")
                 {
                     row.Character02 = Character02;
                 }
-
                 string strNumber01 = split[(int)catalog.Number01];
                 int Number01 = Convert.ToInt32(strNumber01);
                 row.Number01 = Number01;
-                string strCheckBox02 = split[(int)catalog.CheckBox02];
-                if (strCheckBox02 == "N/A")
+
+                string strNumber08 = split[(int)catalog.Number08];
+                if (strNumber08 != "N/A")
                 {
-                    
-                }
-                else if (strCheckBox02 == "YES")
-                {
-                    row.CheckBox02 = true;
-                }
-                else 
-                {
-                    row.CheckBox02 = false;
-                }
-                string strCheckBox03 = split[(int)catalog.CheckBox03];
-                if (strCheckBox03 == "N/A")
-                {
-                    
-                }
-                else if (strCheckBox03 == "YES")
-                {
-                    row.CheckBox03 = true;
-                }
-                else
-                {
-                    row.CheckBox03 = false;
-                }
-                string strCheckBox04 = split[(int)catalog.CheckBox04];
-                if (strCheckBox04 == "N/A")
-                {
-                    
-                }
-                else if (strCheckBox04 == "YES")
-                {
-                    row.CheckBox04 = true;
-                }
-                else
-                {
-                    row.CheckBox04 = false;
-                }
-                string strCheckBox05 = split[(int)catalog.CheckBox05];
-                if (strCheckBox05 == "N/A")
-                {
-                    
-                }
-                else if (strCheckBox05 == "YES")
-                {
-                    row.CheckBox05 = true;
-                }
-                else
-                {
-                    row.CheckBox05 = false;
-                }
-                string strNumber05 = split[(int)catalog.Number05];
-                if (strNumber05 != "N/A")
-                {
-                    Decimal Number05 = Convert.ToDecimal(strNumber05);
-                    row.Number05 = Number05;
-                }
-                string strNumber06 = split[(int)catalog.Number06];
-                if (strNumber06 != "N/A")
-                {
-                    Decimal Number06 = Convert.ToDecimal(strNumber06);
-                    row.Number06 = Number06;
-                }
-                string strNumber07 = split[(int)catalog.Number07];
-                if (strNumber07 != "N/A")
-                {
-                    Decimal Number07 = Convert.ToDecimal(strNumber07);
-                    row.Number07 = Number07;
+                    Decimal Number08 = Convert.ToDecimal(strNumber08);
+                    row.Number08 = Number08;
                 }
                 string strUnitPrice = split[(int)catalog.UnitPrice];
-                Decimal UnitPrice = 0.0M;
                 if (strUnitPrice != "N/A")
                 {
-                    UnitPrice = Convert.ToDecimal(strUnitPrice);
+                    Decimal UnitPrice = Convert.ToDecimal(strUnitPrice);
                     row.UnitPrice = UnitPrice;
                 }
+                /*
                 string strNumber08 = split[(int)catalog.Number08];
                 if (strNumber08 != "N/A")
                 {
@@ -209,7 +150,7 @@ namespace PartUpdate
                     }
                     Decimal rndListPrice = Math.Round(ListPrice, 2);
                     row.Number08 = rndListPrice;
-                }
+                }  */
 
                 try
                 {
@@ -232,7 +173,7 @@ namespace PartUpdate
                 whseRow = (Epicor.Mfg.BO.PartDataSet.PartWhseRow)ds.PartWhse.Rows[0];
                 whseRow.WarehouseCode = "01";
                 whseRow.WarehouseDescription = "Hayward";
-                
+                string note = "";
                 try
                 {
                     partObj.Update(ds);
@@ -240,7 +181,7 @@ namespace PartUpdate
                 catch (Exception e)
                 {
                     string message = e.Message;
-                    string note = "update failed";
+                    note = "update failed";
                 }
 
                 ds = partObj.GetByID(partNum);
@@ -255,7 +196,7 @@ namespace PartUpdate
                 catch (Exception e)
                 {
                     string message = e.Message;
-                    string note = "update failed";
+                    note = "update failed";
                 }
             }
         }

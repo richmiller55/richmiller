@@ -9,20 +9,15 @@ namespace PartUpdate
 {
     public enum catalog
     {
+        description,
         UPC,
         ShortChar03,
         ShortChar04,
         Number01,
-        CheckBox02,
-        CheckBox03,
-        CheckBox04,
-        CheckBox05,
-        Number05,
-        Number06,
-        Number07,
-        ShortChar07,
         UnitPrice,
         Number08,
+        ShortChar06,
+        UserChar2,
         Character01,
         Character02,
         filler
@@ -106,7 +101,7 @@ namespace PartUpdate
         // string file = "D:/users/rich/data/PartUpdates/ReaderPriceUpdate102809.txt";
         // string file = "D:/users/rich/data/PartUpdates/PartsCode04May10.txt";
         // string file = "D:/users/rich/data/PartUpdates/updatePartWhsToHayward.txt";
-        string file = "D:/users/rich/data/PartUpdates/ListPriceUpdate9Sep10.txt";
+        string file = "D:/users/rich/data/PartUpdates/CA_Spring2011_CatalogCopyV1.txt";
         // string file = "D:/users/rich/data/PartUpdates/FallHoliday2010.txt";
         StreamReader tr;
         public UpdateTextReader()
@@ -122,8 +117,8 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
                 //xman.SetAsDefaultWarehouse(line);
-                xman.UpdateListPrice(line);
-                // xman.UpdateCatalog(line);
+                //xman.UpdateListPrice(line);
+                xman.UpdateCatalog(line);
             }
         }
     }
