@@ -9,17 +9,14 @@ namespace PartUpdate
 {
     public enum catalog
     {
-        description,
         UPC,
+        description,
+        ShortChar02,
         ShortChar03,
-        ShortChar04,
-        Number01,
-        UnitPrice,
-        Number08,
-        ShortChar06,
-        UserChar2,
-        Character01,
-        Character02,
+        ShortChar05,
+        Number02,
+        Number03,
+        RunOut,
         filler
     }
     public enum listPrice
@@ -101,7 +98,7 @@ namespace PartUpdate
         // string file = "D:/users/rich/data/PartUpdates/ReaderPriceUpdate102809.txt";
         // string file = "D:/users/rich/data/PartUpdates/PartsCode04May10.txt";
         // string file = "D:/users/rich/data/PartUpdates/updatePartWhsToHayward.txt";
-        string file = "D:/users/rich/data/PartUpdates/CA_Spring2011_CatalogCopyV1.txt";
+        string file = "D:/users/rich/data/PartUpdates/OrderingInformation121510.txt";
         // string file = "D:/users/rich/data/PartUpdates/FallHoliday2010.txt";
         StreamReader tr;
         public UpdateTextReader()
