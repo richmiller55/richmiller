@@ -84,53 +84,43 @@ namespace PartUpdate
                 ds = partObj.GetByID(partNum);
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
                 string ShortChar03 = split[(int)catalog.ShortChar03];
-                // row.PartDescription = catalog.description;
-
                 if (ShortChar03 != "N/A")
                 {
                     row.ShortChar03 = ShortChar03;
                 }
-                string ShortChar04 = split[(int)catalog.ShortChar04];
-                if (ShortChar04 != "N/A")
+                string ShortChar05 = split[(int)catalog.ShortChar05];
+                if (ShortChar05 != "N/A")
                 {
-                    row.ShortChar04 = ShortChar04;
+                    row.ShortChar05 = ShortChar05;
                 }
-                string ShortChar06 = split[(int)catalog.ShortChar06];
-                if (ShortChar06 != "N/A" && ShortChar06 != "")
+                string strNumber02 = split[(int)catalog.Number02];
+                if (strNumber02.CompareTo("") != 0)
                 {
-                    row.ShortChar06 = ShortChar06;
+                    int Number02 = Convert.ToInt32(strNumber02);
+                    row.Number02 = Number02;
                 }
-                string UserChar2 = split[(int)catalog.UserChar2];
-                if (UserChar2 != "N/A" && UserChar2 != "")
+                string strNumber03 = split[(int)catalog.Number03];
+                if (strNumber03.CompareTo("") != 0)
                 {
-                    row.UserChar2 = UserChar2;
+                    Decimal Number03 = Convert.ToDecimal(strNumber03);
+                    row.Number03 = Number03;
                 }
-                string Character01 = split[(int)catalog.Character01];
-                if (Character01 != "N/A" && Character01 != "")
+                string RunOutStr = split[(int)catalog.RunOut];
+                bool runOut = true;
+                if (RunOutStr.CompareTo("FALSE") == 0)
                 {
-                    row.Character01 = Character01;
+                    runOut = false;
                 }
-                string Character02 = split[(int)catalog.Character02];
-                if (Character02 != "N/A" && Character02 != "")
+                row.RunOut = runOut;
+                if (row.IsISOrigCountryNumNull())
                 {
-                    row.Character02 = Character02;
+                    row.ISOrigCountryNum = 42;
                 }
-                string strNumber01 = split[(int)catalog.Number01];
-                int Number01 = Convert.ToInt32(strNumber01);
-                row.Number01 = Number01;
+                if (row.ISOrigCountryNum == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
 
-                string strNumber08 = split[(int)catalog.Number08];
-                if (strNumber08 != "N/A")
-                {
-                    Decimal Number08 = Convert.ToDecimal(strNumber08);
-                    row.Number08 = Number08;
-                }
-                string strUnitPrice = split[(int)catalog.UnitPrice];
-                if (strUnitPrice != "N/A")
-                {
-                    Decimal UnitPrice = Convert.ToDecimal(strUnitPrice);
-                    row.UnitPrice = UnitPrice;
-                }
                 /*
                 string strNumber08 = split[(int)catalog.Number08];
                 if (strNumber08 != "N/A")
