@@ -31,9 +31,9 @@ namespace InvBox
         {
             this.inv = inv;
             invoiceTotal = 0;
-            this.PrinterSettings.PrinterName = "Adobe PDF";
-           // this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
-            this.PrinterSettings.PrintFileName = "rich.pdf";
+            //this.PrinterSettings.PrinterName = "Adobe PDF";
+            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
+            // this.PrinterSettings.PrintFileName = "rich.pdf";
         }
         protected override void OnBeginPrint(PrintEventArgs e)
         {

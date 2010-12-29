@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace InvBox
 {
@@ -10,6 +11,7 @@ namespace InvBox
         FileSystemWatcher watcher;
         Epicor.Mfg.Core.Session session;
         AppVarsMgr appVars;
+        ExReport report = new ExReport();
         public Watcher()
         {
             this.appVars = new AppVarsMgr();
@@ -25,6 +27,9 @@ namespace InvBox
             catch (Exception e)
             {
                 string message = e.Message;
+                MessageBox.Show("Login failed - Check xml and retry " + message );
+                this.report.AddMesage("loginFailed", message + " user " + appVars.User);
+                Application.Exit();
             }
             watcher = new FileSystemWatcher(dir, "*.*");
             watcher.Created += new FileSystemEventHandler(watcher_Created);
@@ -48,7 +53,8 @@ namespace InvBox
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                UPSReader reader = new UPSReader(this.session);
+                UPSReader reader = new UPSReader(this.session,this.report);
+                this.report.UpdatePage();
             }
         }
         private static void OnError(object source, ErrorEventArgs e)

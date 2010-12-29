@@ -19,10 +19,15 @@ namespace InvBox
         int lastInvoiceNo;
         string newInvoices = string.Empty;
         Invoice inv;
-        public CAInvoice(Epicor.Mfg.Core.Session vanSession, string arInvGroup, string pack,
+        ExReport report;
+        public CAInvoice(Epicor.Mfg.Core.Session vanSession,
+                         ExReport report,
+                         string arInvGroup,
+                         string pack,
                          ShipMgr shipMgr)
         {
             this.session = vanSession;
+            this.report = report;
             this.arInvoice = new Epicor.Mfg.BO.ARInvoice(vanSession.ConnectionPool);
             this.invGroup = arInvGroup;
             this.ShipMgr = shipMgr;
@@ -39,7 +44,7 @@ namespace InvBox
             FillInvoiceInfo();
             if (inv.FreeFreight())
             {
-                // logging
+                report.AddMesage("CAInvoice:ctor", "Free Freight Do not bill freight");
             }
             else
             {
