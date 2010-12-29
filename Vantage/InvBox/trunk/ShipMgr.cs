@@ -9,13 +9,15 @@ namespace InvBox
     {
         public Hashtable shipments; // keyed by packSlip
         public ArrayList trackingNumbers;
+        ExReport report;
         decimal totalFreight;
         decimal totalWeight = 0.0M;
         decimal freightCharge = 0.0M;
         decimal surCharge = 2.5M;
         int nPacks = 0;
-        public ShipMgr()
+        public ShipMgr(ExReport report)
         {
+            this.report = report;
             trackingNumbers = new ArrayList();
             shipments = new Hashtable();
         }
@@ -38,6 +40,12 @@ namespace InvBox
                                     decimal charge)
         {
             Shipment ship = GetShipment(packSlip);
+            string key = "ShipMgr:AddShipmentLine ";
+            string message = " track " + trackingNo;
+            message += " pack " + packSlip;
+            message += " weight " + weight.ToString();
+            message += " charge " + charge.ToString();
+            report.AddMesage(key,message);
             ship.AddLine(trackingNo, shipDate,classOfService,orderNo,weight, charge);
             this.FreightCharge += charge;
             this.totalWeight += weight;

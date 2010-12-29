@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Web.UI;
 
 namespace InvBox
 {
@@ -37,11 +38,13 @@ namespace InvBox
         StreamReader tr;
         ShipMgr m_shipMgr;
         string packSlipStr;
+        ExReport report;
         Epicor.Mfg.Core.Session session;
-        public UPSReader(Epicor.Mfg.Core.Session vanSession)
+        public UPSReader(Epicor.Mfg.Core.Session vanSession, ExReport report)
         {
             this.session = vanSession;
-            this.m_shipMgr = new ShipMgr();
+            this.report = report;
+            this.m_shipMgr = new ShipMgr(this.report);
             // insert try catch block here
             string[] filePaths = Directory.GetFiles(this.fullPath);
             foreach (string fileName in filePaths)
@@ -60,23 +63,25 @@ namespace InvBox
                 InvoiceShipment();
             }
         }
-
         public ShipMgr GetShipMgr() { return m_shipMgr; }
 
         private void MoveFile(string fullName)
         {
             string fileName = Path.GetFileName(fullName);
             string prefix = Path.GetFileNameWithoutExtension(fullName);
-            
+
             DateTime now = DateTime.Now;
             string date = now.Year.ToString("0000") + now.Month.ToString("00") + now.Day.ToString("00");
             string time = now.Hour.ToString("00") + now.Minute.ToString("00") + now.Second.ToString("00");
-            File.Move(fullName, dumpPath + "\\" + prefix + "_" + date + "_" + time + ".txt");
+            string newFileName = prefix + "_" + date + "_" + time + ".txt";
+            File.Move(fullName, dumpPath + "\\" + newFileName);
+            string message = "moving " + newFileName;
+            report.AddMesage("ShipMgr:MoveFile", message);
         }
 
         private void InvoiceShipment()
         {
-            CAInvoice cainv = new CAInvoice(this.session, "RLM85", this.packSlipStr,GetShipMgr());
+            CAInvoice cainv = new CAInvoice(this.session,this.report, "RLM85", this.packSlipStr, GetShipMgr());
         }
         private void ProcessFile()
         {
@@ -111,7 +116,7 @@ namespace InvBox
                 //{
                   //  orderNo = Convert.ToInt32(orderStr);
                 //}
-                int orderNo = 656565; 
+                int orderNo = 656565;  // fix this thing
                 string weightStr = split[(int)ups.weight];
                 decimal weight = Convert.ToDecimal(weightStr);
 

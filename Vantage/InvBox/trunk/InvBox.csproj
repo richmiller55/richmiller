@@ -89,6 +89,7 @@
     <Compile Include="BuyGroup.cs" />
     <Compile Include="CAInvoice.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="ExReport.cs" />
     <Compile Include="InvPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
