@@ -45,7 +45,7 @@ namespace InvBox
             message += " pack " + packSlip;
             message += " weight " + weight.ToString();
             message += " charge " + charge.ToString();
-            report.AddMesage(key,message);
+            report.AddMessage(key,message);
             ship.AddLine(trackingNo, shipDate,classOfService,orderNo,weight, charge);
             this.FreightCharge += charge;
             this.totalWeight += weight;

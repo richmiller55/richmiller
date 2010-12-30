@@ -20,6 +20,8 @@ namespace InvBox
         string newInvoices = string.Empty;
         Invoice inv;
         ExReport report;
+        int messCount = 100;
+        string messPrefix = "caInvoice_";
         public CAInvoice(Epicor.Mfg.Core.Session vanSession,
                          ExReport report,
                          string arInvGroup,
@@ -44,14 +46,23 @@ namespace InvBox
             FillInvoiceInfo();
             if (inv.FreeFreight())
             {
-                report.AddMesage("CAInvoice:ctor", "Free Freight Do not bill freight");
+
+                report.AddMessage(GetNextMessageKey(), "Free Freight " + ShipMgr.TotalFreight.ToString());
             }
             else
             {
                 NewInvcMiscChrg(ShipMgr.TotalFreight, ShipMgr.TrackingNumber);
+                string message = "Freight Billing Amt " + ShipMgr.TotalFreight.ToString();
+                report.AddMessage(GetNextMessageKey(), message);
             }
             InvPrintDocument printer = new InvPrintDocument(this.TheInvoice);
             printer.Print();
+        }
+        public string GetNextMessageKey()
+        {
+            string messKey = this.messPrefix + this.messCount.ToString();
+            this.messCount += 1;
+            return messKey;
         }
         public int GetInvoiceFromPack(int pack)
         {
@@ -216,11 +227,15 @@ namespace InvBox
                 try
                 {
                     arInvoice.Update(ds);
+
                 }
                 catch (Exception e)
                 {
                     message = e.Message;
                 }
+                string logMessage = "Freight Billed " + this.lastInvoiceNo.ToString();
+                report.AddMessage(GetNextMessageKey(), logMessage);
+
                 this.SetBatchStats();
             }
         }

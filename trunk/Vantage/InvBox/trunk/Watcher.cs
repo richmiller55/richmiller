@@ -28,7 +28,8 @@ namespace InvBox
             {
                 string message = e.Message;
                 MessageBox.Show("Login failed - Check xml and retry " + message );
-                this.report.AddMesage("loginFailed", message + " user " + appVars.User);
+                this.report.AddMessage("loginFailed", message + " user " + appVars.User);
+                this.report.UpdatePage();
                 Application.Exit();
             }
             watcher = new FileSystemWatcher(dir, "*.*");
@@ -40,14 +41,14 @@ namespace InvBox
         }
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {
-/*
-            watcher.EnableRaisingEvents = false;
-            if (e.ChangeType == WatcherChangeTypes.Created)
-            {
-                UPSReader reader = new UPSReader(this.session);
-            }
-            watcher.EnableRaisingEvents = true;
-*/
+            /*
+              watcher.EnableRaisingEvents = false;
+              if (e.ChangeType == WatcherChangeTypes.Created)
+              {
+                 UPSReader reader = new UPSReader(this.session);
+              }
+              watcher.EnableRaisingEvents = true;
+            */
         }
         void watcher_Created(object sender, FileSystemEventArgs e)
         {

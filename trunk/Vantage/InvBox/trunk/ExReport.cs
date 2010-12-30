@@ -12,8 +12,11 @@ namespace InvBox
         public bool evenRow = true;
         public ExReport()
         {
+            messages = new Hashtable();
+            AddMessage("A1", "Logging Started");
+            UpdatePage();
         }
-        public void AddMesage(string key, string message)
+        public void AddMessage(string key, string message)
         {
             messages.Add(key, message);
         }
@@ -89,39 +92,41 @@ namespace InvBox
         }
         private string LoopRows()
         {
-            StringBuilder html = new StringBuilder(2000);            
+            StringBuilder html = new StringBuilder(2000);
             foreach (DictionaryEntry de in messages)
             {
                 //Console.WriteLine("Key = {0}, Value = {1}", de.Key, de.Value);
-                html.Append(de.Value);
+                TableRow(de);
             }
             return html.ToString();
         }
-        private string TableRow(string message)
+        private string TableRow(DictionaryEntry de)
         {
             StringBuilder html = new StringBuilder(200);
-            string evenTD = @"<tr><td style=""background-color: #FFFACD;"">>";
-            string oddTD = @"<tr><td style=""background-color: #ADD8E6;"">>";
-            string suffix = @"</td></tr>";
+            string evenTR = @"<tr style=""background-color: #FFFACD;"">";
+            string oddTR  = @"<tr style=""background-color: #ADD8E6;"">";
+            string prefix = @"<td>";
+            string suffix = @"</td>";
             if (this.evenRow.CompareTo(true) == 0)
             {
-                html.Append(evenTD);
+                html.Append(evenTR);
                 this.evenRow = false;
             }
             else
             {
-                html.Append(oddTD);
+                html.Append(oddTR);
                 this.evenRow = true;
             }
-            html.Append(message);
-            html.Append(suffix);
+            string tdKey = prefix + de.Key.ToString() + suffix;
+            html.Append(tdKey);
+            string tdValue = prefix + de.Value.ToString() + suffix;
+            html.Append(tdValue);
+            html.Append("</tr>");
             return html.ToString();
         }
         public void UpdatePage()
         {
-            foreach (DictionaryEntry de in messages)
-            {
-            }
+            this.RefreshStatusPage();
         }
         public void SerializeReport()
         {
