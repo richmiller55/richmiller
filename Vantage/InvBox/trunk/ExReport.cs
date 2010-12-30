@@ -8,24 +8,29 @@ namespace InvBox
 {
     public class ExReport
     {
-        public Hashtable messages;
+        public SortedDictionary<string,string> messages;
         public bool evenRow = true;
+        public int messageNumber = 100;
         public ExReport()
         {
-            messages = new Hashtable();
+            messages = new SortedDictionary<string,string>();
             AddMessage("A1", "Logging Started");
             UpdatePage();
         }
         public void AddMessage(string key, string message)
         {
-            messages.Add(key, message);
+            string compositeKey = "a_" + messageNumber.ToString() + "_" + key;
+            messageNumber += 1;
+            messages.Add(compositeKey, message);
         }
         private void RefreshStatusPage()
         {
             string fileName = "InvBoxStatus.html";
-            using (StreamWriter outfile = new StreamWriter(fileName, false))
+            string dir = @"d:\users\message\";
+            using (StreamWriter outfile = new StreamWriter(dir + fileName, false))
             {
                 outfile.Write(this.WebPage());
+                outfile.Close();
             }
         }
         private string WebPage()
@@ -81,26 +86,26 @@ namespace InvBox
         private string Body()
         {
             StringBuilder html = new StringBuilder(5000);
-            html.Append(@"<body style=""background-color: #f0fff0; font-family: Verdana; font-size: 8pt;"">>");
+            html.Append(@"<body style=""background-color: #f0fff0; font-family: Courier; font-size: 8pt;"">>");
             html.Append(this.TableStart());
             html.Append(this.LoopRows());
             return html.ToString();
         }
         private string TableStart()
         {
-            return @"<Table width=50%>";
+            return @"<Table width=90%>";
         }
         private string LoopRows()
         {
             StringBuilder html = new StringBuilder(2000);
-            foreach (DictionaryEntry de in messages)
+            foreach (KeyValuePair<string, string> de in messages)
             {
                 //Console.WriteLine("Key = {0}, Value = {1}", de.Key, de.Value);
-                TableRow(de);
+                html.Append(TableRow(de));
             }
             return html.ToString();
         }
-        private string TableRow(DictionaryEntry de)
+        private string TableRow(KeyValuePair<string, string> de)
         {
             StringBuilder html = new StringBuilder(200);
             string evenTR = @"<tr style=""background-color: #FFFACD;"">";

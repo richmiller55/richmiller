@@ -79,7 +79,7 @@ namespace InvBox
             string newFileName = prefix + "_" + date + "_" + time + ".txt";
             File.Move(fullName, dumpPath + "\\" + newFileName);
             string message = "moving " + newFileName;
-            report.AddMessage("ShipMgr:MoveFile", message);
+            report.AddMessage(GetNextMessageKey(), message);
         }
 
         private void InvoiceShipment()
@@ -148,11 +148,10 @@ namespace InvBox
             else
             {
                 m_shipMgr.RemoveShipmentLine(packSlip, trackingNo);
-                string message =  "Void Transaction " + ShipMgr.TotalFreight.ToString();
+                string message = "Void Transaction Line - PackSlip " + packSlip.ToString(); 
                 report.AddMessage(GetNextMessageKey(),message);
             }
         }
-
         private void ProcessFedEx(string[] split)
         {
             this.packSlipStr = split[(int)fedEx.packSlipNo];

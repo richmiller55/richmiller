@@ -15,6 +15,8 @@ namespace InvBox
         decimal freightCharge = 0.0M;
         decimal surCharge = 2.5M;
         int nPacks = 0;
+        string messPrefix = "ShipMgr_";
+        int messCount = 100;
         public ShipMgr(ExReport report)
         {
             this.report = report;
@@ -40,12 +42,11 @@ namespace InvBox
                                     decimal charge)
         {
             Shipment ship = GetShipment(packSlip);
-            string key = "ShipMgr:AddShipmentLine ";
             string message = " track " + trackingNo;
             message += " pack " + packSlip;
             message += " weight " + weight.ToString();
             message += " charge " + charge.ToString();
-            report.AddMessage(key,message);
+            report.AddMessage(GetNextMessageKey(),message);
             ship.AddLine(trackingNo, shipDate,classOfService,orderNo,weight, charge);
             this.FreightCharge += charge;
             this.totalWeight += weight;
@@ -176,5 +177,12 @@ namespace InvBox
             }
             return (Shipment)shipments[packSlip];
         }
+        public string GetNextMessageKey()
+        {
+            string messKey = this.messPrefix + this.messCount.ToString();
+            this.messCount += 1;
+            return messKey;
+        }
+
     }
 }
