@@ -78,10 +78,9 @@ namespace InvBox
             string time = now.Hour.ToString("00") + now.Minute.ToString("00") + now.Second.ToString("00");
             string newFileName = prefix + "_" + date + "_" + time + ".txt";
             File.Move(fullName, dumpPath + "\\" + newFileName);
-            string message = "moving " + newFileName;
+            string message = "New File Name " + newFileName;
             report.AddMessage(GetNextMessageKey(), message);
         }
-
         private void InvoiceShipment()
         {
             CAInvoice cainv = new CAInvoice(this.session,this.report, "RLM85", this.packSlipStr, GetShipMgr());
