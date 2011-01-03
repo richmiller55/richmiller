@@ -9,7 +9,12 @@ namespace VoidTags
 {
     public enum tagList
     {
-        tagNum
+        tagNum,
+        groupCode,
+        partNum,
+        warehouse,
+        binNum,
+        filler
     }
     class VoidTagReader
     {
