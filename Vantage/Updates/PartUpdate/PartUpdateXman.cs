@@ -32,6 +32,7 @@ namespace PartUpdate
         {
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)listPrice.UPC];
+            if (partNum.CompareTo("UPC") == 0) return;
             if (this.partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
@@ -60,6 +61,34 @@ namespace PartUpdate
                 }
                 Decimal rndListPrice = Math.Round(ListPrice, 2);
                 row.Number08 = rndListPrice;
+                try
+                {
+                    this.partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    string message = e.Message;
+                }
+            }
+        }
+        public void PriceUpdate(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)priceUpdate.UPC];
+            if (partNum.CompareTo("UPC") == 0) return;
+            if (this.partObj.PartExists(partNum))
+            {
+                ds = partObj.GetByID(partNum);
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+
+                if (row.IsISOrigCountryNumNull() || row.ISOrigCountryNum == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+
+                row.UnitPrice = Convert.ToDecimal(split[(int)priceUpdate.unitPrice]);
+                row.Number08 = Convert.ToDecimal(split[(int)priceUpdate.listPrice]);
+
                 try
                 {
                     this.partObj.Update(ds);
@@ -291,34 +320,6 @@ namespace PartUpdate
                 row.Character02 = descr;
                 row.Character01 = colors;
                 row.ISOrigCountryNum = 42;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void SimpleUpdatePrice(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)priceUpdate.UPC];
-
-            string unitPrice = split[(int)priceUpdate.price];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                
-                row.UnitPrice = Convert.ToDecimal(unitPrice);
-                if (row.IsISOrigCountryNumNull())
-                {
-                    row.ISOrigCountryNum = 42;
-                }
                 string message = "Posted";
                 try
                 {

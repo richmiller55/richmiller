@@ -32,7 +32,9 @@ namespace PartUpdate
     public enum priceUpdate
     {
         UPC,
-        price,
+        style,
+        unitPrice,
+        listPrice,
         filler
     }
     public enum infoUpdate
@@ -98,8 +100,8 @@ namespace PartUpdate
         // string file = "D:/users/rich/data/PartUpdates/ReaderPriceUpdate102809.txt";
         // string file = "D:/users/rich/data/PartUpdates/PartsCode04May10.txt";
         // string file = "D:/users/rich/data/PartUpdates/updatePartWhsToHayward.txt";
-        string file = "D:/users/rich/data/PartUpdates/OrderingInformation121510.txt";
-        // string file = "D:/users/rich/data/PartUpdates/FallHoliday2010.txt";
+        // string file = "D:/users/rich/data/PartUpdates/OrderingInformation121510.txt";
+        string file = "D:/users/rich/data/PartUpdates/PriceToUpdate010511.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -114,8 +116,8 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
                 //xman.SetAsDefaultWarehouse(line);
-                //xman.UpdateListPrice(line);
-                xman.UpdateCatalog(line);
+                xman.PriceUpdate(line);
+                // xman.UpdateCatalog(line);
             }
         }
     }
