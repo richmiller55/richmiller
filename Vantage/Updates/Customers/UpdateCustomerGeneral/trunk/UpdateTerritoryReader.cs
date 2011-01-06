@@ -19,15 +19,15 @@ namespace UpdateCustomerGeneral
     public enum colAddrOld
     {
 	CustId,
-    CustNum, 
-    Name,
-    addr1,
+    	CustNum, 
+	Name,
+	addr1,
 	City,
-    st,
-    zip,
-    currentTerr,
-    currRep,
-    groupCode
+	st,
+	zip,
+	currentTerr,
+	currRep,
+	groupCode
     }
     public enum colAddr
     {
@@ -38,7 +38,7 @@ namespace UpdateCustomerGeneral
 
     class UpdateTerritoryReader
     {
-        string file = "D:/users/rich/data/customerUpdates/terrTransfer74_71_15Nov10.txt";
+        string file = "D:/users/rich/data/customerUpdates/terrTransfers_82_36.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
