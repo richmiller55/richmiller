@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace PartUpdate
+namespace OrderCloseLines
 {
     static class Program
     {
@@ -12,11 +11,7 @@ namespace PartUpdate
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             UpdateTextReader reader = new UpdateTextReader();
-            Application.Run(new Form1());
-
         }
     }
 }
