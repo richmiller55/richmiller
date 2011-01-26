@@ -1,14 +1,16 @@
+# undef DEBUG
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+// using Microsoft.Data.Odbc;
+using System.Data.Odbc;
 
-namespace InvBox
+namespace InvPrt
 {
     public class Invoice
     {
-        Epicor.Mfg.Core.Session session;
         private ArrayList lines = new ArrayList();
-
         int invoiceNo;
         int packID;
         int salesOrder;
@@ -30,7 +32,6 @@ namespace InvBox
         string soldToCustID;
         string soldToCustName;
         string soldToAddressList;
-        // bool soldToInvoiceAddress;  // what the hell is this for?
         string billToCustID;
         string billToCustName;
         bool billToInvoiceAddress;
@@ -51,19 +52,48 @@ namespace InvBox
         bool printShipToAddr = false;
         string newInvoices = string.Empty;
 
-        public bool FreeFreight()
+        public void FillInvoice()
         {
-            bool result =  (soldToCustomer.CustFF | OrderFF);
-            return result;
         }
-        public Invoice(Epicor.Mfg.Core.Session session,
-                       Epicor.Mfg.BO.ARInvoiceDataSet.InvcHeadRow row)
+        public Invoice(int invoiceNum)
         {
-            this.session = session;
-            this.InvoiceNo = row.InvoiceNum;
-            this.PackID = row.PackSlipNum;
-            this.SalesOrder = row.OrderNum;
+            this.InvoiceNo = invoiceNum;
+	    string query = this.GetSelectInvHead(invoiceNum);
+            OdbcConnection connection = new OdbcConnection("DSN=test");
+            OdbcCommand command = new OdbcCommand(query,connection);
+            connection.Open();
+            OdbcDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                this.OrderNo = reader["OrderNum"]; 
+                this.InvoiceDate = reader["OrderNum"]; 
+		this.InvoiceAmt = reader["InvoiceAmt"];
+		this.OrderDate = reader["OrderDate"];
+		this.PONum = reader["PONum"];
+	    }
+        }
+	private string GetSelectInvHead(int invoiceNum)
+	{
+            StringBuilder query = " select ";
+	    query += "ih.InvoiceNum as InvoiceNum,";	
+	    query += "ih.OrderNum as OrderNum,";	
+	    query += "ih.InvoiceDate as InvoiceDate,";	
+	    query += "ih.CreditMemo as CreditMemo,";	
+	    query += "ih.InvoiceAmt as InvoiceAmt,";	
+	    query += "oh.OrderDate as OrderDate,";	
+	    query += "oh.PONum as PONum,";	
+	    query += "oh.ShipViaCode as ShipViaCode,";	
+	    query += "1 as filler ";	
 
+            query += " from InvcHead as ih";
+            query += " left join OrderHed as oh" ;
+            query += " on oh.OrderNum = ih.OrderNum " ;
+	    query += "";
+            query += " where ih.InvoiceNum = ";
+            query += invoiceNum.ToString();
+	    return query.ToString();
+	}
+# if DEBUG        
             this.InvoiceDate = row.InvoiceDate;
             // todo ShipDate and OrderDate
             this.SoldToCustID = row.SoldToCustID;
@@ -87,7 +117,7 @@ namespace InvBox
             this.SoldToCustomer = new Customer(session, SoldToCustID);
 
             this.GetOrderInfo();
-
+# endif
         }
         public void FillShipTo()
         {

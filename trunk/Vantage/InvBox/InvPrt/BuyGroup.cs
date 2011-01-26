@@ -2,40 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace InvBox
+namespace InvPrt
 {
     class BuyGroup
     {
-        Epicor.Mfg.BO.Customer custObj;
-        Epicor.Mfg.BO.CustomerDataSet ds;
         bool buyGroupMember = false;
-        public BuyGroup(Epicor.Mfg.Core.Session session, int custNum)
+        int custNum;
+        string custID;
+        public BuyGroup(int custNum)
         {
-            this.custObj = new Epicor.Mfg.BO.Customer(session.ConnectionPool);
-            this.ds = this.custObj.GetByID(custNum);
+            this.custNum = custNum;
             this.DetermineIfBuyGroup();
         }
-        public BuyGroup(Epicor.Mfg.Core.Session session, string custId)
+        public BuyGroup(string custID)
         {
-            this.custObj = new Epicor.Mfg.BO.Customer(session.ConnectionPool);
-            this.ds = this.custObj.GetByCustID(custId);
+            this.custID = custID;
             this.DetermineIfBuyGroup();
         }
         private void DetermineIfBuyGroup()
         {
-            int arrayLen = this.ds.CustBillTo.Rows.Count;
-            while (arrayLen > 0)
-            {
-                Epicor.Mfg.BO.CustomerDataSet.CustBillToRow btRow =
-                (Epicor.Mfg.BO.CustomerDataSet.CustBillToRow)this.ds.CustBillTo.Rows[arrayLen - 1];
 
-                if (btRow.DefaultBillTo)
-                {
-                    this.buyGroupMember = true;
-                    break;
-                }
-                arrayLen--;
-            }
         }
         public bool GetBuyGroupMember()
         {
