@@ -1,8 +1,9 @@
+# undef DEBUG
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace InvBox
+namespace InvPrt
 {
     public class InvLine
     {
@@ -37,10 +38,7 @@ namespace InvBox
 
         public InvLine()
         {
-            // roll your own object
-        }
-        public InvLine(Epicor.Mfg.BO.ARInvoiceDataSet.InvcDtlRow row)
-        {
+# if DEBUG
             this.InvoiceNo = row.InvoiceNum;
             this.InvoiceLineNo = row.InvoiceLine;
             this.PackID = row.PackNum;  // check this mapping
@@ -60,6 +58,7 @@ namespace InvBox
             this.InvoiceDate = row.InvoiceDate;
             this.ShipToId = row.ShipToNum;
             this.CalcDueDate();
+# endif
         }
         void CalcDueDate()
         {

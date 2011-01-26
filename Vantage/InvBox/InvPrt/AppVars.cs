@@ -3,7 +3,7 @@ using System.Xml;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace InvBox
+namespace InvPrt
 {
     public class AppVarsMgr
     {
