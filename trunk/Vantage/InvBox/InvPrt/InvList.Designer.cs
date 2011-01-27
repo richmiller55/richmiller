@@ -1,4 +1,4 @@
-namespace WindowsApplication1
+namespace InvPrt
 {
     partial class MainForm
     {

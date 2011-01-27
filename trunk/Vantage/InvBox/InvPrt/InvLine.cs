@@ -2,15 +2,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Odbc;
+using System.Text;
 
 namespace InvPrt
 {
     public class InvLine
     {
-        int invoiceNo;
-        int invoiceLineNo;
+        int invoiceNum;
+        int invoiceLineNum;
         int packID;
         int packLine;
+	int orderNum;
         string part;
         string description;
         string unitOfMeasure;
@@ -19,11 +22,17 @@ namespace InvPrt
         decimal openQty;
         decimal unitPrice;
         decimal listPrice;
-        decimal discountFromList; 
+
+        decimal discount;
+	decimal discountPercent;
         decimal discountOnOrder;  // verify what this thing is a percent or amt
         decimal extPrice;
+	decimal sellingFactor;
+	string  sellingFactorDirection;
+	string  taxExempt;
+	string taxCatID;
+        decimal miscCharge;
 
-        decimal custMiscCharge;
         decimal taxAmount;
         decimal docLineTotal;
         string custName;
@@ -36,8 +45,65 @@ namespace InvPrt
         string termsID;
         string shipToId = "";
 
-        public InvLine()
+        public InvLine(int invoiceNum)
         {
+            this.InvoiceNo = invoiceNum;
+            string query = this.GetSelectInvDtl(invoiceNum);
+            OdbcConnection connection = new OdbcConnection("DSN=test");
+            OdbcCommand command = new OdbcCommand(query, connection);
+            connection.Open();
+            OdbcDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                this.OrderNo = reader["OrderNum"];
+                this.InvoiceNum = reader["InvoiceNum"];
+                this.InvoiceLine = reader["InvoiceLine"];
+                this.SellingShipQty = reader["SellingShipQty"];
+                this.UnitPrice = reader["UnitPrice"];
+                this.ExtPrice = reader["ExtPrice"];
+                this.ShipToId = reader["ShipToNum"];
+                this.PartNum = reader["PartNum"];
+                this.PartDescription = reader["PartDescription"];
+                this.Discount = reader["Discount"];
+                this.DiscountPercent = reader["DiscountPercent"];
+                this.SellingFactor = reader["SellingFactor"];
+                this.SellingFactorDirection = reader["SellingFactorDirection"];
+                this.TaxExempt = reader["TaxExempt"];
+                this.TaxCatID = reader["TaxCatID"];
+                this.TotalMiscChrg = reader["TotalMiscChrg"];
+            }
+        }
+
+        private string GetSelectInvDtl(int invoiceNum)
+        {
+            StringBuilder query = new StringBuilder();
+	    query.Append(" select ");
+            query.Append("id.InvoiceNum as InvoiceNum,");
+            query.Append("id.InvoiceLine as InvoiceLine,");
+            query.Append("id.SellingShipQty as SellingShipQty,");
+            query.Append("id.UnitPrice as UnitPrice,");
+            query.Append("id.ExtPrice as ExtPrice,");
+            query.Append("id.ShipToNum as ShipToNum,");
+            query.Append("id.PartNum as PartNum,");
+            query.Append("pt.PartDescription as PartDescription,");
+            query.Append("id.Discount  as Discount,");
+            query.Append("id.DiscountPercent as DiscountPercent,");
+            query.Append("id.SellingFactor as SellingFactor,");
+            query.Append("id.SellingFactorDirection as SellingFactorDirection,");
+            query.Append("id.TaxExempt as TaxExempt,");
+            query.Append("id.TaxCatID as TaxCatID,");
+            query.Append("id.TotalMiscChrg as TotalMiscChrg,");
+            query.Append("1 as filler ");
+
+            query.Append(" from InvcDtl as id");
+            query.Append(" left join Part as pt");
+            query.Append(" on pt.PartNum = id.PartNum ");
+            query.Append("");
+            query.Append("");
+            query.Append(" where id.InvoiceNum = ");
+            query.Append(invoiceNum.ToString());
+            return query.ToString();
+        }
 # if DEBUG
             this.InvoiceNo = row.InvoiceNum;
             this.InvoiceLineNo = row.InvoiceLine;
@@ -59,7 +125,7 @@ namespace InvPrt
             this.ShipToId = row.ShipToNum;
             this.CalcDueDate();
 # endif
-        }
+
         void CalcDueDate()
         {
             // of course there is more to do here
@@ -98,15 +164,15 @@ namespace InvPrt
                 part = value;
             }
         }
-        public string Description
+        public string PartDescription
         {
             get
             {
-                return description;
+                return partDescription;
             }
             set
             {
-                description = value;
+                partDescription = value;
             }
         }
         public string UnitOfMeasure
@@ -153,15 +219,26 @@ namespace InvPrt
                 openQty = value;
             }
         }
-        public decimal DiscountFromList
+        public decimal Discount
         {
             get
             {
-                return discountFromList;
+                return discount;
             }
             set
             {
-                discountFromList = value;
+                discount = value;
+            }
+        }
+        public decimal DiscountPercent
+        {
+            get
+            {
+                return discountPercent;
+            }
+            set
+            {
+                discountPercent = value;
             }
         }
         public decimal DiscountOnOrder
@@ -234,11 +311,11 @@ namespace InvPrt
         {
             get
             {
-                return MiscCharge;
+                return miscCharge;
             }
             set
             {
-                custMiscCharge = value;
+                miscCharge = value;
             }
         }
         public decimal TaxAmount
@@ -250,6 +327,17 @@ namespace InvPrt
             set
             {
                 taxAmount = value;
+            }
+        }
+        public string TaxExempt
+        {
+            get
+            {
+                return taxExempt;
+            }
+            set
+            {
+                taxExempt = value;
             }
         }
         public decimal DocLineTotal
@@ -362,6 +450,5 @@ namespace InvPrt
                 termsID = value;
             }
         }
-
     }
 }
