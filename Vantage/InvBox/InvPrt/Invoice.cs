@@ -33,15 +33,17 @@ namespace InvPrt
         string soldToCustName;
         string soldToAddressList;
         string billToCustID;
+        int billToCustNum;
         string billToCustName;
         bool billToInvoiceAddress;
-        string poNo;
+        string poNum;
 
         string paymentTerms;
         string paymentTermsText;
         string salesRepCode1;
         string salesRepName1;
         string salesRepPhone;
+        string salesRepList;
 
         bool orderFF = false;
         bool invoiced;
@@ -58,41 +60,47 @@ namespace InvPrt
         public Invoice(int invoiceNum)
         {
             this.InvoiceNo = invoiceNum;
-	    string query = this.GetSelectInvHead(invoiceNum);
+            string query = this.GetSelectInvHead(invoiceNum);
             OdbcConnection connection = new OdbcConnection("DSN=test");
-            OdbcCommand command = new OdbcCommand(query,connection);
+            OdbcCommand command = new OdbcCommand(query, connection);
             connection.Open();
             OdbcDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                this.OrderNo = reader["OrderNum"]; 
-                this.InvoiceDate = reader["OrderNum"]; 
-		this.InvoiceAmt = reader["InvoiceAmt"];
-		this.OrderDate = reader["OrderDate"];
-		this.PONum = reader["PONum"];
-	    }
+                this.SalesOrder = Convert.ToInt32(reader["OrderNum"]);
+                this.InvoiceDate = Convert.ToDateTime(reader["InvoiceDate"]);
+//                this.CreditMemo = reader["CreditMemo"];
+                this.OrderDate = Convert.ToDateTime(reader["OrderDate"]);
+                this.PoNo = reader["PONum"].ToString();
+                this.ShipVia = reader["ShipViaCode"].ToString();
+                this.SalesRepList = reader["SalesRepList"].ToString();
+                this.BillToCustNum = Convert.ToInt32(reader["BillToCustNum"]);
+            }
         }
-	private string GetSelectInvHead(int invoiceNum)
-	{
-            StringBuilder query = " select ";
-	    query += "ih.InvoiceNum as InvoiceNum,";	
-	    query += "ih.OrderNum as OrderNum,";	
-	    query += "ih.InvoiceDate as InvoiceDate,";	
-	    query += "ih.CreditMemo as CreditMemo,";	
-	    query += "ih.InvoiceAmt as InvoiceAmt,";	
-	    query += "oh.OrderDate as OrderDate,";	
-	    query += "oh.PONum as PONum,";	
-	    query += "oh.ShipViaCode as ShipViaCode,";	
-	    query += "1 as filler ";	
+        private string GetSelectInvHead(int invoiceNum)
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append(" select ");
+            query.Append("ih.InvoiceNum as InvoiceNum,");
+            query.Append("ih.OrderNum as OrderNum,");
+            query.Append("ih.InvoiceDate as InvoiceDate,");
+            query.Append("ih.CreditMemo as CreditMemo,");
+            query.Append("ih.InvoiceAmt as InvoiceAmt,");
+            query.Append("oh.OrderDate as OrderDate,");
+            query.Append("oh.PONum as PONum,");
+            query.Append("oh.ShipViaCode as ShipViaCode,");
+            query.Append("ih.SalesRepList as SalesRepList,");
+            query.Append("ih.CustNum as BillToCustNum,");
+            query.Append("ih.SoldToCustNum as SoldToCustNum,");
+            query.Append("1 as filler ");
 
-            query += " from InvcHead as ih";
-            query += " left join OrderHed as oh" ;
-            query += " on oh.OrderNum = ih.OrderNum " ;
-	    query += "";
-            query += " where ih.InvoiceNum = ";
-            query += invoiceNum.ToString();
-	    return query.ToString();
-	}
+            query.Append(" from InvcHead as ih");
+            query.Append(" left join OrderHed as oh");
+            query.Append(" on oh.OrderNum = ih.OrderNum ");
+            query.Append(" where ih.InvoiceNum = ");
+            query.Append(invoiceNum.ToString());
+            return query.ToString();
+        }
 # if DEBUG        
             this.InvoiceDate = row.InvoiceDate;
             // todo ShipDate and OrderDate
@@ -118,35 +126,20 @@ namespace InvPrt
 
             this.GetOrderInfo();
 # endif
-        }
         public void FillShipTo()
         {
-            ShipToAddress = new ShipTo(session, AddrTypes.ShipTo, this.SoldToCustID, this.ShipToId); 
+            ShipToAddress = new ShipTo(AddrTypes.ShipTo, this.SoldToCustID, this.ShipToId);
         }
         void FillAddresses()
         {
         }
         void GetOrderInfo()
         {
-            Epicor.Mfg.BO.SalesOrder salesOrderObj;
-            salesOrderObj = new Epicor.Mfg.BO.SalesOrder(session.ConnectionPool);
-            Epicor.Mfg.BO.SalesOrderDataSet soDs = new Epicor.Mfg.BO.SalesOrderDataSet();
-
-            string message;
-            try
-            {
-                soDs = salesOrderObj.GetByID(this.SalesOrder);
-                Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow row = (Epicor.Mfg.BO.SalesOrderDataSet.OrderHedRow)soDs.OrderHed.Rows[0];
+# if DEBUG
                 this.OrderFF = row.CheckBox03;
                 this.ShipVia = row.ShipViaCode;
                 this.OrderDate = row.OrderDate;
-                soDs.Dispose();
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-                this.OrderFound = false;
-            }
+# endif
         }
         public void AddLine(InvLine line)
         {
@@ -250,6 +243,17 @@ namespace InvPrt
             set
             {
                 trackingNo = value;
+            }
+        }
+        public int BillToCustNum
+        {
+            get
+            {
+                return billToCustNum;
+            }
+            set
+            {
+                billToCustNum = value;
             }
         }
         public string SalesRepPhone
@@ -377,11 +381,11 @@ namespace InvPrt
         {
             get
             {
-                return poNo;
+                return poNum;
             }
             set
             {
-                poNo = value;
+                poNum = value;
             }
         }
         public string ShipVia
@@ -437,6 +441,17 @@ namespace InvPrt
             set
             {
                 salesRepName1 = value;
+            }
+        }
+        public string SalesRepList
+        {
+            get
+            {
+                return salesRepList;
+            }
+            set
+            {
+                salesRepList = value;
             }
         }
         public bool PackFound
@@ -540,4 +555,3 @@ namespace InvPrt
         }
     }
 }
-

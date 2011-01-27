@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 
-namespace InvBox
+namespace InvPrt
 {
     public class InvPrintDocument : PrintDocument
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace InvBox
+namespace InvPrt
 {
     public enum AddrTypes
     {
@@ -13,8 +13,6 @@ namespace InvBox
     }
     public class StreetAddress
     {
-        protected Epicor.Mfg.Core.Session session;
-        protected Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow;
         protected int  addressType;
         protected string custId = "";
         protected int custNo = 0;
@@ -39,8 +37,7 @@ namespace InvBox
        public StreetAddress()
         {
         }
-        public StreetAddress(Epicor.Mfg.Core.Session session,
-                             AddrTypes addrType, string custID)
+        public StreetAddress(AddrTypes addrType, string custID)
         {
             this.session = session;
             this.AddressType = (int)addrType;
@@ -50,35 +47,9 @@ namespace InvBox
         }
         void CustDSFromID()
         {
-            Epicor.Mfg.BO.Customer customerObj =
-                   new Epicor.Mfg.BO.Customer(session.ConnectionPool);
-
-            try
-            {
-                Epicor.Mfg.BO.CustomerDataSet custDs = customerObj.GetByCustID(this.CustId);
-                this.custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-            }
         }
         protected void LoadTaxRates()
         {
-            Epicor.Mfg.BO.SalesTax taxObj;
-            Epicor.Mfg.BO.SalesTaxDataSet ds;
-            taxObj = new Epicor.Mfg.BO.SalesTax(session.ConnectionPool);
-            try
-            {
-                ds = taxObj.GetByID(this.ZipCode);
-                Epicor.Mfg.BO.SalesTaxDataSet.SalesTaxRow taxRow = (Epicor.Mfg.BO.SalesTaxDataSet.SalesTaxRow)
-                  ds.SalesTax.Rows[0];
-                TaxRate = taxRow.Percent;
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-            }
         }
         void FillCustomerAddress()
         {
