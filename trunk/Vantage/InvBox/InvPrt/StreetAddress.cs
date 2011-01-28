@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Odbc;
 
 namespace InvPrt
 {
@@ -17,6 +18,7 @@ namespace InvPrt
         protected string custId = "";
         protected int custNo = 0;
         protected string custName = "";
+        protected string shipToID = "";
         protected string address1 = "";
         protected string address2 = "";
         protected string address3 = "";
@@ -37,43 +39,71 @@ namespace InvPrt
        public StreetAddress()
         {
         }
-        public StreetAddress(AddrTypes addrType, string custID)
+        public StreetAddress(AddrTypes addrType, string custID,string shipToID)
         {
-            this.session = session;
             this.AddressType = (int)addrType;
             this.CustId = custID;
+            this.ShipToID = shipToID;
             this.CustDSFromID();
             this.FillCustomerAddress();
         }
         void CustDSFromID()
         {
         }
-        protected void LoadTaxRates()
+        protected void FillCustomerAddress()
         {
-        }
-        void FillCustomerAddress()
-        {
-            this.CustFrtTerms = custRow.ShortChar01;
-            this.CustName = custRow.Name;
-            this.Address1 = custRow.Address1;
-            this.Address2 = custRow.Address2;
-            this.Address3 = custRow.Address3;
-            this.City = custRow.City;
-            this.State = custRow.State;
-            this.ZipCode = custRow.Zip;
-            this.TermsCode = custRow.TermsCode;
-            this.TermsDescr = custRow.TermsDescription;
-            this.TaxAuthorityCode = custRow.TATaxAuthorityDescription;
-            this.TaxAuthorityDescr = custRow.TaxAuthorityCode;
-            this.TaxExempt = custRow.TaxExempt;
-            this.TaxRegionCode = custRow.TaxRegionCode;
-            this.TaxRegionDescr = custRow.TaxRegionDescription;
-
-            if (custRow.ShortChar01.CompareTo("FF") == 0)
+            string query = this.GetCustomerByCustID(this.CustId, this.ShipToID);
+            OdbcConnection connection = new OdbcConnection("DSN=test");
+            OdbcCommand command = new OdbcCommand(query, connection);
+            connection.Open();
+            OdbcDataReader reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                this.FreightFree = true;
+                this.CustName = reader["CustName"].ToString();
+                this.Address1 = reader["Address1"].ToString();
+                this.Address2 = reader["Address2"].ToString();
+                this.Address3 = reader["Address3"].ToString();
+                this.City = reader["City"].ToString();
+                this.State = reader["State"].ToString();
+                this.ZipCode = reader["Zip"].ToString();
+                this.Country = reader["Country"].ToString();
             }
         }
+	private string GetCustomerBaseSelect()
+	{
+		string sql = "select " +
+		"st.Name as Name," +
+		"st.Address1 as Address1," +
+		"st.Address2 as Address2," +
+		"st.Address3 as Address3," +
+		"st.City as City," +
+		"st.State as State," +
+		"st.Zip as Zip" +
+		"st.Country as Country," +
+		"st.TerritoryID as TerritoryID," +
+		"st.SalesRepCode as SalesRepCode," +
+		"st.TermsCode as TermsCode," +
+		"st.ShipViaCode as ShipViaCode," +
+		"st.ResaleID as ResaleID," +
+		"st.TaxExempt as TaxExempt" +
+		" from ShipTo as cm ";
+		return sql;
+	}
+        private string GetCustomerByCustNum(int custNum, string shipToID)
+	{
+		string sql = this.GetCustomerBaseSelect();
+        sql += " where st.CustNum = " + "\'" + custNum.ToString() + "\'";
+        sql += " and  st.ShipToID = " + "\'" + shipToID + "\'";
+
+		return sql;
+	}
+	private string GetCustomerByCustID(string custID, string shipToID)
+	{
+		string sql = this.GetCustomerBaseSelect();
+        sql += " where st.CustID = " + "\'" + custID + "\'";
+        sql += " and  st.ShipToID = " + "\'" + shipToID + "\'";
+		return sql;
+	}
         public string AddressStr
         {
             get
@@ -163,6 +193,17 @@ namespace InvPrt
             set
             {
                 custName = value;
+            }
+        }
+        public string ShipToID
+        {
+            get
+            {
+                return shipToID;
+            }
+            set
+            {
+                shipToID = value;
             }
         }
         public string Address1
