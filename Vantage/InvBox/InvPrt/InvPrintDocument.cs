@@ -274,7 +274,7 @@ namespace InvPrt
                 yPos = fltTop + (count++ * printFont.GetHeight(e.Graphics));
                 e.Graphics.DrawString(l.InvoiceLineNo.ToString(), printFont, Brushes.Black, fltLeft, yPos);
                 e.Graphics.DrawString(l.Part, printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
-                e.Graphics.DrawString(l.Description, printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
+                e.Graphics.DrawString(l.PartDescription, printFont, Brushes.Black, fltLeft + (float)columns[colNo++], yPos);
 
                 SizeF textSize = RightJust(e, l.SellingShipQty.ToString("#,###,##0.00"));
                 float xPos = fltLeft + (float)columns[colNo++] + column - textSize.Width;

@@ -20,7 +20,6 @@ namespace InvPrt
 
         public Customer(string custId)
         {
-            this.session = session;
             CustId = custId;
             TaxExempt = "";
             LookupCustomer();
