@@ -48,7 +48,7 @@ namespace InvPrt
         {
             this.InvoiceNo = invoiceNum;
             string query = this.GetSelectInvDtl(invoiceNum);
-            OdbcConnection connection = new OdbcConnection("DSN=test");
+            OdbcConnection connection = new OdbcConnection("DSN=pilot");
             OdbcCommand command = new OdbcCommand(query, connection);
             connection.Open();
             OdbcDataReader reader = command.ExecuteReader();

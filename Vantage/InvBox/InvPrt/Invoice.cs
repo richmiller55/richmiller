@@ -61,9 +61,13 @@ namespace InvPrt
         {
             this.InvoiceNo = invoiceNum;
             string query = this.GetSelectInvHead(invoiceNum);
-            OdbcConnection connection = new OdbcConnection("DSN=test");
+            //            string pilotDsn = "DSN=pilot;HOST=vantagedb1;DB=MfgSys;UID=sysprogress;PWD=sysprogress;PORT=8380";
+            string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            //            OdbcConnection connection = new OdbcConnection(pilotDsn);
+            OdbcConnection connection = new OdbcConnection(pilotDsn);
             OdbcCommand command = new OdbcCommand(query, connection);
             connection.Open();
+//            OdbcDataReader reader = command.ExecuteReader(System.Data.CommandBehavior.SingleRow);
             OdbcDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -80,7 +84,7 @@ namespace InvPrt
         private string GetSelectInvHead(int invoiceNum)
         {
             StringBuilder query = new StringBuilder();
-            query.Append(" select ");
+            query.Append(" SELECT ");
             query.Append("ih.InvoiceNum as InvoiceNum,");
             query.Append("ih.OrderNum as OrderNum,");
             query.Append("ih.InvoiceDate as InvoiceDate,");
@@ -94,8 +98,8 @@ namespace InvPrt
             query.Append("ih.SoldToCustNum as SoldToCustNum,");
             query.Append("1 as filler ");
 
-            query.Append(" from InvcHead as ih");
-            query.Append(" left join OrderHed as oh");
+            query.Append(" FROM pub.InvcHead as ih");
+            query.Append(" left join pub.OrderHed as oh");
             query.Append(" on oh.OrderNum = ih.OrderNum ");
             query.Append(" where ih.InvoiceNum = ");
             query.Append(invoiceNum.ToString());
