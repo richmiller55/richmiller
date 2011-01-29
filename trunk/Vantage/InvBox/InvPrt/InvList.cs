@@ -19,6 +19,7 @@ namespace InvPrt
         void btn_Print_Click(object sender, EventArgs e)
         {
             string invoiceList = tb_invoiceList.Text;
+            InvManager manager = new InvManager(invoiceList);
         }
     }
 }

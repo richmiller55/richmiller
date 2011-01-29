@@ -53,7 +53,7 @@ namespace InvPrt
         protected void FillCustomerAddress()
         {
             string query = this.GetCustomerByCustID(this.CustId, this.ShipToID);
-            OdbcConnection connection = new OdbcConnection("DSN=test");
+            OdbcConnection connection = new OdbcConnection("DSN=pilot");
             OdbcCommand command = new OdbcCommand(query, connection);
             connection.Open();
             OdbcDataReader reader = command.ExecuteReader();
