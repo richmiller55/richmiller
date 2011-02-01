@@ -44,17 +44,10 @@ namespace InvPrt
         string termsID;
         string shipToId = "";
 
-        public InvLine(int invoiceNum)
+        public InvLine(OdbcDataReader reader)
         {
-            this.InvoiceNo = invoiceNum;
-            string query = this.GetSelectInvDtl(invoiceNum);
-            OdbcConnection connection = new OdbcConnection("DSN=pilot");
-            OdbcCommand command = new OdbcCommand(query, connection);
-            connection.Open();
-            OdbcDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                this.OrderNum = Convert.ToInt32(reader["OrderNum"]);
                 this.InvoiceNum = Convert.ToInt32(reader["InvoiceNum"]);
                 this.InvoiceLine = Convert.ToInt32(reader["InvoiceLine"]);
                 this.SellingShipQty = Convert.ToDecimal(reader["SellingShipQty"]);
@@ -70,64 +63,15 @@ namespace InvPrt
                 this.TaxExempt = reader["TaxExempt"].ToString();
                 this.TaxCatID = reader["TaxCatID"].ToString();
                 this.MiscChrg = Convert.ToDecimal(reader["TotalMiscChrg"]);
+                // Regarding ShipToId It's a string regardless of Num
+                // to duplicate the Vantage behavoir I should check each line to see if they are
+                // all the same and print that see below message
             }
         }
-
-        private string GetSelectInvDtl(int invoiceNum)
-        {
-            StringBuilder query = new StringBuilder();
-	    query.Append(" select ");
-            query.Append("id.InvoiceNum as InvoiceNum,");
-            query.Append("id.InvoiceLine as InvoiceLine,");
-            query.Append("id.SellingShipQty as SellingShipQty,");
-            query.Append("id.UnitPrice as UnitPrice,");
-            query.Append("id.ExtPrice as ExtPrice,");
-            query.Append("id.ShipToNum as ShipToNum,");
-            query.Append("id.PartNum as PartNum,");
-            query.Append("pt.PartDescription as PartDescription,");
-            query.Append("id.Discount  as Discount,");
-            query.Append("id.DiscountPercent as DiscountPercent,");
-            query.Append("id.SellingFactor as SellingFactor,");
-            query.Append("id.SellingFactorDirection as SellingFactorDirection,");
-            query.Append("id.TaxExempt as TaxExempt,");
-            query.Append("id.TaxCatID as TaxCatID,");
-            query.Append("id.TotalMiscChrg as TotalMiscChrg,");
-            query.Append("1 as filler ");
-
-            query.Append(" from InvcDtl as id");
-            query.Append(" left join Part as pt");
-            query.Append(" on pt.PartNum = id.PartNum ");
-            query.Append("");
-            query.Append("");
-            query.Append(" where id.InvoiceNum = ");
-            query.Append(invoiceNum.ToString());
-            return query.ToString();
-        }
-# if DEBUG
-            this.InvoiceNo = row.InvoiceNum;
-            this.InvoiceLineNo = row.InvoiceLine;
-            this.PackID = row.PackNum;  // check this mapping
-            this.PackLine = row.PackLine;
-            this.Part = row.PartNum;
-            this.Description = row.PartNumPartDescription;
-            this.UnitOfMeasure = row.OrderUM;
-            this.SellingShipQty = row.SellingShipQty;
-            this.OrderQty = row.OurOrderQty;
-            this.UnitPrice = row.UnitPrice;
-            this.DiscountOnOrder = row.Discount;
-            this.ExtPrice = row.ExtPrice;	    
-            this.BillToCustID = row.BillToCustID;
-            this.BillToCustName = row.BTCustName;
-            this.SoldToCustID = row.SoldToCustID;
-            this.SoldToCustName = row.SoldToCustName;
-            this.InvoiceDate = row.InvoiceDate;
-            this.ShipToId = row.ShipToNum;
-            this.CalcDueDate();
-# endif
-
         void CalcDueDate()
         {
-            // of course there is more to do here
+            // of course there is more to do here  
+            // should this be at invoice level
             this.DueDate = this.InvoiceDate.AddDays(30);
         }
         public int InvoiceLineNo

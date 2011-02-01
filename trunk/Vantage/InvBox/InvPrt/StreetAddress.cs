@@ -27,39 +27,46 @@ namespace InvPrt
         protected string zipCode = "";
         protected string country = "";
         protected string termsCode = "";
+        protected string territoryID = "";
+        protected string salesRepCode = "";
+        protected string shipViaCode = "";
+        protected string resaleID = "";
+        protected string taxExempt = "";
         protected string termsDescr = "";
         protected string custFrtTerms = "";
         protected bool freightFree = false;
         protected decimal taxRate = 0.0M;
-        string m_taxExempt;
+
         string m_taxAuthorityCode;
         string m_taxAuthorityDescr;
         string m_taxRegionCode;
         string m_taxRegionDescr;
-       public StreetAddress()
+        string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+        public StreetAddress(AddrTypes addrType, int custNum, string shipToID)
         {
+            this.AddressType = (int)addrType;
+            this.CustNo = custNum;
+            this.ShipToID = shipToID;
+            this.FillCustomerAddress();
         }
-        public StreetAddress(AddrTypes addrType, string custID,string shipToID)
+        public StreetAddress(AddrTypes addrType, string custID, string shipToID)
         {
+            // dump this ctor
             this.AddressType = (int)addrType;
             this.CustId = custID;
             this.ShipToID = shipToID;
-            this.CustDSFromID();
-            this.FillCustomerAddress();
-        }
-        void CustDSFromID()
-        {
+
         }
         protected void FillCustomerAddress()
         {
-            string query = this.GetCustomerByCustID(this.CustId, this.ShipToID);
-            OdbcConnection connection = new OdbcConnection("DSN=pilot");
+            string query = this.GetShipToByCustNum(this.CustNo, this.ShipToID);
+            OdbcConnection connection = new OdbcConnection(this.PilotDsn);
             OdbcCommand command = new OdbcCommand(query, connection);
             connection.Open();
             OdbcDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                this.CustName = reader["CustName"].ToString();
+                this.CustName = reader["Name"].ToString();
                 this.Address1 = reader["Address1"].ToString();
                 this.Address2 = reader["Address2"].ToString();
                 this.Address3 = reader["Address3"].ToString();
@@ -67,43 +74,41 @@ namespace InvPrt
                 this.State = reader["State"].ToString();
                 this.ZipCode = reader["Zip"].ToString();
                 this.Country = reader["Country"].ToString();
+                this.TerritoryID = reader["TerritoryID"].ToString();
+                this.SalesRepCode = reader["SalesRepCode"].ToString();
+                this.ShipViaCode = reader["ShipViaCode"].ToString();
+                this.ResaleID = reader["ResaleID"].ToString();
+                this.TaxExempt = reader["TaxExempt"].ToString();
             }
         }
-	private string GetCustomerBaseSelect()
-	{
-		string sql = "select " +
-		"st.Name as Name," +
-		"st.Address1 as Address1," +
-		"st.Address2 as Address2," +
-		"st.Address3 as Address3," +
-		"st.City as City," +
-		"st.State as State," +
-		"st.Zip as Zip" +
-		"st.Country as Country," +
-		"st.TerritoryID as TerritoryID," +
-		"st.SalesRepCode as SalesRepCode," +
-		"st.TermsCode as TermsCode," +
-		"st.ShipViaCode as ShipViaCode," +
-		"st.ResaleID as ResaleID," +
-		"st.TaxExempt as TaxExempt" +
-		" from ShipTo as cm ";
-		return sql;
-	}
-        private string GetCustomerByCustNum(int custNum, string shipToID)
-	{
-		string sql = this.GetCustomerBaseSelect();
-        sql += " where st.CustNum = " + "\'" + custNum.ToString() + "\'";
-        sql += " and  st.ShipToID = " + "\'" + shipToID + "\'";
-
-		return sql;
-	}
-	private string GetCustomerByCustID(string custID, string shipToID)
-	{
-		string sql = this.GetCustomerBaseSelect();
-        sql += " where st.CustID = " + "\'" + custID + "\'";
-        sql += " and  st.ShipToID = " + "\'" + shipToID + "\'";
-		return sql;
-	}
+        private string GetShipToBaseSelect()
+        {
+            string sql = "select " +
+            "st.Name as Name," +
+            "st.Address1 as Address1," +
+            "st.Address2 as Address2," +
+            "st.Address3 as Address3," +
+            "st.City as City," +
+            "st.State as State," +
+            "st.Zip as Zip," +
+            "st.Country as Country," +
+            "st.TerritoryID as TerritoryID," +
+            "st.SalesRepCode as SalesRepCode," +
+            "st.ShipViaCode as ShipViaCode," +
+            "st.ResaleID as ResaleID," +
+            "st.TaxExempt as TaxExempt" +
+            " from pub.ShipTo as st " +
+            " left join pub.Customer as cm " +
+            " on cm.CustNum = st.CustNum ";
+            return sql;
+        }
+        private string GetShipToByCustNum(int custNum, string shipToID)
+        {
+            string sql = this.GetShipToBaseSelect();
+            sql += " where st.ShipToNum = " + "\'" + shipToID + "\'";
+            sql += " and cm.CustNum = " + "\'" + custNum.ToString() + "\'";
+            return sql;
+        }
         public string AddressStr
         {
             get
@@ -349,17 +354,6 @@ namespace InvPrt
                 m_taxAuthorityDescr = value;
             }
         }
-        public string TaxExempt
-        {
-            get
-            {
-                return m_taxExempt;
-            }
-            set
-            {
-                m_taxExempt = value;
-            }
-        }
         public string TaxRegionCode
         {
             get
@@ -391,6 +385,72 @@ namespace InvPrt
             set
             {
                 taxRate = value;
+            }
+        }
+        public string PilotDsn
+        {
+            get
+            {
+                return pilotDsn;
+            }
+            set
+            {
+                pilotDsn = value;
+            }
+        }
+        public string TerritoryID
+        {
+            get
+            {
+                return territoryID;
+            }
+            set
+            {
+                territoryID = value;
+            }
+        }
+        public string SalesRepCode
+        {
+            get
+            {
+                return salesRepCode;
+            }
+            set
+            {
+                salesRepCode = value;
+            }
+        }
+        public string ShipViaCode
+        {
+            get
+            {
+                return shipViaCode;
+            }
+            set
+            {
+                shipViaCode = value;
+            }
+        }
+        public string ResaleID
+        {
+            get
+            {
+                return resaleID;
+            }
+            set
+            {
+                resaleID = value;
+            }
+        }
+        public string TaxExempt
+        {
+            get
+            {
+                return taxExempt;
+            }
+            set
+            {
+                taxExempt = value;
             }
         }
 
