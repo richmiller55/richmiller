@@ -20,8 +20,10 @@ namespace InvPrt
 
         StreetAddress soldTo;
         StreetAddress billTo;
+        StreetAddress shipTo;
+
         string shipToId = "";
-        ShipTo shipToAddress;
+
         Customer soldToCustomer;
         // freight related
         decimal freightCharge = 0.0M;
@@ -30,6 +32,7 @@ namespace InvPrt
         string shipVia;
 
         string soldToCustID;
+        int soldToCustNum;
         string soldToCustName;
         string soldToAddressList;
         string billToCustID;
@@ -53,32 +56,47 @@ namespace InvPrt
         bool memberBuyGroup = false;
         bool printShipToAddr = false;
         string newInvoices = string.Empty;
-
-        public void FillInvoice()
-        {
-        }
+        string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
         public Invoice(int invoiceNum)
         {
             this.InvoiceNo = invoiceNum;
-            string query = this.GetSelectInvHead(invoiceNum);
-            //            string pilotDsn = "DSN=pilot;HOST=vantagedb1;DB=MfgSys;UID=sysprogress;PWD=sysprogress;PORT=8380";
-            string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
-            //            OdbcConnection connection = new OdbcConnection(pilotDsn);
-            OdbcConnection connection = new OdbcConnection(pilotDsn);
+            this.FillInvoiceHead();
+            this.GetInvoiceLines();
+            this.GetAddresses();
+        }
+        public void GetInvoiceLines()
+        {
+            InvLineReader reader = new InvLineReader(this.InvoiceNo);
+            this.Lines = reader.Lines;
+            this.ShipToId = reader.ShipToId;
+        }
+        public void GetAddresses()
+        {
+            string empty = "";
+            this.BillTo = new StreetAddress(AddrTypes.BillTo, this.BillToCustNum, empty);
+            this.SoldTo = new StreetAddress(AddrTypes.SoldTo, this.SoldToCustNum, empty);
+            this.ShipTo = new StreetAddress(AddrTypes.ShipTo, this.SoldToCustNum, this.ShipToId);
+        }
+        public void FillInvoiceHead()
+        {
+            string query = this.GetSelectInvHead(this.InvoiceNo);
+            OdbcConnection connection = new OdbcConnection(this.PilotDsn);
             OdbcCommand command = new OdbcCommand(query, connection);
             connection.Open();
-//            OdbcDataReader reader = command.ExecuteReader(System.Data.CommandBehavior.SingleRow);
+
             OdbcDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 this.SalesOrder = Convert.ToInt32(reader["OrderNum"]);
                 this.InvoiceDate = Convert.ToDateTime(reader["InvoiceDate"]);
-//                this.CreditMemo = reader["CreditMemo"];
+                //                this.CreditMemo = reader["CreditMemo"];
                 this.OrderDate = Convert.ToDateTime(reader["OrderDate"]);
                 this.PoNo = reader["PONum"].ToString();
                 this.ShipVia = reader["ShipViaCode"].ToString();
                 this.SalesRepList = reader["SalesRepList"].ToString();
                 this.BillToCustNum = Convert.ToInt32(reader["BillToCustNum"]);
+                this.SoldToCustNum = Convert.ToInt32(reader["SoldToCustNum"]);
+
             }
         }
         private string GetSelectInvHead(int invoiceNum)
@@ -124,16 +142,10 @@ namespace InvPrt
             this.SalesRepCode1 = row.SalesRepCode1;
             this.SalesRepName1 = row.SalesRepName1;
 
-            this.BillTo = new StreetAddress(this.session, AddrTypes.BillTo, this.BillToCustID);
-            this.SoldTo = new StreetAddress(this.session, AddrTypes.SoldTo, this.SoldToCustID);
             this.SoldToCustomer = new Customer(session, SoldToCustID);
 
             this.GetOrderInfo();
 # endif
-        public void FillShipTo()
-        {
-            ShipToAddress = new ShipTo(AddrTypes.ShipTo, this.SoldToCustID, this.ShipToId);
-        }
         void FillAddresses()
         {
         }
@@ -181,6 +193,17 @@ namespace InvPrt
             set
             {
                 invoiceNo = value;
+            }
+        }
+        public string PilotDsn
+        {
+            get
+            {
+                return pilotDsn;
+            }
+            set
+            {
+                pilotDsn = value;
             }
         }
         public DateTime InvoiceDate
@@ -238,6 +261,17 @@ namespace InvPrt
                 soldTo = value;
             }
         }
+        public StreetAddress ShipTo
+        {
+            get
+            {
+                return shipTo;
+            }
+            set
+            {
+                shipTo = value;
+            }
+        }
         public string TrackingNo
         {
             get
@@ -260,6 +294,17 @@ namespace InvPrt
                 billToCustNum = value;
             }
         }
+        public int SoldToCustNum
+        {
+            get
+            {
+                return soldToCustNum;
+            }
+            set
+            {
+                soldToCustNum = value;
+            }
+        }
         public string SalesRepPhone
         {
             get
@@ -280,17 +325,6 @@ namespace InvPrt
             set
             {
                 shipToId = value;
-            }
-        }
-        public ShipTo ShipToAddress
-        {
-            get
-            {
-                return shipToAddress;
-            }
-            set
-            {
-                shipToAddress = value;
             }
         }
         public int PackID

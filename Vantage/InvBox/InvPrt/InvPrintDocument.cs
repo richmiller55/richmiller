@@ -31,9 +31,11 @@ namespace InvPrt
         {
             this.inv = inv;
             invoiceTotal = 0;
-            //this.PrinterSettings.PrinterName = "Adobe PDF";
-            this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
-            // this.PrinterSettings.PrintFileName = "rich.pdf";
+            this.PrinterSettings.PrinterName = "Adobe PDF";
+            // this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
+            this.PrinterSettings.PrintFileName = "invoice" + this.inv.InvoiceNo.ToString() + ".pdf";
+            this.PrinterSettings.PrintToFile = true;
+
         }
         protected override void OnBeginPrint(PrintEventArgs e)
         {
@@ -165,7 +167,7 @@ namespace InvPrt
             }
             else
             {
-                e.Graphics.DrawString(inv.ShipToAddress.AddressStr, printFont, Brushes.Black, rect);
+                e.Graphics.DrawString(inv.ShipTo.AddressStr, printFont, Brushes.Black, rect);
             }
         }
         void Header(PrintPageEventArgs e)
