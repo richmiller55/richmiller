@@ -10,11 +10,13 @@ namespace UpdateCustomerGeneral
     public enum col
     {
 	    CustId,
-	    filler
+        CustNum,
+        TermsCode,
+        CustName
     }
     class UpdateCreditReader
     {
-        string file = "D:/users/rich/data/customerUpdates/resetGlobalCreditFlag26Jan09.txt";
+        string file = "D:/users/rich/data/customerUpdates/codlist.txt";
         StreamReader tr;
         public UpdateCreditReader()
         {
@@ -41,7 +43,7 @@ namespace UpdateCustomerGeneral
                 string[] split = line.Split(new Char[] { '\t' });
                 string CustId = split[(int)col.CustId];
 
-                xman.setGlobalIncFlag(CustId);
+                xman.setTermsCode(CustId);
             }
         }
     }

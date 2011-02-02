@@ -27,6 +27,37 @@ namespace UpdateCustomerGeneral
             Epicor.Mfg.Core.Session.LicenseType.Default);
             customerObj = new Epicor.Mfg.BO.Customer(objSess.ConnectionPool);
         }
+        public void setTermsCode(string custId)
+        {
+            string message = "OK";
+            string newTerms = "CC1T";
+            bool okToUpdate = true;
+            try
+            {
+                custDs = customerObj.GetByCustID(custId);
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                message = "NoGo";
+                okToUpdate = false;
+            }
+            if (okToUpdate)
+            {
+                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+                custRow.CreditCardOrder = true;
+                custRow.TermsCode = newTerms;
+                // custRow.CreditHold = false;
+                try
+                {
+                    customerObj.Update(custDs);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
         public void setGlobalIncFlag(string custId)
         {
             string message = "OK";
