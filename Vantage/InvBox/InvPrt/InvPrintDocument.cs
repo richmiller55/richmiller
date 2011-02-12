@@ -31,11 +31,10 @@ namespace InvPrt
         {
             this.inv = inv;
             invoiceTotal = 0;
-            this.PrinterSettings.PrinterName = "Adobe PDF";
             // this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
             this.PrinterSettings.PrintFileName = "invoice" + this.inv.InvoiceNo.ToString() + ".pdf";
             this.PrinterSettings.PrintToFile = true;
-
+            this.PrinterSettings.PrinterName = "Adobe PDF";
         }
         protected override void OnBeginPrint(PrintEventArgs e)
         {
@@ -45,6 +44,7 @@ namespace InvPrt
         protected override void OnEndPrint(PrintEventArgs e)
         {
             base.OnEndPrint(e);
+            this.PrinterSettings.PrintFileName = "invoice" + this.inv.InvoiceNo.ToString() + ".pdf";
             printFont.Dispose();
         }
         private ArrayList InfoRectangles(PrintPageEventArgs e)

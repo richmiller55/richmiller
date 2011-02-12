@@ -46,27 +46,24 @@ namespace InvPrt
 
         public InvLine(OdbcDataReader reader)
         {
-            while (reader.Read())
-            {
-                this.InvoiceNum = Convert.ToInt32(reader["InvoiceNum"]);
-                this.InvoiceLine = Convert.ToInt32(reader["InvoiceLine"]);
-                this.SellingShipQty = Convert.ToDecimal(reader["SellingShipQty"]);
-                this.UnitPrice = Convert.ToDecimal(reader["UnitPrice"]);
-                this.ExtPrice = Convert.ToDecimal(reader["ExtPrice"]);
-                this.ShipToId =  reader["ShipToNum"].ToString();
-                this.Part = reader["PartNum"].ToString();
-                this.PartDescription = reader["PartDescription"].ToString();
-                this.Discount = Convert.ToDecimal(reader["Discount"]);
-                this.DiscountPercent = Convert.ToDecimal(reader["DiscountPercent"]);
-                this.SellingFactor = Convert.ToDecimal(reader["SellingFactor"]);
-                this.SellingFactorDirection = reader["SellingFactorDirection"].ToString();
-                this.TaxExempt = reader["TaxExempt"].ToString();
-                this.TaxCatID = reader["TaxCatID"].ToString();
-                this.MiscChrg = Convert.ToDecimal(reader["TotalMiscChrg"]);
-                // Regarding ShipToId It's a string regardless of Num
-                // to duplicate the Vantage behavoir I should check each line to see if they are
-                // all the same and print that see below message
-            }
+            this.InvoiceNum = Convert.ToInt32(reader["InvoiceNum"]);
+            this.InvoiceLine = Convert.ToInt32(reader["InvoiceLine"]);
+            this.SellingShipQty = Convert.ToDecimal(reader["SellingShipQty"]);
+            this.UnitPrice = Convert.ToDecimal(reader["UnitPrice"]);
+            this.ExtPrice = Convert.ToDecimal(reader["ExtPrice"]);
+            this.ShipToId = reader["ShipToNum"].ToString();
+            this.Part = reader["PartNum"].ToString();
+            this.PartDescription = reader["PartDescription"].ToString();
+            this.Discount = Convert.ToDecimal(reader["Discount"]);
+            this.DiscountPercent = Convert.ToDecimal(reader["DiscountPercent"]);
+            this.SellingFactor = Convert.ToDecimal(reader["SellingFactor"]);
+            this.SellingFactorDirection = reader["SellingFactorDirection"].ToString();
+            this.TaxExempt = reader["TaxExempt"].ToString();
+            this.TaxCatID = reader["TaxCatID"].ToString();
+            this.MiscChrg = Convert.ToDecimal(reader["TotalMiscChrg"]);
+            // Regarding ShipToId It's a string regardless of Num
+            // to duplicate the Vantage behavoir I should check each line to see if they are
+            // all the same and print that see below message
         }
         void CalcDueDate()
         {
