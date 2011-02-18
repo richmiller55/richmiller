@@ -96,7 +96,6 @@ namespace InvPrt
                 this.SalesRepList = reader["SalesRepList"].ToString();
                 this.BillToCustNum = Convert.ToInt32(reader["BillToCustNum"]);
                 this.SoldToCustNum = Convert.ToInt32(reader["SoldToCustNum"]);
-
             }
         }
         private string GetSelectInvHead(int invoiceNum)

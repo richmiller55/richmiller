@@ -32,8 +32,10 @@ namespace InvPrt
             this.inv = inv;
             invoiceTotal = 0;
             // this.PrinterSettings.PrinterName = "HP LaserJet 4350 PCL 6";
-            this.PrinterSettings.PrintFileName = "invoice" + this.inv.InvoiceNo.ToString() + ".pdf";
-            this.PrinterSettings.PrintToFile = true;
+            // string dir = @"d:\users\rich\logs\";
+            // this.PrinterSettings.PrintFileName = dir + "invoice" + this.inv.InvoiceNo.ToString() + ".pdf";
+            // this.PrinterSettings.PrintToFile = true;
+
             this.PrinterSettings.PrinterName = "Adobe PDF";
         }
         protected override void OnBeginPrint(PrintEventArgs e)
@@ -191,7 +193,7 @@ namespace InvPrt
             float yPos = fltTop + (count++ * largerFont.GetHeight(e.Graphics));
             string invoice = "Original Invoice " + inv.InvoiceNo.ToString();
             SizeF size = e.Graphics.MeasureString(invoice, largerFont);
-            float xPos = ((fltRight - fltLeft) / 2) - (size.Width / 2);
+            float xPos = ((fltRight - fltLeft) / 2); // - (size.Width / 4);
             e.Graphics.DrawString(invoice, largerFont, Brushes.Black, xPos, yPos);
         }
         void SetColumnWidths(PrintPageEventArgs e)
