@@ -46,8 +46,8 @@ namespace PartUpdate
     }
     public enum locUpdate
     {
-	    UPC,
-	    LOC,
+        UPC,
+        LOC,
         filler
     }
     public enum casePackUpdate
@@ -115,11 +115,18 @@ namespace PartUpdate
         colors,
         filler
     }
+    public enum printOption
+    {
+        UPC,
+        printOption,
+        filler
+    }
 
     class UpdateTextReader
     {
-        string file = "D:/users/rich/data/PartUpdates/Spring2_2011_Catalog.txt";
+        string file = "D:/users/rich/data/PartUpdates/PrintOptions03.08.11.txt";
         StreamReader tr;
+
         public UpdateTextReader()
         {
             tr = new StreamReader(file);
@@ -132,11 +139,12 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                xman.UpdateCatalog(line);
+                xman.UpdatePrintOptions(line);
             }
         }
     }
 }
+
 
 
 

@@ -384,6 +384,33 @@ namespace PartUpdate
                 }
             }
         }
+        public void UpdatePrintOptions(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)printOption.UPC];
+            string printOptions = split[(int)printOption.printOption];
+
+            if (partObj.PartExists(partNum))
+            {
+                ds = partObj.GetByID(partNum);
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+
+                row.ShortChar06 = printOptions;
+                if (row.IsISOrigCountryNumNull() || row.ISOrigCountryNum == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+                string message = "Posted";
+                try
+                {
+                    partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
         public void UpdateDescr(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -533,7 +560,7 @@ namespace PartUpdate
                 }
             }
         }
-         public void UpdateRunOutFlag(string line)
+        public void UpdateRunOutFlag(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)runOutUpdate.UPC];
@@ -626,51 +653,6 @@ namespace PartUpdate
                 }
             }
         }
-        /*
-        public void updatePart(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)locUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                string update = split[(int)locUpdate.update];
-                update.Trim();
-                int result = update.CompareTo("E");
-                if (result == 0)
-                {
-                    row.ShortChar02 = split[(int)locUpdate.LOC];
-                }
-                string strUnitPrice = split[(int)locUpdate.unitPrice];
-                decimal unitPrice = Convert.ToDecimal(strUnitPrice);
-
-                result = update.CompareTo("F");
-
-                if (result == 0)
-                {
-                    row.UnitPrice = unitPrice;
-                }
-                result = update.CompareTo("EF");
-                if (result == 0)
-                {
-                    row.ShortChar02 = split[(int)locUpdate.LOC];
-                    row.UnitPrice = unitPrice;
-                }
-
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-         */
     }
 }
      
