@@ -112,35 +112,116 @@ namespace PartUpdate
             {
                 ds = partObj.GetByID(partNum);
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+
                 string ShortChar03 = split[(int)catalog.ShortChar03];
-                if (ShortChar03 != "N/A")
+                if (ShortChar03 != "NA")
                 {
                     row.ShortChar03 = ShortChar03;
                 }
-                string ShortChar05 = split[(int)catalog.ShortChar05];
-                if (ShortChar05 != "N/A")
+                string ShortChar04 = split[(int)catalog.ShortChar04];
+                if (ShortChar04 != "NA")
                 {
-                    row.ShortChar05 = ShortChar05;
+                    row.ShortChar04 = ShortChar04;
                 }
-                string strNumber02 = split[(int)catalog.Number02];
-                if (strNumber02.CompareTo("") != 0)
+                string ShortChar06 = split[(int)catalog.ShortChar06];
+                if (ShortChar06.CompareTo("") != 0)
                 {
-                    int Number02 = Convert.ToInt32(strNumber02);
-                    row.Number02 = Number02;
+                    row.ShortChar06 = ShortChar06;
                 }
-                string strNumber03 = split[(int)catalog.Number03];
-                if (strNumber03.CompareTo("") != 0)
+                string ShortChar07 = split[(int)catalog.ShortChar07];
+                if (ShortChar07 != "NA")
                 {
-                    Decimal Number03 = Convert.ToDecimal(strNumber03);
-                    row.Number03 = Number03;
+                    row.ShortChar07 = ShortChar07;
                 }
-                string RunOutStr = split[(int)catalog.RunOut];
-                bool runOut = true;
-                if (RunOutStr.CompareTo("FALSE") == 0)
+                string Character01 = split[(int)catalog.Character01];
+                if (Character01 != "NA")
                 {
-                    runOut = false;
+                    row.Character01 = Character01;
                 }
-                row.RunOut = runOut;
+                string Character02 = split[(int)catalog.Character02];
+                if (Character02 != "NA")
+                {
+                    row.Character02 = Character02;
+                }
+                string strNumber01 = split[(int)catalog.Number01];
+                if (strNumber01.CompareTo("NA") != 0)
+                {
+                    row.Number01 = Convert.ToInt32(strNumber01);
+                }
+                string strNumber05 = split[(int)catalog.Number05];
+                if (strNumber05.CompareTo("NA") != 0)
+                {
+                    row.Number05 = Convert.ToInt32(strNumber05);
+                }
+                string strNumber06 = split[(int)catalog.Number06];
+                if (strNumber06.CompareTo("NA") != 0)
+                {
+                    row.Number06 = Convert.ToInt32(strNumber06);
+                }
+                string strNumber07 = split[(int)catalog.Number07];
+                if (strNumber07.CompareTo("NA") != 0)
+                {
+                    row.Number07 = Convert.ToInt32(strNumber07);
+                }
+                string strNumber08 = split[(int)catalog.Number08];
+                if (strNumber08.CompareTo("NA") != 0)
+                {
+                    row.Number08 = Convert.ToDecimal(strNumber08);
+                }
+                string strUnitPrice = split[(int)catalog.UnitPrice];
+                if (strUnitPrice.CompareTo("NA") != 0)
+                {
+                    row.UnitPrice = Convert.ToDecimal(strUnitPrice);
+                }
+
+                string strCheckBox02 = split[(int)catalog.CheckBox02];
+                if (strCheckBox02.CompareTo("NA") != 0)
+                {
+                    if (strCheckBox02.CompareTo("YES") == 0)
+                    {
+                        row.CheckBox02 = true;
+                    }
+                    else
+                    {
+                        row.CheckBox02 = false;
+                    }
+                }
+                string strCheckBox03 = split[(int)catalog.CheckBox03];
+                if (strCheckBox03.CompareTo("NA") != 0)
+                {
+                    if (strCheckBox03.CompareTo("YES") == 0)
+                    {
+                        row.CheckBox03 = true;
+                    }
+                    else
+                    {
+                        row.CheckBox03 = false;
+                    }
+                }
+                string strCheckBox04 = split[(int)catalog.CheckBox04];
+                if (strCheckBox04.CompareTo("NA") != 0)
+                {
+                    if (strCheckBox04.CompareTo("YES") == 0)
+                    {
+                        row.CheckBox04 = true;
+                    }
+                    else
+                    {
+                        row.CheckBox04 = false;
+                    }
+                }
+                string strCheckBox05 = split[(int)catalog.CheckBox05];
+                if (strCheckBox05.CompareTo("NA") != 0)
+                {
+                    if (strCheckBox05.CompareTo("YES") == 0)
+                    {
+                        row.CheckBox05 = true;
+                    }
+                    else
+                    {
+                        row.CheckBox05 = false;
+                    }
+                }
                 if (row.IsISOrigCountryNumNull())
                 {
                     row.ISOrigCountryNum = 42;
@@ -185,7 +266,7 @@ namespace PartUpdate
         {
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)backflush.UPC];
-            string mfgSys = "MfgSys";
+
             if (partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
@@ -233,7 +314,7 @@ namespace PartUpdate
                 string message = "AOK";
                 bool process = false;
                 bool warehouseNotAdded = true;
-                string note = "allRight";
+
                 int i = 0;
                 while (warehouseNotAdded)
                 {
@@ -245,7 +326,7 @@ namespace PartUpdate
                     catch (Exception e)
                     {
                         message = e.Message;
-                        note = "index out of range";
+                        string note = "index out of range";
                         break;
                     }
                     if (wrow.WarehouseCode.CompareTo("01") == 0)

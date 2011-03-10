@@ -7,7 +7,7 @@ using System.IO;
 
 namespace PartUpdate
 {
-    public enum catalog
+    public enum catalogOld
     {
         UPC,
         description,
@@ -56,6 +56,27 @@ namespace PartUpdate
         casePack,
         filler
     }
+    public enum catalog
+    {
+        Description,
+        UPC,
+        ShortChar03,
+        ShortChar04,
+        Number01,
+        CheckBox02,
+        CheckBox03,
+        CheckBox04,
+        CheckBox05,
+        Number05,
+        Number06,
+        Number07,
+        ShortChar07,
+        ShortChar06,
+        UnitPrice,
+        Number08,
+        Character01,
+        Character02
+    }
     public enum runOutUpdate
     {
         style,
@@ -97,11 +118,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        // string file = "D:/users/rich/data/PartUpdates/ReaderPriceUpdate102809.txt";
-        // string file = "D:/users/rich/data/PartUpdates/PartsCode04May10.txt";
-        // string file = "D:/users/rich/data/PartUpdates/updatePartWhsToHayward.txt";
-        // string file = "D:/users/rich/data/PartUpdates/OrderingInformation121510.txt";
-        string file = "D:/users/rich/data/PartUpdates/PriceToUpdate010511.txt";
+        string file = "D:/users/rich/data/PartUpdates/Spring2_2011_Catalog.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -115,9 +132,7 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                //xman.SetAsDefaultWarehouse(line);
-                xman.PriceUpdate(line);
-                // xman.UpdateCatalog(line);
+                xman.UpdateCatalog(line);
             }
         }
     }
