@@ -113,8 +113,17 @@ namespace InvBox
             string plant = "CURRENT";
             bool billToFlag = true;
             bool overBillDay = false;
-            arInvoice.GetShipments(this.invGroup, custList, packNo, plant, billToFlag,
-                                   overBillDay, out invoices, out errors);
+            try
+            {
+                arInvoice.GetShipments(this.invGroup, custList, packNo, plant, billToFlag,
+                                       overBillDay, out invoices, out errors);
+            }
+            catch (Exception ex)
+            {
+                report.AddMessage(GetNextMessageKey(), ex.Message);
+                invoices = "Failed to get shipments";
+                errors = "Failed to get shipments";
+            }
         }
         /*
         void GetInvoice(string packNo, out string invoices, out string errors)
@@ -190,7 +199,7 @@ namespace InvBox
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                report.AddMessage(GetNextMessageKey(), e.Message);                
             }
         }
         public void NewInvcMiscChrg(decimal amount, string trackingNo)
@@ -232,6 +241,7 @@ namespace InvBox
             }
             catch (Exception e)
             {
+                report.AddMessage(GetNextMessageKey(), e.Message);
                 message = e.Message;
             }
             string logMessage = "Invoice Added to Batch " + this.lastInvoiceNo.ToString();

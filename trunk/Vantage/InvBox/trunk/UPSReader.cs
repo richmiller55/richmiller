@@ -22,6 +22,7 @@ namespace InvBox
     {
         trackingNo,
         packSlipNo,
+        unknown,
         shipDate,
         serviceClass,
         weight,
@@ -50,6 +51,7 @@ namespace InvBox
             this.m_shipMgr = new ShipMgr(this.report);
             // insert try catch block here
             string[] filePaths = Directory.GetFiles(this.fullPath);
+            bool AllOk = true;
             foreach (string fileName in filePaths)
             {
                 try
@@ -59,11 +61,19 @@ namespace InvBox
                 catch (Exception e)
                 {
                     string message = e.Message;
+                    report.AddMessage(GetNextMessageKey(), message);
+                    AllOk = false;
                 }
-                PickCarrier();
-                tr.Close();
+                if (AllOk)
+                {
+                    PickCarrier();
+                    tr.Close();
+                }
                 MoveFile(fileName);
-                InvoiceShipment();
+                if (AllOk)
+                {
+                    InvoiceShipment();
+                }
             }
         }
         public ShipMgr GetShipMgr() { return m_shipMgr; }
@@ -113,16 +123,19 @@ namespace InvBox
 
             int packSlip = Convert.ToInt32(packSlipStr);
             string shipDateStr = split[(int)ups.shipDate];
+            System.DateTime shipDate = new DateTime();
 
-            System.DateTime shipDate = convertStrToDate(shipDateStr);
+            try
+            {
+                shipDate = convertStrToDate(shipDateStr);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                report.AddMessage(GetNextMessageKey(), ex.Message);
+            }
             string serviceClass = split[(int)ups.serviceClass];
 
-            // string orderStr = split[(int)ups.orderNo];
-            // int orderNo = 0;
-            // if (orderStr.Length > 0)
-            //{
-            //  orderNo = Convert.ToInt32(orderStr);
-            //}
             int orderNo = 656565;  // fix this thing
             string weightStr = split[(int)ups.weight];
             decimal weight = Convert.ToDecimal(weightStr);
@@ -134,7 +147,7 @@ namespace InvBox
             if (result == 0)
             {
                 string message = "Zero Charge Freight ";
-                report.AddMessage(GetNextMessageKey(),message);
+                report.AddMessage(GetNextMessageKey(), message);
             }
             string tranType = split[(int)ups.tranType];
             if (tranType.CompareTo("N") == 0)
