@@ -11,10 +11,16 @@ namespace InvBox
         public SortedDictionary<string,string> messages;
         public bool evenRow = true;
         public int messageNumber = 100;
+        int messCount = 100;
+        string messPrefix = "ExReport_";
+        protected string statFileName = "InvBoxStatus.html";
+        protected string statDir = @"d:\users\message\";
         public ExReport()
         {
             messages = new SortedDictionary<string,string>();
-            AddMessage("A1", "Logging Started");
+            SavePriorStatFile();
+
+            AddMessage(GetNextMessageKey(), "Message Reporter Started");
             UpdatePage();
         }
         public void AddMessage(string key, string message)
@@ -25,9 +31,8 @@ namespace InvBox
         }
         private void RefreshStatusPage()
         {
-            string fileName = "InvBoxStatus.html";
-            string dir = @"d:\users\message\";
-            using (StreamWriter outfile = new StreamWriter(dir + fileName, false))
+            string fileName = this.statDir + this.statFileName;
+            using (StreamWriter outfile = new StreamWriter(fileName, false))
             {
                 outfile.Write(this.WebPage());
                 outfile.Close();
@@ -136,6 +141,20 @@ namespace InvBox
         public void SerializeReport()
         {
         }
+        private void SavePriorStatFile()
+        {
+            string fullName = this.statDir + this.statFileName;
+            string fileName = Path.GetFileName(fullName);
+            string prefix = Path.GetFileNameWithoutExtension(fullName);
+            string dumpPath = @"D:\users\rich\ProcessedFrt";
+            DateTime now = DateTime.Now;
+            string date = now.Year.ToString("0000") + now.Month.ToString("00") + now.Day.ToString("00");
+            string time = now.Hour.ToString("00") + now.Minute.ToString("00") + now.Second.ToString("00");
+            string newFileName = prefix + "_" + date + "_" + time + ".txt";
+            File.Move(fullName, dumpPath + "\\" + newFileName);
+            string message = "Saved Old Stats file " + newFileName;
+            AddMessage(GetNextMessageKey(), message);
+        }
         public System.DateTime convertStrToDate(string dateStr)
         {
             string year = dateStr.Substring(0, 4);
@@ -146,6 +165,13 @@ namespace InvBox
                 Convert.ToInt32(month), Convert.ToInt32(day));
             return dateObj;
         }
+        public string GetNextMessageKey()
+        {
+            string messKey = this.messPrefix + this.messCount.ToString();
+            this.messCount += 1;
+            return messKey;
+        }
+
     }
 }
         /*
