@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 
 
-namespace LB1
+namespace LockBox
 {
     public partial class MainForm : Form
     {
@@ -21,7 +21,7 @@ namespace LB1
         public MainForm()
         {
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             InitializeComponent();
             bft = new DataTable();
             bankFile = new BankFile();
@@ -99,7 +99,7 @@ namespace LB1
         }
         void btnReadFile_Click(object sender, EventArgs e)
         {
-            BankFileReader reader = new BankFileReader(filename,bft,bankFile);
+            FlatFileReader reader = new FlatFileReader(filename,bft,bankFile);
             bankFile = reader.getBankFile();
             dataGridView1.DataSource = bft;
         }
@@ -124,7 +124,7 @@ namespace LB1
                     filename = Path.GetFullPath(openFile.FileNames[i].ToString());
                     tbBankFileOpen.Text = filename;
                 }
-                BankFileReader reader = new BankFileReader(filename, bft, bankFile);
+                FlatFileReader reader = new FlatFileReader(filename, bft, bankFile);
                 bankFile = reader.getBankFile();
                 dataGridView1.DataSource = bft;
             }

@@ -2,22 +2,41 @@ using System;
 using System.IO;
 using System.Data;
 
-namespace LB1
+namespace LockBox
 {
+    public enum wmCheck
+    {
+        poNum,
+        invoiceNum,
+        dcNum,
+        storeNum,
+        division,
+        microfilmNum,
+        invoiceDate,
+        invoiceAmt,
+        paidDate,
+        discount,
+        amountPaid,
+        filler
+    }
     public class FlatFileReader
     {
         BankFile bankFile;
         DataTable table;
-        DataRow currentRow;
         Check check;
-        BankBatch batch;
+        BankBatch batch = new BankBatch();
         bool firstLine = true;
-        public BankFileReader(string fileName, DataTable bft,BankFile bankFileIn)
+        decimal checkTotal;
+        public FlatFileReader(string fileName, DataTable bft,BankFile bankFileIn)
         {
+            batch.BatchNo = "1";
+            batch.CheckCount = 1;
+            this.checkTotal = System.Convert.ToDecimal( 31390.59);
             this.bankFile = bankFileIn;
             this.check = new Check();
-            batch = new BankBatch();
-            table = bft;
+            this.batch = new BankBatch();
+            this.table = bft;
+            this.InitBankFile();
             try
             {
                 using (StreamReader sr = new StreamReader(fileName))
@@ -25,7 +44,7 @@ namespace LB1
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        DetermineLineType(line);
+                        CreatePayment(line);
                     }
                 }
             }
@@ -35,94 +54,33 @@ namespace LB1
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
             }
+            FinishCheck();
+            FinishBatch();
         }
-        public void DetermineLineType(string input)
+        private string GetCustId()
         {
-            string firstChar = input.Substring(0, 1);
-            switch (firstChar)
-            {
-                case "1":
-                    InitBankFile(input);
-                    break;
-                case "4":
-                    // create payment object
-                    Read4Line(input);
-                    CreatePayment(input);
-                    break;
-                case "6":
-                    Read6Line(input);
-                    FinishCheck(input);
-                    break;
-                case "7":
-                    Read7Line(input);
-                    FinishBatch(input);
-                    break;
-                default:
-                    Console.WriteLine("invalid bank file input");
-                    break;
-            }
+            return "90000";
         }
-        public void InitBankFile(string input)
+        public void CreatePayment(string line)
         {
-            bankFile.DateMM = input.Substring(1, 2);
-            bankFile.DateDD = input.Substring(3, 2);
-            bankFile.DateYYYY = input.Substring(5, 4);
-        }
-        public void FinishBatch(string input)
-        {
-            table.Rows.Add(currentRow);
-            batch.BatchNo = input.Substring(1, 10);
-            string strCheckCount = input.Substring(14, 3);
-            batch.CheckCount = System.Convert.ToInt32(strCheckCount);
-            string strCheckTotal = input.Substring(17, 9);
-            batch.CheckTotal = System.Convert.ToDecimal(strCheckTotal);
-            bankFile.AddBatch(batch);
-            batch = new BankBatch();
-        }
-        public void FinishCheck(string input)
-        {
-            check.BatchNo = input.Substring(1, 10);
-            check.TransNo = input.Substring(11, 4);
-            string strAmount = input.Substring(15, 10);
-            check.Amount = System.Convert.ToDecimal(strAmount) / 100;
-            check.CheckNo = input.Substring(29, 6);
-            check.RtNo = input.Substring(35, 9);
-            check.AcctNo = input.Substring(45, 10);
-            check.Remitter = input.Substring(54, 20);
-            check.DateDD = input.Substring(74, 2);
-            check.DateMM = input.Substring(76, 2);
-            check.DateYYYY = input.Substring(78, 4);
-            batch.AddCheck(check);
-            check = new Check();
-        }
-        public void CreatePayment(string input)
-        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string invoiceNum = split[(int)wmCheck.invoiceNum];
+  
             Payment payment = new Payment();
-            payment.BatchNo = input.Substring(1, 10);
-            payment.TransNo = input.Substring(11, 4);
-            payment.InvoiceNo = input.Substring(15, 13).Trim();
-            payment.CustId = input.Substring(28, 13);
-            string stubSegStr = input.Substring(51, 4);
-            payment.StubSeqStr = stubSegStr;
-            payment.StubSeq = System.Convert.ToInt32(stubSegStr);
-            string strPaymentAmt = input.Substring(41,10);
-            payment.PaymentAmt = System.Convert.ToDecimal(strPaymentAmt) / 100;
+            payment.BatchNo = this.batch.BatchNo;
+            string strPaymentAmt = split[(int)wmCheck.amountPaid];
+            payment.PaymentAmt = System.Convert.ToDecimal(strPaymentAmt);
+            payment.InvoiceNo = split[(int)wmCheck.invoiceNum].Trim();
+            payment.CustId = this.GetCustId();
             check.AddPayment(payment);
-        }
-        public void Read4Line(string input)
-        {
-            if (!firstLine)
-                table.Rows.Add(currentRow);
-            firstLine = false;
+
             DataRow row = table.NewRow();
-            row["TransNo"] = input.Substring(11, 4);
-            Int32 invoiceNo = Convert.ToInt32( input.Substring(15, 13));
-            row["InvoiceNo"] = input.Substring(15, 13).Trim();
-            row["CustNo"] = input.Substring(28, 13);
-            string strPaymentAmt = input.Substring(41,10);
-            decimal payAmt = System.Convert.ToDecimal(strPaymentAmt) /100;
-            row["PaymentAmt"] = payAmt;
-            row["StubSeq"] = input.Substring(51, 4);
+            row["TransNo"] = split[(int)wmCheck.poNum];
+            row["InvoiceNo"] = payment.InvoiceNo;
+            row["CustNo"] = payment.CustId;
+            row["PaymentAmt"] = payment.PaymentAmt;
+            row["StubSeq"] = "null";
+            Int32 invoiceNo = Convert.ToInt32(payment.InvoiceNo);
             if (invoiceNo > 0)
             {
                 InvoiceLookup lookup = new InvoiceLookup(invoiceNo);
@@ -130,36 +88,39 @@ namespace LB1
                 if (info.InvoiceFound)  // is this var set at this time?
                 {
                     row["VanOpenAmt"] = info.InvoiceBal;
-                    string matchResult = info.CheckMatch(payAmt);
+                    string matchResult = info.CheckMatch(payment.PaymentAmt);
                     row["MatchStatus"] = matchResult;
                 }
             }
-            bool customerExists = false;
-            if (invoiceNo == 0)
-            {
-                string custId = row["CustNo"].ToString();
-                custId.TrimEnd(' ');
-                CustomerLookup cust = new CustomerLookup(custId);
-                customerExists = cust.CustomerFound;
-                if (customerExists)
-                {
-                    row["MatchStatus"] = "Customer Match";
-                }
-            }
-            row["CheckNo"] = "";  // in case there is no type 6 line
-            currentRow = row;
+            table.Rows.Add(row); 
         }
-        public void Read6Line(string input)
+        private string GetDateMM() { return "07"; }
+        private string GetDateDD() { return "07"; }
+        private string GetDateYYYY() { return "2011"; }
+        public void InitBankFile()
         {
-            currentRow["CheckNo"] = input.Substring(29, 6);
-            string RemittersName = input.Substring(54, 20);
-	     // bankFile.MorePayment(input);
+            bankFile.DateMM = GetDateMM();
+            bankFile.DateDD = GetDateDD();
+            bankFile.DateYYYY = GetDateYYYY();
         }
-        public void Read7Line(string input)
+        public void FinishBatch()
         {
-            string batchNo = input.Substring(1, 10);
-            string checkCountStr = input.Substring(14, 3);
-            string checkTotal = input.Substring(17, 9);
+            batch.CheckTotal = System.Convert.ToDecimal(this.checkTotal);
+            bankFile.AddBatch(batch);
+        }
+        public void FinishCheck()
+        {
+            check.BatchNo = this.batch.BatchNo;
+            check.TransNo = "tranNo";
+            check.Amount = System.Convert.ToDecimal(this.checkTotal);
+            check.CheckNo = "5276243";
+            check.RtNo = "RtNo";
+            check.AcctNo = "AccountNo";
+            check.Remitter = "WalMart";
+            check.DateDD = GetDateDD();
+            check.DateMM = GetDateMM();
+            check.DateYYYY = GetDateYYYY();
+            batch.AddCheck(check);
         }
         public BankFile getBankFile()
         {

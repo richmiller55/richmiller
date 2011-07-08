@@ -3,7 +3,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Data;
 
-namespace LB1
+namespace LockBox
 {
     public class CashGrp
     {

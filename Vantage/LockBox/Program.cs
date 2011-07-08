@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace LB1
+namespace LockBox
 {
     static class Program
     {
