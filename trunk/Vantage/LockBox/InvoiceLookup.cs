@@ -1,6 +1,6 @@
 using System;
 
-namespace LB1
+namespace LockBox
 {
     public class InvoiceInfo
     {
@@ -335,7 +335,7 @@ namespace LB1
         void init()
         {
             this.objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.custObj = new Epicor.Mfg.BO.Customer(this.objSess.ConnectionPool);
             try
             {
@@ -371,7 +371,7 @@ namespace LB1
         public InvoiceLookup(Int32 invoiceNum)
         {
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             arObj = new Epicor.Mfg.BO.ARInvSearch(objSess.ConnectionPool);
             bool invoiceFound = true;
             try

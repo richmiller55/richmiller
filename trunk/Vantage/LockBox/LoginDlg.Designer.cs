@@ -1,4 +1,4 @@
-namespace LB1
+namespace LockBox
 {
     partial class LoginDlg
     {

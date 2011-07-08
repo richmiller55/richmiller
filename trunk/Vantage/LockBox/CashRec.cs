@@ -3,7 +3,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Data;
 
-namespace LB1
+namespace LockBox
 {
     public class CashRec
     {
@@ -88,7 +88,7 @@ namespace LB1
             }
             if (goOn)
             {
-                Int32 nPayments = 0;
+                // Int32 nPayments = 0;
                 foreach (Payment payment in matchedInvoices)
                 {
 
@@ -100,7 +100,7 @@ namespace LB1
                     Int32 invoiceNo = System.Convert.ToInt32(strInvoiceNo);
                     hRow.InvoiceNum = invoiceNo;
                     decimal payAmount = payment.PaymentAmt;
-                    bool takeDiscount = false;
+                    // bool takeDiscount = false;
                     
                     try
                     {

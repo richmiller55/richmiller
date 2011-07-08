@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Data;
 
-namespace LB1
+namespace LockBox
 {
     public class BankFileReader
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace LB1
+namespace LockBox
 {
     /// <summary>
     /// Summary description for Class1

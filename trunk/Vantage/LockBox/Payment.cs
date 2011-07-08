@@ -3,7 +3,7 @@ using System;
 /// <summary>
 /// Summary description for Class1
 /// </summary>
-namespace LB1
+namespace LockBox
 {
     public class Payment
     {
