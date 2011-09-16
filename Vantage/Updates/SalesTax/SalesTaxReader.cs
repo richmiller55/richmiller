@@ -6,20 +6,28 @@ using System.IO;
 
 namespace UpdateSalesTax
 {
-    public enum col
+    public enum AS_basic
     {
-	    descr,
-	    id,
-	    oldRate,
-	    newRate,
-	    newRateX100,
-	    filler
+        ZIP_CODE,
+        STATE_ABBREV,
+        COUNTY_NAME,
+        CITY_NAME,
+        STATE_SALES_TAX,
+        STATE_USE_TAX,
+        COUNTY_SALES_TAX,
+        COUNTY_USE_TAX,
+        CITY_SALES_TAX,
+        CITY_USE_TAX,
+        TOTAL_SALES_TAX,
+        TOTAL_USE_TAX,
+        TAX_SHIPPING_ALONE,
+        TAX_SHIPPING_AND_HANDLING_TOGETHER
     }
-    class UpdateSalesTaxReader
+    class SalesTaxReader
     {
-     string file = "D:/users/rich/data/salesTax/SalesTaxVantageUpdate_6Jul09.txt";
+        string file = @"I:\data\salesTax\AS_basic.txt";
         StreamReader tr;
-        public UpdateSalesTaxReader()
+        public SalesTaxReader()
         {
             tr = new StreamReader(file);
             processFile();
@@ -42,8 +50,8 @@ namespace UpdateSalesTax
             while ((line = tr.ReadLine()) != null)
             {
                 string[] split = line.Split(new Char[] { '\t' });
-                string zip = split[(int)col.id];
-                string newRate = split[(int)col.newRateX100];
+                string zip = split[(int)AS_basic.ZIP_CODE];
+                string newRate = split[(int)AS_basic.TOTAL_SALES_TAX];
     	        xman.setNewRate(zip,newRate);
             }
         }

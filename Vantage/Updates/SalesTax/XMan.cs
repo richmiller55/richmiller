@@ -11,7 +11,7 @@ namespace UpdateSalesTax
         Epicor.Mfg.BO.SalesTaxDataSet ds;
         public XMan()
         {
-            objSess = new Epicor.Mfg.Core.Session("rich", "homefed55", "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
+            objSess = new Epicor.Mfg.Core.Session("rich", "homefed55", "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             taxObj = new Epicor.Mfg.BO.SalesTax(objSess.ConnectionPool);
         }
         public void setNewRate(string zip, string newRate)
