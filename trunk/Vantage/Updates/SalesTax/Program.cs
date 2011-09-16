@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace UpdateSalesTax
 {
@@ -12,10 +11,10 @@ namespace UpdateSalesTax
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            UpdateSalesTaxReader reader = new UpdateSalesTaxReader();
+            // Application.EnableVisualStyles();
+            // Application.SetCompatibleTextRenderingDefault(false);
+           
+            SalesTaxReader reader = new SalesTaxReader();
         }
     }
 }
