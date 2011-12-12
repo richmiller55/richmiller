@@ -11,6 +11,8 @@ namespace iCost
         {
             PartBin partBin = new PartBin();
             partBin.GetPOCost();
+            CostTable ct = new CostTable();
+            
         }
     }
 }
