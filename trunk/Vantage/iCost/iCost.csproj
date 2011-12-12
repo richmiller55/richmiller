@@ -28,6 +28,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Epicor.Mfg.BO.UD01, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\client803\client\Epicor.Mfg.BO.UD01.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.Core.BLConnectionPool, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\client803\client\Epicor.Mfg.Core.BLConnectionPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.Core.Session, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\client803\client\Epicor.Mfg.Core.Session.dll</HintPath>
+    </Reference>
+    <Reference Include="Epicor.Mfg.IF.IUD01, Version=8.3.404.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\client803\client\Epicor.Mfg.IF.IUD01.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Odbc, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -37,6 +53,7 @@
     <Compile Include="PartBin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UD01.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
