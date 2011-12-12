@@ -10,7 +10,7 @@ namespace iCost
         static void Main(string[] args)
         {
             PartBin partBin = new PartBin();
-            partBin.GetPOCost();
+            //    partBin.GetPOCost();
             CostTable ct = new CostTable();
             
         }
