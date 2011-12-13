@@ -15,8 +15,9 @@ namespace iCost
         decimal overhead;
         decimal priorQtyOnHand;
         decimal newQtyOnHand;
-        public Style()
+        public Style(string upc)
         {
+            Upc = upc;
         }
         public string Upc
         {
