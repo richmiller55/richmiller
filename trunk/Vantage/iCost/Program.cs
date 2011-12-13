@@ -9,9 +9,8 @@ namespace iCost
     {
         static void Main(string[] args)
         {
-            PartBin partBin = new PartBin();
-            //    partBin.GetPOCost();
-            CostTable ct = new CostTable();
+
+            CostMgr mgr = new CostMgr();
             
         }
     }
