@@ -4,12 +4,11 @@ using System.Collections;
 
 namespace iCost
 {
-    public class PartBin
+    public class POCost
     {
         Hashtable ht;
-        public PartBin(Hashtable hashtable)
+        public POCost(Hashtable hashtable)
         {
-            this.ht = hashtable;
             GetData();
         }
         public void GetData()
@@ -21,10 +20,12 @@ namespace iCost
         {
             string queryString = @" 
              SELECT
-                pb.partNum  as partNum,
-                sum(pb.OnhandQty) as OnhandQty 
-                FROM pub.PartBin as pb
-                GROUP BY pb.partNum
+                poh.PONum  as PONum,
+		pod.PartNum as PartNum,
+		pod.UnitCost as UnitCost
+                FROM pub.POHeader as poh
+		LEFT JOIN pub.PODetail as pod
+		on poh.PONum = pod.PONum
                 ";
 
             using (OdbcConnection connection = new OdbcConnection(connectionString))
@@ -36,13 +37,14 @@ namespace iCost
                 OdbcDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    AddStyleToHash(reader);
-                    // Console.WriteLine("PartNum={0}", reader[0]);
+		    Console.WriteLine("PONum={0}", reader[0]);
+		    // AddStyleToHash(reader);
                 }
+                // Call Close when done reading.
                 reader.Close();
             }
         }
-        private void AddStyleToHash(OdbcDataReader reader)
+        private void AddCostToHash(OdbcDataReader reader)
         {
             Style st = new Style(System.Convert.ToString(reader[0]));
             st.NewQtyOnHand = System.Convert.ToDecimal(reader[1]);

@@ -14,6 +14,7 @@ namespace iCost
         private void FillOnHand()
         {
             PartBin partBin = new PartBin(ht);
+            POCost poCost = new POCost(ht);
         }
     }
 }
