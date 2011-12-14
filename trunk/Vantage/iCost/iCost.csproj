@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="CostMgr.cs" />
     <Compile Include="PartBin.cs" />
+    <Compile Include="POCost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style.cs" />
