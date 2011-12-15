@@ -10,6 +10,9 @@ namespace iCost
         string styleDescr;
         decimal cost;
         decimal po_cost;
+        decimal onHandRemaining;
+        decimal totalOnHandValue;
+
         decimal burden;
         decimal freight;
         decimal overhead;
@@ -18,6 +21,7 @@ namespace iCost
         public Style(string upc)
         {
             Upc = upc;
+            TotalOnHandValue = 0.0M;
         }
         public string Upc
         {
@@ -39,6 +43,11 @@ namespace iCost
             get { return po_cost; }
             set { po_cost = value; }
         }
+        public decimal TotalOnHandValue
+        {
+            get { return totalOnHandValue; }
+            set { totalOnHandValue = value; }
+        }
         public decimal Burden
         {
             get { return burden; }
@@ -58,6 +67,11 @@ namespace iCost
         {
             get { return priorQtyOnHand; }
             set { priorQtyOnHand = value; }
+        }
+        public decimal OnHandRemaining
+        {
+            get { return onHandRemaining; }
+            set { onHandRemaining = value; }
         }
         public decimal NewQtyOnHand
         {
