@@ -58,11 +58,20 @@ namespace iCost
                 decimal UnitCost = Convert.ToDecimal(reader["UnitCost"]);
                 if (style.OnHandRemaining > 0)
                 {
+                    /* 
+                     * 
+                     * so if you don't know what the cost is when you 
+                     * are working back then just price what you know, 
+                     * as long as you know something
+                     *
+                     */
+
                     if (OrderQty >= QtyOnHand)
                     {
                         
                         style.TotalOnHandValue = style.TotalOnHandValue + (QtyOnHand * UnitCost);
                         style.PO_Cost = style.TotalOnHandValue / QtyOnHand;
+                        style.OnHandRemaining = 0;
                     }
                     else
                     {
