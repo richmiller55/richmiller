@@ -53,6 +53,7 @@ namespace iCost
             }
             Style style = (Style)ht[key];
             // row.ShortChar01 = style.StyleDescr;
+            row.Key1 = style.Upc;
             row.Number01 = style.Cost;
             row.Number02 = style.PO_Cost;
             row.Number03 = style.Freight;
