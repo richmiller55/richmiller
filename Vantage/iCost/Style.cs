@@ -5,23 +5,29 @@ using System.Text;
 namespace iCost
 {
     class Style
-    {
-        string upc;
-        string styleDescr;
-        decimal cost;
-        decimal po_cost;
+    {                              // UT01 mapping
+        string upc;                // key01  
+        string styleDescr;         // ShortChar01
+        decimal cost;              // Number01
+        decimal po_cost;           // Number02
+        decimal freight;           // Number03
+        decimal burden;            // Number04
+        decimal overhead;          // Number05
+        // this is not thought out. is it.
         decimal onHandRemaining;
         decimal totalOnHandValue;
-
-        decimal burden;
-        decimal freight;
-        decimal overhead;
         decimal priorQtyOnHand;
         decimal newQtyOnHand;
         public Style(string upc)
         {
             Upc = upc;
             TotalOnHandValue = 0.0M;
+            cost = 0.0M;
+            po_cost = 0.0M;
+            freight = 0M;
+            burden = 0M;
+            overhead = 0M;
+
         }
         public string Upc
         {

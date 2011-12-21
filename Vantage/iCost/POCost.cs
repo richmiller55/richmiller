@@ -25,10 +25,11 @@ namespace iCost
                 poh.PONum  as PONum,
         		pod.PartNum as PartNum,
                 pod.OrderQty as OrderQty,
-		        pod.UnitCost as UnitCost
+		        pod.UnitCost as POUnitCost
              FROM pub.POHeader as poh
 		       LEFT JOIN pub.PODetail as pod
 		         on poh.PONum = pod.PONum
+             where pod.PartNum is not null
 	         ORDER BY pod.PartNum, poh.OrderDate desc
                 ";
 
@@ -41,8 +42,11 @@ namespace iCost
                 OdbcDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-		    Console.WriteLine("PONum={0} part={1}  cost={3}", reader["PONum"], reader["PartNum"],reader[2]);
-		    // AddStyleToHash(reader);
+                    Console.WriteLine("PONum={0} part={1}  cost={2}", 
+                            reader["PONum"], 
+                            reader["PartNum"], 
+                            reader["POUnitCost"]);
+		            DetermineCost(reader);
                 }
                 reader.Close();
             }
@@ -55,7 +59,7 @@ namespace iCost
                 Style style = (Style)ht[partNum];
                 decimal QtyOnHand = style.NewQtyOnHand;
                 decimal OrderQty = Convert.ToDecimal(reader["OrderQty"]);
-                decimal UnitCost = Convert.ToDecimal(reader["UnitCost"]);
+                decimal POUnitCost = Convert.ToDecimal(reader["POUnitCost"]);
                 if (style.OnHandRemaining > 0)
                 {
                     /* 
@@ -68,24 +72,17 @@ namespace iCost
 
                     if (OrderQty >= QtyOnHand)
                     {
-                        
-                        style.TotalOnHandValue = style.TotalOnHandValue + (QtyOnHand * UnitCost);
+                        style.TotalOnHandValue = style.TotalOnHandValue + (QtyOnHand * POUnitCost);
                         style.PO_Cost = style.TotalOnHandValue / QtyOnHand;
                         style.OnHandRemaining = 0;
                     }
                     else
                     {
-                        style.TotalOnHandValue = style.TotalOnHandValue + (OrderQty * UnitCost);
+                        style.TotalOnHandValue = style.TotalOnHandValue + (OrderQty * POUnitCost);
                     }
                     ht[partNum] = style;
                  }
             }
-        }
-        private void AddCostToHash(OdbcDataReader reader)
-        {
-            Style st = new Style(System.Convert.ToString(reader[0]));
-            st.NewQtyOnHand = System.Convert.ToDecimal(reader[1]);
-            ht.Add(st.Upc, st);
         }
     }
 }

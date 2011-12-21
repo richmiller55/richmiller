@@ -15,6 +15,7 @@ namespace iCost
         {
             PartBin partBin = new PartBin(ht);
             POCost poCost = new POCost(ht);
+            CostTable table = new CostTable(ht);
         }
     }
 }
