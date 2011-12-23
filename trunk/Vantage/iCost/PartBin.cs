@@ -22,8 +22,11 @@ namespace iCost
             string queryString = @" 
              SELECT
                 pb.partNum  as partNum,
+                max(p.PartDescription) as PartDescription,
                 sum(pb.OnhandQty) as OnhandQty 
                 FROM pub.PartBin as pb
+                LEFT JOIN pub.Part as p
+                on pb.PartNum = p.PartNum
                 GROUP BY pb.partNum
                 ";
 
@@ -45,6 +48,7 @@ namespace iCost
         private void AddStyleToHash(OdbcDataReader reader)
         {
             Style st = new Style(System.Convert.ToString(reader["partNum"]));
+            st.StyleDescr = reader["PartDescription"].ToString();
             st.NewQtyOnHand = System.Convert.ToDecimal(reader["OnHandQty"]);
             st.OnHandRemaining = st.NewQtyOnHand;
             ht.Add(st.Upc, st);

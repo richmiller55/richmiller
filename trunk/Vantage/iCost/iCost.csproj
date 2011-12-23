@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bom.cs" />
     <Compile Include="CostMgr.cs" />
     <Compile Include="PartBin.cs" />
     <Compile Include="POCost.cs" />
