@@ -24,6 +24,7 @@ namespace iCost
             if (ht.Count == 0)
             {
                 string message = "no records";
+                Console.WriteLine(message);
             }
             else
             {
