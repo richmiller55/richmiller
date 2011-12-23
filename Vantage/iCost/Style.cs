@@ -8,6 +8,7 @@ namespace iCost
     {                              // UT01 mapping
         string upc;                // key01  
         string styleDescr;         // ShortChar01
+        string upcParent;
         decimal cost;              // Number01
         decimal po_cost;           // Number02
         decimal freight;           // Number03
@@ -18,6 +19,7 @@ namespace iCost
         decimal totalOnHandValue;
         decimal priorQtyOnHand;
         decimal newQtyOnHand;
+
         public Style(string upc)
         {
             Upc = upc;
@@ -27,7 +29,17 @@ namespace iCost
             freight = 0M;
             burden = 0M;
             overhead = 0M;
-
+        }
+        public static Style operator +(Style s1, Style s2)
+        {
+            Style s3 = new Style(s2.Upc);
+            s3.StyleDescr = s2.StyleDescr;
+            s3.Cost = s1.Cost + s2.Cost;
+            s3.PO_Cost = s1.PO_Cost + s2.PO_Cost;
+            s3.Freight = s1.Freight + s2.Freight;
+            s3.Burden = s1.Burden + s2.Burden;
+            s3.Overhead = s1.Overhead + s2.Overhead;
+            return s3;
         }
         public string Upc
         {
@@ -38,6 +50,11 @@ namespace iCost
         {
             get { return styleDescr; }
             set { styleDescr = value; }
+        }
+        public string UpcParent
+        {
+            get { return upcParent; }
+            set { upcParent = value; }
         }
         public decimal Cost
         {

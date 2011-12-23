@@ -52,7 +52,7 @@ namespace iCost
                 row = (UD01DataSet.UD01Row)UD01_ds.UD01.Rows[0];
             }
             Style style = (Style)ht[key];
-            // row.ShortChar01 = style.StyleDescr;
+            row.ShortChar01 = style.StyleDescr;
             row.Key1 = style.Upc;
             row.Number01 = style.Cost;
             row.Number02 = style.PO_Cost;
