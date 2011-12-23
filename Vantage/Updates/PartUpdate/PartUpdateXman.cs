@@ -27,11 +27,11 @@ namespace PartUpdate
                 "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.partObj = new Epicor.Mfg.BO.Part(objSess.ConnectionPool);
         }
-
         public void UpdateListPrice(string line)
         {
+            // setup the list price in the first place
             string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)listPrice.UPC];
+            string partNum = split[(int)listPriceOld.UPC];
             if (partNum.CompareTo("UPC") == 0) return;
             if (this.partObj.PartExists(partNum))
             {
@@ -42,7 +42,7 @@ namespace PartUpdate
                 {
                     row.ISOrigCountryNum = 42;
                 }
-                string strUnitPrice = split[(int)listPrice.unitPrice];
+                string strUnitPrice = split[(int)listPriceOld.unitPrice];
                 Decimal UnitPrice = 0.0M;
                 UnitPrice = Convert.ToDecimal(strUnitPrice);
 
@@ -73,8 +73,9 @@ namespace PartUpdate
         }
         public void PriceUpdate(string line)
         {
+            // using this for the listPrice conversion
             string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)priceUpdate.UPC];
+            string partNum = split[(int)listPrice.UPC];
             if (partNum.CompareTo("UPC") == 0) return;
             if (this.partObj.PartExists(partNum))
             {
@@ -86,8 +87,8 @@ namespace PartUpdate
                     row.ISOrigCountryNum = 42;
                 }
 
-                row.UnitPrice = Convert.ToDecimal(split[(int)priceUpdate.unitPrice]);
-                row.Number08 = Convert.ToDecimal(split[(int)priceUpdate.listPrice]);
+                row.UnitPrice = Convert.ToDecimal(split[(int)listPrice.currentList]);
+                row.Number09 = Convert.ToDecimal(split[(int)listPrice.goalPrice]);
 
                 try
                 {
@@ -100,11 +101,126 @@ namespace PartUpdate
             }
         }
 
+        public void NewPart(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)newPart.UPC];
+            if (partNum == "Part Number")
+            {
+                return;
+            }
+            if (this.partObj.PartExists(partNum))
+            {
+                // throw a fit
+            }
+            else
+            {
+                Epicor.Mfg.BO.PartDataSet ds = new Epicor.Mfg.BO.PartDataSet();
+                this.partObj.GetNewPart(ds);
+                Epicor.Mfg.BO.PartDataSet.PartRow row;
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                row.Company = "CA";
+                row.PartNum = split[(int)newPart.UPC];
+                row.PartDescription = split[(int)newPart.style];
+                row.UserChar1 = split[(int)newPart.style];
+                
+                row.ShortChar02 = split[(int)newPart.loc];
+                string casePack = split[(int)newPart.casePack];
+                row.Number01 = Convert.ToDecimal(casePack);
+                // string country = split[(int)newPart.country];
+                string country = "China";
+                if (country.CompareTo("China") == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+                else if (country.CompareTo("Taiwan") == 0)
+                {
+                    row.ISOrigCountryNum = 176;
+                }
+                row.ProdCode = split[(int)newPart.subClass];
+                row.ClassID = "FG";
+                row.TypeCode = "P";
+                string unitPrice = split[(int)newPart.unitPrice];
+                row.UnitPrice = Convert.ToDecimal(unitPrice);
+                string purchCommentsRaw = split[(int)newPart.purchComments];
+                string purchComments = purchCommentsRaw.Replace(".", ".\n");
+                row.PurComment = purchComments;
+                string message = "posted";
+                try
+                {
+                    partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
+        public void NewPartEx(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)newPart.UPC];
+            if (partNum == "UPC")
+            {
+                return;
+            }
+            if (this.partObj.PartExists(partNum))
+            {
+                // throw a fit
+            }
+            else
+            {
+                Epicor.Mfg.BO.PartDataSet ds = new Epicor.Mfg.BO.PartDataSet();
+                this.partObj.GetNewPart(ds);
+                Epicor.Mfg.BO.PartDataSet.PartRow row;
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                row.Company = "CA";
+                row.PartNum = split[(int)newPartEx.UPC];
+                row.PartDescription = split[(int)newPartEx.style];
+                row.UserChar1 = split[(int)newPartEx.style];
+
+                row.ShortChar02 = split[(int)newPartEx.loc];
+                string casePack = split[(int)newPartEx.casePack];
+                row.Number01 = Convert.ToDecimal(casePack);
+                string country = split[(int)newPartEx.country];
+                // string country = "China";
+                if (country.CompareTo("China") == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+                else if (country.CompareTo("Taiwan") == 0)
+                {
+                    row.ISOrigCountryNum = 176;
+                }
+                row.ProdCode = split[(int)newPartEx.subClass];
+                row.ClassID = "FG";
+                row.TypeCode = "P";
+                string unitPrice = split[(int)newPartEx.unitPrice];
+                row.UnitPrice = Convert.ToDecimal(unitPrice);
+                // string purchCommentsRaw = split[(int)newPart.purchComments];
+                // string purchComments = purchCommentsRaw.Replace(".", ".\n");
+                // row.PurComment = purchComments;
+                row.SearchWord = split[(int)newPartEx.search];
+                string message = "posted";
+                try
+                {
+                    partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
         public void UpdateCatalog(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)catalog.UPC];
             if (partNum == "Part Number")
+            {
+                return;
+            }
+            if (partNum == "UPC")
             {
                 return;
             }
@@ -123,23 +239,30 @@ namespace PartUpdate
                 {
                     row.ShortChar04 = ShortChar04;
                 }
+                /*
+                string ShortChar05 = split[(int)catalog.ShortChar05];
+                if (ShortChar05 != "NA")
+                {
+                    row.ShortChar05 = ShortChar05;
+                }
+                */
                 string ShortChar06 = split[(int)catalog.ShortChar06];
                 if (ShortChar06.CompareTo("") != 0)
                 {
                     row.ShortChar06 = ShortChar06;
                 }
                 string ShortChar07 = split[(int)catalog.ShortChar07];
-                if (ShortChar07 != "NA")
+                if (ShortChar07.CompareTo("NA") != 0)
                 {
                     row.ShortChar07 = ShortChar07;
                 }
                 string Character01 = split[(int)catalog.Character01];
-                if (Character01 != "NA")
+                if (Character01 != "")
                 {
                     row.Character01 = Character01;
                 }
                 string Character02 = split[(int)catalog.Character02];
-                if (Character02 != "NA")
+                if (Character02 != "")
                 {
                     row.Character02 = Character02;
                 }
@@ -149,22 +272,22 @@ namespace PartUpdate
                     row.Number01 = Convert.ToInt32(strNumber01);
                 }
                 string strNumber05 = split[(int)catalog.Number05];
-                if (strNumber05.CompareTo("NA") != 0)
+                if (strNumber05.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
                 {
                     row.Number05 = Convert.ToInt32(strNumber05);
                 }
                 string strNumber06 = split[(int)catalog.Number06];
-                if (strNumber06.CompareTo("NA") != 0)
+                if (strNumber06.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
                 {
                     row.Number06 = Convert.ToInt32(strNumber06);
                 }
                 string strNumber07 = split[(int)catalog.Number07];
-                if (strNumber07.CompareTo("NA") != 0)
+                if (strNumber07.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
                 {
                     row.Number07 = Convert.ToInt32(strNumber07);
                 }
                 string strNumber08 = split[(int)catalog.Number08];
-                if (strNumber08.CompareTo("NA") != 0)
+                if (strNumber08.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
                 {
                     row.Number08 = Convert.ToDecimal(strNumber08);
                 }
@@ -173,7 +296,6 @@ namespace PartUpdate
                 {
                     row.UnitPrice = Convert.ToDecimal(strUnitPrice);
                 }
-
                 string strCheckBox02 = split[(int)catalog.CheckBox02];
                 if (strCheckBox02.CompareTo("NA") != 0)
                 {
@@ -230,7 +352,7 @@ namespace PartUpdate
                 {
                     row.ISOrigCountryNum = 42;
                 }
-
+                
                 /*
                 string strNumber08 = split[(int)catalog.Number08];
                 if (strNumber08 != "N/A")
