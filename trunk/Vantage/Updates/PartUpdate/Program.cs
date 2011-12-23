@@ -15,8 +15,6 @@ namespace PartUpdate
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             UpdateTextReader reader = new UpdateTextReader();
-            Application.Run(new Form1());
-
         }
     }
 }

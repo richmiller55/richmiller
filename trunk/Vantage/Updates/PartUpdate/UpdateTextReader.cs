@@ -21,6 +21,13 @@ namespace PartUpdate
     }
     public enum listPrice
     {
+        UPC,
+        currentList,
+        goalPrice,
+        filler
+    }
+    public enum listPriceOld
+    {
         prodClass,
         UPC,
         partDescr,
@@ -47,6 +54,7 @@ namespace PartUpdate
     public enum locUpdate
     {
         UPC,
+        descr,
         LOC,
         filler
     }
@@ -71,9 +79,9 @@ namespace PartUpdate
         Number06,
         Number07,
         ShortChar07,
-        ShortChar06,
         UnitPrice,
         Number08,
+        ShortChar06,
         Character01,
         Character02
     }
@@ -115,6 +123,37 @@ namespace PartUpdate
         colors,
         filler
     }
+    public enum newPart
+    {
+        UPC,
+        style,
+        descr,
+        type,
+        subClass,
+        purchType,
+        unitPrice,
+        country,
+        loc,
+        casePack,
+        search,
+        shortChar05,
+        purchComments,
+        filler
+    }
+    public enum newPartEx
+    {
+        UPC, 
+        style,
+        subClass,
+        country,
+        type,
+        unitPrice,
+        purchType,
+        loc,
+        casePack,
+        search,
+        filler
+    }
     public enum printOption
     {
         UPC,
@@ -124,9 +163,8 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "D:/users/rich/data/PartUpdates/PrintOptions03.08.11.txt";
+        string file = "I:/data/updates/parts/partKim_Beals_23Dec2011.txt";
         StreamReader tr;
-
         public UpdateTextReader()
         {
             tr = new StreamReader(file);
@@ -139,7 +177,9 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                xman.UpdatePrintOptions(line);
+                xman.NewPartEx(line);
+                // xman.SimpleUpdatePart(line);
+                // xman.UpdateCatalog(line);
             }
         }
     }
