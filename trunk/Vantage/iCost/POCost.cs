@@ -69,7 +69,6 @@ namespace iCost
                      * as long as you know something
                      *
                      */
-
                     if (OrderQty >= QtyOnHand)
                     {
                         style.TotalOnHandValue = style.TotalOnHandValue + (QtyOnHand * POUnitCost);
