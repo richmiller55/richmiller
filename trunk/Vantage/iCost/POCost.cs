@@ -25,10 +25,13 @@ namespace iCost
                 poh.PONum  as PONum,
         		pod.PartNum as PartNum,
                 pod.OrderQty as OrderQty,
-		        pod.UnitCost as POUnitCost
+		        pod.UnitCost as POUnitCost,
+                p.PartDescription as PartDescription
              FROM pub.POHeader as poh
 		       LEFT JOIN pub.PODetail as pod
 		         on poh.PONum = pod.PONum
+               left join pub.Part as p
+                 on pod.PartNum = p.PartNum
              where pod.PartNum is not null
 	         ORDER BY pod.PartNum, poh.OrderDate desc
                 ";
@@ -57,6 +60,7 @@ namespace iCost
             if (ht.ContainsKey(partNum))
             {
                 Style style = (Style)ht[partNum];
+                style.StyleDescr = Convert.ToString(reader["PartDescription"]);
                 decimal QtyOnHand = style.NewQtyOnHand;
                 decimal OrderQty = Convert.ToDecimal(reader["OrderQty"]);
                 decimal POUnitCost = Convert.ToDecimal(reader["POUnitCost"]);

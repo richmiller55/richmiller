@@ -14,6 +14,7 @@ namespace iCost
         decimal freight;           // Number03
         decimal burden;            // Number04
         decimal overhead;          // Number05
+        decimal printExpense;
         // this is not thought out. is it.
         decimal onHandRemaining;
         decimal totalOnHandValue;
@@ -29,6 +30,7 @@ namespace iCost
             freight = 0M;
             burden = 0M;
             overhead = 0M;
+            printExpense = 0M;
         }
         public static Style operator +(Style s1, Style s2)
         {
@@ -58,12 +60,12 @@ namespace iCost
         }
         public decimal Cost
         {
-            get { return cost; }
+            get { return decimal.Round(cost,4); }
             set { cost = value; }
         }
         public decimal PO_Cost
         {
-            get { return po_cost; }
+            get { return decimal.Round(po_cost); }
             set { po_cost = value; }
         }
         public decimal TotalOnHandValue
@@ -73,18 +75,23 @@ namespace iCost
         }
         public decimal Burden
         {
-            get { return burden; }
+            get { return decimal.Round(burden); }
             set { burden = value; }
         }
         public decimal Freight
         {
-            get { return freight; }
+            get { return decimal.Round(freight); }
             set { freight = value; }
         }
         public decimal Overhead
         {
-            get { return overhead; }
+            get { return decimal.Round(overhead); }
             set { overhead = value; }
+        }
+        public decimal PrintExpense
+        {
+            get { return decimal.Round(printExpense); }
+            set { printExpense = value; }
         }
         public decimal PriorQtyOnHand
         {
