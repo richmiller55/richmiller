@@ -32,8 +32,8 @@ namespace iCost
         }
         public static Style operator +(Style s1, Style s2)
         {
-            Style s3 = new Style(s2.Upc);
-            s3.StyleDescr = s2.StyleDescr;
+            Style s3 = new Style(s1.Upc);
+            s3.StyleDescr = s1.StyleDescr;
             s3.Cost = s1.Cost + s2.Cost;
             s3.PO_Cost = s1.PO_Cost + s2.PO_Cost;
             s3.Freight = s1.Freight + s2.Freight;

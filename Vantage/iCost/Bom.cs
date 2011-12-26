@@ -64,13 +64,18 @@ namespace iCost
                             {
                                 // now get all the children for that parent
                                 // string parent = bomHash[child].ToString();
-                                
-                                ArrayList children = (ArrayList)parentList[parent.ToString()];
-                                IEnumerator childList = children.GetEnumerator();
-                                while (childList.MoveNext())
+                                if (parentList.ContainsKey(parent.ToString()))
                                 {
-                                    result = result + (Style)ht[childList.Current];
-                                }
+                                    ArrayList children = (ArrayList)parentList[parent.ToString()];
+                                    IEnumerator childList = children.GetEnumerator();
+                                    while (childList.MoveNext())
+                                    {
+                                        if (ht.ContainsKey(childList.Current))
+                                        {
+                                            result = result + (Style)ht[childList.Current];
+                                        }
+                                    }
+                                }    
                             }
                         }
                     }
