@@ -53,11 +53,13 @@
     <Compile Include="Bom.cs" />
     <Compile Include="CostMgr.cs" />
     <Compile Include="PartBin.cs" />
+    <Compile Include="PartInfo.cs" />
     <Compile Include="POCost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="CostTable.cs" />
+    <Compile Include="VanPart.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

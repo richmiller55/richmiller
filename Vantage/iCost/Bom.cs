@@ -9,11 +9,13 @@ namespace iCost
         Hashtable bomHash;
         Hashtable parentList;
         Hashtable ht;
+        PartInfo partInfo;
         string Dsn; 
         public Bom(Hashtable ht)
         {
             this.ht = ht;
             Dsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            partInfo = new PartInfo();
             bomHash = new Hashtable(2000);
             parentList = new Hashtable(2000);
             GetData();
@@ -44,30 +46,8 @@ namespace iCost
         }
         private void FillDescrption(ref Style style)
         {
-            string queryString = @" 
-             SELECT
-                p.PartDescription  as DESCR
-                FROM pub.Part as p
-                WHERE p.PartNum = " + "'" + style.Upc.ToString() + "'";
-
-            using (OdbcConnection connection = new OdbcConnection(Dsn))
-            {
-                OdbcCommand command = new OdbcCommand(queryString, connection);
-                connection.Open();
-                OdbcDataReader reader;
-                reader = command.ExecuteReader();
-                try
-                {
-                    
-                    style.StyleDescr = Convert.ToString(reader["DESCR"]);
-                }
-                catch (InvalidOperationException e)
-                {
-                    style.StyleDescr = "NotOnFile";
-                    style.Diag += e.Message;
-                }
-                reader.Close();
-            }
+            string partNum = style.Upc;
+            style.StyleDescr = partInfo.GetDescr(partNum);
         }
         private void ChildIsSumOfParents()
         {
