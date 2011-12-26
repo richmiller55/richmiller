@@ -17,7 +17,6 @@ namespace iCost
                 "AppServerDC://VantageDB1:8331", Session.LicenseType.Default);
             WriteTable();
         }
-
         public void WriteTable()
         {
             System.Collections.ICollection MyKeys;
@@ -60,6 +59,7 @@ namespace iCost
             row.Number03 = style.Freight;
             row.Number04 = style.Burden;
             row.Number05 = style.Overhead;
+            row.Number06 = style.PrintExpense;
             try
             {
                 ud01Obj.Update(UD01_ds);
