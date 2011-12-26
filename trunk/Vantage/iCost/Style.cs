@@ -9,6 +9,7 @@ namespace iCost
         string upc;                // key01  
         string styleDescr;         // ShortChar01
         string upcParent;
+        string diag;
         decimal cost;              // Number01
         decimal po_cost;           // Number02
         decimal freight;           // Number03
@@ -24,6 +25,7 @@ namespace iCost
         public Style(string upc)
         {
             Upc = upc;
+            diag = "";
             TotalOnHandValue = 0.0M;
             cost = 0.0M;
             po_cost = 0.0M;
@@ -52,6 +54,11 @@ namespace iCost
         {
             get { return styleDescr; }
             set { styleDescr = value; }
+        }
+        public string Diag
+        {
+            get { return diag; }
+            set { diag = value; }
         }
         public string UpcParent
         {

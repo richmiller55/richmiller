@@ -45,10 +45,12 @@ namespace iCost
                 OdbcDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine("PONum={0} part={1}  cost={2}", 
+                    /* Console.WriteLine("PONum={0} part={1}  cost={2}", 
                             reader["PONum"], 
                             reader["PartNum"], 
                             reader["POUnitCost"]);
+                     * 
+                     * */
 		            DetermineCost(reader);
                 }
                 reader.Close();

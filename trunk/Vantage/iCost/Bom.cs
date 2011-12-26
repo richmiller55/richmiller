@@ -9,9 +9,11 @@ namespace iCost
         Hashtable bomHash;
         Hashtable parentList;
         Hashtable ht;
+        string Dsn; 
         public Bom(Hashtable ht)
         {
             this.ht = ht;
+            Dsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             bomHash = new Hashtable(2000);
             parentList = new Hashtable(2000);
             GetData();
@@ -19,8 +21,7 @@ namespace iCost
         }
         public void GetData()
         {
-            string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
-            ReadData(pilotDsn);
+            ReadData(Dsn);
         }
         public void ReadData(string connectionString)
         {
@@ -38,6 +39,33 @@ namespace iCost
                 connection.Open();
                 OdbcDataReader reader = command.ExecuteReader();
                 InitBomHash(reader);
+                reader.Close();
+            }
+        }
+        private void FillDescrption(ref Style style)
+        {
+            string queryString = @" 
+             SELECT
+                p.PartDescription  as DESCR
+                FROM pub.Part as p
+                WHERE p.PartNum = " + "'" + style.Upc.ToString() + "'";
+
+            using (OdbcConnection connection = new OdbcConnection(Dsn))
+            {
+                OdbcCommand command = new OdbcCommand(queryString, connection);
+                connection.Open();
+                OdbcDataReader reader;
+                reader = command.ExecuteReader();
+                try
+                {
+                    
+                    style.StyleDescr = Convert.ToString(reader["DESCR"]);
+                }
+                catch (InvalidOperationException e)
+                {
+                    style.StyleDescr = "NotOnFile";
+                    style.Diag += e.Message;
+                }
                 reader.Close();
             }
         }
@@ -73,6 +101,7 @@ namespace iCost
                                         if (ht.ContainsKey(childList.Current))
                                         {
                                             result = result + (Style)ht[childList.Current];
+                                            FillDescrption(ref result);
                                         }
                                     }
                                 }    
