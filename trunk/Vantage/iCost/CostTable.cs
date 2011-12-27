@@ -57,9 +57,10 @@ namespace iCost
             row.Number01 = style.Cost;
             row.Number02 = style.PO_Cost;
             row.Number03 = style.Freight;
-            row.Number04 = style.Burden;
-            row.Number05 = style.Overhead;
-            row.Number06 = style.PrintExpense;
+            row.Number04 = style.Duty;
+            row.Number05 = style.Burden;
+            row.Number06 = style.Overhead;
+            row.Number07 = style.PrintExpense;
             try
             {
                 ud01Obj.Update(UD01_ds);

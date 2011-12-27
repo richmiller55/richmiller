@@ -15,6 +15,8 @@ namespace iCost
         decimal freight;           // Number03
         decimal burden;            // Number04
         decimal overhead;          // Number05
+        decimal duty;              // Number06
+    
         decimal printExpense;
         // this is not thought out. is it.
         decimal onHandRemaining;
@@ -43,6 +45,7 @@ namespace iCost
             s3.Freight = s1.Freight + s2.Freight;
             s3.Burden = s1.Burden + s2.Burden;
             s3.Overhead = s1.Overhead + s2.Overhead;
+            s3.Duty = s1.Duty + s2.Duty;
             return s3;
         }
         public string Upc
@@ -94,6 +97,11 @@ namespace iCost
         {
             get { return decimal.Round(overhead); }
             set { overhead = value; }
+        }
+        public decimal Duty
+        {
+            get { return decimal.Round(duty); }
+            set { duty = value; }
         }
         public decimal PrintExpense
         {
