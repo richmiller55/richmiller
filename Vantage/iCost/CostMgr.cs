@@ -9,12 +9,14 @@ namespace iCost
         public CostMgr()
         {
             ht = new Hashtable(5000);
-            FillOnHand();
+            UpdateCosts();
         }
-        private void FillOnHand()
+        private void UpdateCosts()
         {
             PartBin partBin = new PartBin(ht);
             POCost poCost = new POCost(ht);
+            Duty duty = new Duty(ref ht);
+            Burden burden = new Burden(ref ht);
             Bom bom = new Bom(ht);
             // CostTable table = new CostTable(ht);
         }

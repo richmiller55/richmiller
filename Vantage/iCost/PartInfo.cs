@@ -90,6 +90,10 @@ namespace iCost
             }
             return result;
         }
+        public bool ContainsKey(string partNum)
+        {
+            return vanPartHash.ContainsKey(partNum);
+        }
         public decimal GetUnitPrice(string partNum)
         {
             decimal result = 0M;
