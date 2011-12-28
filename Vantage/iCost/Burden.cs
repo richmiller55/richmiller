@@ -5,36 +5,43 @@ namespace iCost
 {
     public class Burden
     {
-        Hashtable ht;
+        Hashtable oldHt;
+        Hashtable newHt;
         PartInfo partInfo;
 
-        public Burden(ref Hashtable ht)
+        public Burden(Hashtable ht)
         {
-            this.ht = ht;
+            oldHt = ht;
+            newHt = new Hashtable(oldHt.Count);
             partInfo = new PartInfo();
             ApplyBurden();
         }
+        public Hashtable NewHt
+        {
+            get { return newHt; }
+            set { newHt = value; }
+        }
         private void ApplyBurden()
         {
-            if (ht.Count == 0)
+            if (oldHt.Count == 0)
             {
                 string message = "no records";
                 Console.WriteLine(message);
             }
             else
             {
-                ICollection onHand = ht.Keys;
-                foreach (object part in onHand) 
+                ICollection onHand = oldHt.Keys;
+                foreach (object part in onHand)
                 {
                     if (partInfo.ContainsKey(part.ToString()))
                     {
                         decimal burden = partInfo.GetBurden(part.ToString());
-                        Style style = (Style)ht[part];
+                        Style style = (Style)oldHt[part];
                         style.Burden = burden;
-                        ht[part] = style;
-                        }
+                        newHt.Add(part, style);
                     }
                 }
             }
         }
+    }
 }

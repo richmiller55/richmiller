@@ -8,12 +8,15 @@ namespace iCost
     {
         Hashtable bomHash;
         Hashtable parentList;
-        Hashtable ht;
+        Hashtable oldHt;
+        Hashtable newHt;
         PartInfo partInfo;
         string Dsn; 
         public Bom(Hashtable ht)
         {
-            this.ht = ht;
+            oldHt = ht;
+            newHt = new Hashtable(oldHt);
+
             Dsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             partInfo = new PartInfo();
             bomHash = new Hashtable(2000);
@@ -21,6 +24,23 @@ namespace iCost
             GetData();
             ChildIsSumOfParents();
         }
+        private void AddToNewHash(string key, Style style)
+        {
+            if (newHt.ContainsKey(key))
+            {
+                newHt[key] = style;
+            }
+            else
+            {
+                newHt.Add(key, style);
+            }
+        }
+        public Hashtable NewHt
+        {
+            get { return newHt; }
+            set { newHt = value; }
+        }
+
         public void GetData()
         {
             ReadData(Dsn);
@@ -51,15 +71,14 @@ namespace iCost
         }
         private void ChildIsSumOfParents()
         {
-            if (ht.Count == 0)
+            if (oldHt.Count == 0)
             {
                 string message = "no records";
                 Console.WriteLine(message);
-
             }
             else
             {
-                ICollection onHand = ht.Keys;
+                ICollection onHand = oldHt.Keys;
                 foreach (object part in onHand)  // part needs a cost
                 {
                     if (bomHash.ContainsValue(part))
@@ -78,10 +97,12 @@ namespace iCost
                                     IEnumerator childList = children.GetEnumerator();
                                     while (childList.MoveNext())
                                     {
-                                        if (ht.ContainsKey(childList.Current))
+                                        if (oldHt.ContainsKey(childList.Current))
                                         {
-                                            result = result + (Style)ht[childList.Current];
+                                            result = result + (Style)oldHt[childList.Current];
+                                            result.Diag += " BOM From: " + childList.Current.ToString();
                                             FillDescrption(ref result);
+                                            AddToNewHash(result.Upc, result);
                                         }
                                     }
                                 }    
