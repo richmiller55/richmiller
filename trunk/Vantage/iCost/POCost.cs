@@ -2,7 +2,6 @@ using System;
 using System.Data.Odbc;
 using System.Collections;
 
-
 namespace iCost
 {
     public class POCost
@@ -40,8 +39,6 @@ namespace iCost
             {
                 OdbcCommand command = new OdbcCommand(queryString, connection);
                 connection.Open();
-
-                // Execute the DataReader and access the data.
                 OdbcDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -79,6 +76,9 @@ namespace iCost
                     {
                         style.TotalOnHandValue = style.TotalOnHandValue + (QtyOnHand * POUnitCost);
                         style.PO_Cost = style.TotalOnHandValue / QtyOnHand;
+                        style.Diag += "TotalOnHandValue:" + style.TotalOnHandValue.ToString();
+                        style.Diag += "  QtyOnHand: " + QtyOnHand.ToString();
+                        style.Diag += " POUnitCost: " + POUnitCost.ToString();
                         style.OnHandRemaining = 0;
                     }
                     else

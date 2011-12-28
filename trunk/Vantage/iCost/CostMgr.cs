@@ -15,10 +15,13 @@ namespace iCost
         {
             PartBin partBin = new PartBin(ht);
             POCost poCost = new POCost(ht);
-            Duty duty = new Duty(ref ht);
-            Burden burden = new Burden(ref ht);
+            Duty duty = new Duty(ht);
+            ht = duty.NewHt;
+            Burden burden = new Burden(ht);
+            ht = burden.NewHt;
             Bom bom = new Bom(ht);
-            // CostTable table = new CostTable(ht);
+            ht = bom.NewHt;
+            CostTable table = new CostTable(ht);
         }
     }
 }

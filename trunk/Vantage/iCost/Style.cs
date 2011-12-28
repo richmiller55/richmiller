@@ -46,6 +46,7 @@ namespace iCost
             s3.Burden = s1.Burden + s2.Burden;
             s3.Overhead = s1.Overhead + s2.Overhead;
             s3.Duty = s1.Duty + s2.Duty;
+            s3.Diag = s1.Diag + s2.Diag;
             return s3;
         }
         public string Upc
@@ -75,7 +76,7 @@ namespace iCost
         }
         public decimal PO_Cost
         {
-            get { return decimal.Round(po_cost); }
+            get { return decimal.Round(po_cost,4); }
             set { po_cost = value; }
         }
         public decimal TotalOnHandValue
@@ -85,27 +86,27 @@ namespace iCost
         }
         public decimal Burden
         {
-            get { return decimal.Round(burden); }
+            get { return decimal.Round(burden,4); }
             set { burden = value; }
         }
         public decimal Freight
         {
-            get { return decimal.Round(freight); }
+            get { return decimal.Round(freight,4); }
             set { freight = value; }
         }
         public decimal Overhead
         {
-            get { return decimal.Round(overhead); }
+            get { return decimal.Round(overhead,4); }
             set { overhead = value; }
         }
         public decimal Duty
         {
-            get { return decimal.Round(duty); }
+            get { return decimal.Round(duty,4); }
             set { duty = value; }
         }
         public decimal PrintExpense
         {
-            get { return decimal.Round(printExpense); }
+            get { return decimal.Round(printExpense,4); }
             set { printExpense = value; }
         }
         public decimal PriorQtyOnHand

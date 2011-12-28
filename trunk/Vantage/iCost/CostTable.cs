@@ -38,6 +38,7 @@ namespace iCost
         public void AddOrUpdateRecord(string key)
         {
             UD01 ud01Obj = new UD01(objSess.ConnectionPool);
+            
             UD01DataSet UD01_ds; 
             UD01DataSet.UD01Row row;
             try
@@ -61,6 +62,7 @@ namespace iCost
             row.Number05 = style.Burden;
             row.Number06 = style.Overhead;
             row.Number07 = style.PrintExpense;
+            row.Character01 = style.Diag;
             try
             {
                 ud01Obj.Update(UD01_ds);
