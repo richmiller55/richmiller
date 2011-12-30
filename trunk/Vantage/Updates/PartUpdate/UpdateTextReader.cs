@@ -163,7 +163,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/partKim_Beals_23Dec2011.txt";
+        string file = "I:/data/updates/parts/partKim_Beals_30Dec2011.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
