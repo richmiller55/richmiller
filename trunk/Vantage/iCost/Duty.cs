@@ -37,7 +37,7 @@ namespace iCost
                     {
                         decimal dutyRate = partInfo.GetDutyRate(part.ToString());
                         Style style = (Style)oldHt[part];
-                        style.Duty = style.PO_Cost * dutyRate / 100;
+                        style.Duty = style.AveragePO_Cost * dutyRate / 100;
                         newHt.Add(part, style);
                     }
                 }
