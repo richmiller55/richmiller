@@ -22,6 +22,7 @@ namespace iCost
             string queryString = @" 
              SELECT
                 poh.PONum  as PONum,
+                poh.OrderDate as OrderDate,
         		pod.PartNum as PartNum,
                 pod.OrderQty as OrderQty,
 		        pod.UnitCost as POUnitCost,
@@ -75,10 +76,11 @@ namespace iCost
                     if (OrderQty >= QtyOnHand)
                     {
                         style.TotalOnHandValue = style.TotalOnHandValue + (QtyOnHand * POUnitCost);
-                        style.PO_Cost = style.TotalOnHandValue / QtyOnHand;
-                        style.Diag += "TotalOnHandValue:" + style.TotalOnHandValue.ToString();
-                        style.Diag += "  QtyOnHand: " + QtyOnHand.ToString();
-                        style.Diag += " POUnitCost: " + POUnitCost.ToString();
+                        style.AveragePO_Cost= style.TotalOnHandValue / QtyOnHand;
+
+                        style.PoLog += "TOHV:" + style.TotalOnHandValue.ToString();
+                        style.PoLog += "QOH: " + QtyOnHand.ToString();
+                        style.PoLog += "AVGPOCst: " + POUnitCost.ToString();
                         style.OnHandRemaining = 0;
                     }
                     else

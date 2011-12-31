@@ -40,7 +40,6 @@ namespace iCost
             get { return newHt; }
             set { newHt = value; }
         }
-
         public void GetData()
         {
             ReadData(Dsn);
@@ -100,7 +99,10 @@ namespace iCost
                                         if (oldHt.ContainsKey(childList.Current))
                                         {
                                             result = result + (Style)oldHt[childList.Current];
-                                            result.Diag += " BOM From: " + childList.Current.ToString();
+                                            Style child = (Style)oldHt[childList.Current];
+                                            
+                                            result.BomLog += " BOM: " + childList.Current.ToString();
+                                            result.BomLog += " Amt:" + child.Cost.ToString();
                                             FillDescrption(ref result);
                                             AddToNewHash(result.Upc, result);
                                         }
