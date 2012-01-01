@@ -52,6 +52,8 @@ namespace iCost
             s3.Burden = s1.Burden + s2.Burden;
             s3.Overhead = s1.Overhead + s2.Overhead;
             s3.Duty = s1.Duty + s2.Duty;
+            s3.BomLog = s1.BomLog + s2.BomLog;
+            s3.PoLog = s1.PoLog + s2.PoLog;
            
             return s3;
         }
@@ -67,13 +69,7 @@ namespace iCost
         }
         public string PoLog
         {
-            get
-            {
-                if (poLog.Length > 1000)
-                { 
-                    return poLog.Substring(0, 1000); 
-                } else { return poLog; }
-            }
+            get { return poLog; }
             set { poLog = value; }
         }
         public string BomLog
