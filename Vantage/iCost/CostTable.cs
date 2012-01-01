@@ -16,8 +16,8 @@ namespace iCost
             objSess = new Session("rich", "homefed55",
                 "AppServerDC://VantageDB1:8331", Session.LicenseType.Default);
             // DeleteSome();
-            // WriteTable();
-            WriteText();
+            WriteTable();
+            // WriteText();
         }
         public void DeleteSome()
         {
@@ -69,7 +69,7 @@ namespace iCost
         public void AddOrUpdateRecord(UD01 ud01Obj, string key,int count)
         {
             // UD01 ud01Obj = new UD01(objSess.ConnectionPool)
-            if (key == "757026220485") { return; }
+            // if (key == "757026220485") { return; }
             UD01DataSet UD01_ds; 
             UD01DataSet.UD01Row row;
             try
@@ -94,9 +94,9 @@ namespace iCost
             row.Number06 = style.Overhead;
             row.Number07 = style.PrintExpense;
             row.Number08 = style.LastPO_Cost;
-            row.Character01 = style.PoLog;
-            row.Character02 = style.BomLog;
-            row.Character03 = style.FreightLog;
+            row.Character01 = Chop1000(style.PoLog);
+            row.Character02 = Chop1000(style.BomLog);
+            row.Character03 = Chop1000(style.FreightLog);
             try
             {
                 ud01Obj.Update(UD01_ds);
@@ -105,6 +105,14 @@ namespace iCost
             {
                 string message = e.Message;
             }
+        }
+        private string Chop1000(string log)
+        {
+            if (log.Length > 1000)
+            {
+                return log.Substring(0, 1000);
+            }
+            else { return log; }
         }
         public void WriteText()
         {
