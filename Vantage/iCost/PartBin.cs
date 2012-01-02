@@ -6,27 +6,24 @@ namespace iCost
 {
     public class PartBin
     {
-        Hashtable ht;
-        public PartBin(Hashtable hashtable)
+        Hashtable partOnHand;
+        public PartBin()
         {
-            this.ht = hashtable;
-            GetData();
+            partOnHand = new Hashtable(3000);
+            LoadHash();
         }
-        public void GetData()
+        private void LoadHash()
         {
             string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             ReadData(pilotDsn);
         }
-        public void ReadData(string connectionString)
+        private void ReadData(string connectionString)
         {
             string queryString = @" 
              SELECT
                 pb.partNum  as partNum,
-                max(p.PartDescription) as PartDescription,
                 sum(pb.OnhandQty) as OnhandQty 
                 FROM pub.PartBin as pb
-                LEFT JOIN pub.Part as p
-                on pb.PartNum = p.PartNum
                 GROUP BY pb.partNum
                 ";
 
@@ -34,24 +31,28 @@ namespace iCost
             {
                 OdbcCommand command = new OdbcCommand(queryString, connection);
                 connection.Open();
-
-                // Execute the DataReader and access the data.
                 OdbcDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     AddStyleToHash(reader);
-                    // Console.WriteLine("PartNum={0}", reader[0]);
                 }
                 reader.Close();
             }
         }
         private void AddStyleToHash(OdbcDataReader reader)
         {
-            Style st = new Style(System.Convert.ToString(reader["partNum"]));
-            st.StyleDescr = reader["PartDescription"].ToString();
-            st.NewQtyOnHand = System.Convert.ToDecimal(reader["OnHandQty"]);
-            st.OnHandRemaining = st.NewQtyOnHand;
-            ht.Add(st.Upc, st);
+            string upc = System.Convert.ToString(reader["partNum"]);
+            decimal onHandQty = System.Convert.ToDecimal(reader["OnHandQty"]);
+            partOnHand.Add(upc, decimal.Round(onHandQty,1));
+        }
+        public decimal GetOnHand(string upc)
+        {
+            decimal result = 0M;
+            if (partOnHand.ContainsKey(upc))
+            {
+                result = System.Convert.ToDecimal(partOnHand[upc]);
+            }
+            return result;
         }
     }
 }

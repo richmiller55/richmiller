@@ -14,7 +14,7 @@ namespace iCost
         string freightLog;
         decimal cost;              // Number01
         decimal po_cost;           // Number02
-        decimal lastPO_Cost;
+        // decimal lastPO_Cost;
         decimal freight;           // Number03
         decimal burden;            // Number04
         decimal overhead;          // Number05
@@ -36,7 +36,7 @@ namespace iCost
             TotalOnHandValue = 0.0M;
             cost = 0.0M;
             po_cost = 0.0M;
-            lastPO_Cost = 0.0M;
+            // lastPO_Cost = 0.0M;
             freight = 0M;
             burden = 0M;
             overhead = 0M;

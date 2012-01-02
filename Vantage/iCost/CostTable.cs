@@ -15,7 +15,7 @@ namespace iCost
             ht = inHash;
             objSess = new Session("rich", "homefed55",
                 "AppServerDC://VantageDB1:8331", Session.LicenseType.Default);
-            // DeleteSome();
+            // DeleteTable();
             WriteTable();
             // WriteText();
         }
@@ -84,7 +84,7 @@ namespace iCost
             }
             row = (UD01DataSet.UD01Row)UD01_ds.UD01.Rows[0];
             Style style = (Style)ht[key];
-            row.ShortChar01 = style.StyleDescr;
+            row.ShortChar01 = Chop(style.StyleDescr,50);
             row.Key1 = style.Upc;
             row.Number01 = style.Cost;
             row.Number02 = style.AveragePO_Cost;
@@ -94,9 +94,9 @@ namespace iCost
             row.Number06 = style.Overhead;
             row.Number07 = style.PrintExpense;
             row.Number08 = style.LastPO_Cost;
-            row.Character01 = Chop1000(style.PoLog);
-            row.Character02 = Chop1000(style.BomLog);
-            row.Character03 = Chop1000(style.FreightLog);
+            row.Character01 = Chop(style.PoLog, 1000);
+            row.Character02 = Chop(style.BomLog, 1000);
+            row.Character03 = Chop(style.FreightLog, 1000);
             try
             {
                 ud01Obj.Update(UD01_ds);
@@ -106,11 +106,11 @@ namespace iCost
                 string message = e.Message;
             }
         }
-        private string Chop1000(string log)
+        private string Chop(string log, int length)
         {
-            if (log.Length > 1000)
+            if (log.Length > length)
             {
-                return log.Substring(0, 1000);
+                return log.Substring(0, length);
             }
             else { return log; }
         }
@@ -140,7 +140,8 @@ namespace iCost
                         output.Append(style.Duty + "\t");                
                         output.Append(style.Burden + "\t");                
                         output.Append(style.Overhead + "\t");                
-                        output.Append(style.PoLog + "\t");                
+                        output.Append(style.PoLog + "\t");
+                        output.Append(style.BomLog + "\t");                
                         Console.WriteLine(output);
                     }
                 }

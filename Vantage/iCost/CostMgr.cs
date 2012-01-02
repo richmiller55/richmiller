@@ -13,8 +13,8 @@ namespace iCost
         }
         private void UpdateCosts()
         {
-            PartBin partBin = new PartBin(ht);
             POCost poCost = new POCost(ht);
+            ht = poCost.NewHt;
             Duty duty = new Duty(ht);
             ht = duty.NewHt;
             Burden burden = new Burden(ht);
