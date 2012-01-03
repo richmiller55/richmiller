@@ -54,6 +54,7 @@
     <Compile Include="Burden.cs" />
     <Compile Include="CostMgr.cs" />
     <Compile Include="Duty.cs" />
+    <Compile Include="Freight.cs" />
     <Compile Include="PartBin.cs" />
     <Compile Include="PartInfo.cs" />
     <Compile Include="POCost.cs" />
