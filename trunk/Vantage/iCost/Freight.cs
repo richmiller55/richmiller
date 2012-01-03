@@ -3,25 +3,24 @@ using System.Collections;
 
 namespace iCost
 {
-    public class Burden
+    public class Freight
     {
         Hashtable oldHt;
         Hashtable newHt;
         PartInfo partInfo;
-
-        public Burden(Hashtable ht)
+        public Freight(Hashtable ht)
         {
             oldHt = ht;
             newHt = new Hashtable(oldHt.Count);
             partInfo = new PartInfo();
-            ApplyBurden();
+            ApplyFreight();
         }
         public Hashtable NewHt
         {
             get { return newHt; }
             set { newHt = value; }
         }
-        private void ApplyBurden()
+        private void ApplyFreight()
         {
             if (oldHt.Count == 0)
             {
@@ -35,9 +34,9 @@ namespace iCost
                 {
                     if (partInfo.ContainsKey(part.ToString()))
                     {
-                        decimal burden = partInfo.GetBurden(part.ToString());
+                        decimal freight = partInfo.GetFreight(part.ToString());
                         Style style = (Style)oldHt[part];
-                        style.Burden = burden * style.CasePack;
+                        style.Freight = freight * style.CasePack;
                         newHt.Add(part, style);
                     }
                 }

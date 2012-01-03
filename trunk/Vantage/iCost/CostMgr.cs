@@ -15,6 +15,8 @@ namespace iCost
         {
             POCost poCost = new POCost(ht);
             ht = poCost.NewHt;
+            Freight frt = new Freight(ht);
+            ht = frt.NewHt;
             Duty duty = new Duty(ht);
             ht = duty.NewHt;
             Burden burden = new Burden(ht);

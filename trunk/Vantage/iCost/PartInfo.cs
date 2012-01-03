@@ -71,6 +71,91 @@ namespace iCost
             }
             return result;
         }
+        public decimal GetFreight(string partNum)
+        {
+            decimal result = 0M;
+            if (vanPartHash.ContainsKey(partNum))
+            {
+                VanPart vanPart = (VanPart)vanPartHash[partNum];
+                string prodCode = vanPart.ProdCode;
+                switch (prodCode)
+                {
+                    case "5P":
+                        result = .10M;
+                        break;
+                    case "11A":
+                        result = .15M;
+                        break;
+                    case "11B":
+                        result = .15M;
+                        break;
+                    case "11C":
+                        result = .15M;
+                        break;
+                    case "11Z":
+                        result = .15M;
+                        break;
+                    case "5A":
+                        result = .47M;
+                        break;
+                    case "5B":
+                        result = .47M;
+                        break;
+                    case "5C":
+                        result = .47M;
+                        break;
+                    case "5D":
+                        result = .47M;
+                        break;
+                    case "5E":
+                        result = .47M;
+                        break;
+                    case "5F":
+                        result = .47M;
+                        break;
+                    case "5G":
+                        result = .47M;
+                        break;
+                    case "5H":
+                        result = .47M;
+                        break;
+                    case "5I":
+                        result = .47M;
+                        break;
+                    case "5J":
+                        result = .47M;
+                        break;
+                    case "5M":
+                        result = .47M;
+                        break;
+                    case "5z":
+                        result = .47M;
+                        break;
+                    case "5Z":
+                        result = .47M;
+                        break;
+                    case "3A":
+                        result = .47M;
+                        break;
+                    case "3B":
+                        result = .47M;
+                        break;
+                    case "3C":
+                        result = .47M;
+                        break;
+                    case "3D":
+                        result = .47M;
+                        break;
+                    case "3Z":
+                        result = .47M;
+                        break;
+                    default:
+                        result = .06M;
+                        break;
+                }
+            }
+            return result;
+        }
         public decimal GetBurden(string partNum)
         {
             decimal result = 0M;
