@@ -23,6 +23,7 @@ namespace iCost
                 p.UnitPrice as UnitPrice,
                 p.ShortChar02 as loc,
                 p.ProdCode as ProdCode,
+                p.Number01 as CasePack,
                 pg.Number01 as DutyRate,
                 pg.Number02 as Burden,
                 pg.ShortChar01 as CompRetail
@@ -101,6 +102,16 @@ namespace iCost
             {
                 VanPart vanPart = (VanPart)vanPartHash[partNum];
                 result = vanPart.UnitPrice;
+            }
+            return result;
+        }
+        public decimal GetCasePack(string partNum)
+        {
+            decimal result = 0M;
+            if (vanPartHash.ContainsKey(partNum))
+            {
+                VanPart vanPart = (VanPart)vanPartHash[partNum];
+                result = vanPart.CasePack;
             }
             return result;
         }

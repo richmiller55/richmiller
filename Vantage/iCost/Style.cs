@@ -19,13 +19,9 @@ namespace iCost
         decimal burden;            // Number04
         decimal overhead;          // Number05
         decimal duty;              // Number06
-    
+        decimal unitPrice;         // Number09
+        decimal casePack;          // Number10
         decimal printExpense;
-        // this is not thought out. is it.
-        decimal onHandRemaining;
-        decimal totalOnHandValue;
-        decimal priorQtyOnHand;
-        decimal newQtyOnHand;
 
         public Style(string upc)
         {
@@ -33,7 +29,6 @@ namespace iCost
             poLog = "";
             bomLog = "";
             freightLog = "";
-            TotalOnHandValue = 0.0M;
             cost = 0.0M;
             po_cost = 0.0M;
             // lastPO_Cost = 0.0M;
@@ -103,11 +98,6 @@ namespace iCost
             get { return decimal.Round( po_cost, 4); }
             set { po_cost = value; }
         }
-        public decimal TotalOnHandValue
-        {
-            get { return totalOnHandValue; }
-            set { totalOnHandValue = value; }
-        }
         public decimal Burden
         {
             get { return decimal.Round(burden,4); }
@@ -128,25 +118,20 @@ namespace iCost
             get { return decimal.Round(duty,4); }
             set { duty = value; }
         }
+        public decimal UnitPrice
+        {
+            get { return decimal.Round(unitPrice, 0); }
+            set { unitPrice = value; }
+        }
+        public decimal CasePack
+        {
+            get { return decimal.Round(casePack, 0); }
+            set { casePack = value; }
+        }
         public decimal PrintExpense
         {
             get { return decimal.Round(printExpense,4); }
             set { printExpense = value; }
-        }
-        public decimal PriorQtyOnHand
-        {
-            get { return priorQtyOnHand; }
-            set { priorQtyOnHand = value; }
-        }
-        public decimal OnHandRemaining
-        {
-            get { return onHandRemaining; }
-            set { onHandRemaining = value; }
-        }
-        public decimal NewQtyOnHand
-        {
-            get { return newQtyOnHand; }
-            set { newQtyOnHand = value; }
         }
     }
 }

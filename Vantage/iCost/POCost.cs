@@ -183,6 +183,8 @@ namespace iCost
         {
             string partNum = style.Upc;
             style.StyleDescr = partInfo.GetDescr(partNum);
+            style.CasePack = partInfo.GetCasePack(partNum);
+            style.UnitPrice = partInfo.GetUnitPrice(partNum);
         }
         public Hashtable NewHt
         {

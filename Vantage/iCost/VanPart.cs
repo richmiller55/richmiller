@@ -14,10 +14,12 @@ namespace iCost
         decimal unitPrice;
         decimal dutyRate;
     	decimal burden;
+        decimal casePack;
         public VanPart(string partNum)
         {
             this.partNum = partNum;
             unitPrice = 0M;
+            casePack = 0M;
 	        partDescription = "";
             compRetail = "";
 	        prodCode = "";
@@ -62,5 +64,11 @@ namespace iCost
             get { return decimal.Round(burden,2); }
             set { burden = value; }
         }
+        public decimal CasePack
+        {
+            get { return decimal.Round(casePack, 0); }
+            set { casePack = value; }
+        }
+
     }
 }
