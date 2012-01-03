@@ -94,6 +94,8 @@ namespace iCost
             row.Number06 = style.Overhead;
             row.Number07 = style.PrintExpense;
             row.Number08 = style.LastPO_Cost;
+            row.Number09 = style.UnitPrice;
+            row.Number10 = style.CasePack;
             row.Character01 = Chop(style.PoLog, 1000);
             row.Character02 = Chop(style.BomLog, 1000);
             row.Character03 = Chop(style.FreightLog, 1000);
