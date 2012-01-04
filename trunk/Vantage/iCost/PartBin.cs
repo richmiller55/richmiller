@@ -14,7 +14,7 @@ namespace iCost
         }
         private void LoadHash()
         {
-            string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            string pilotDsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             ReadData(pilotDsn);
         }
         private void ReadData(string connectionString)

@@ -29,7 +29,7 @@ namespace iCost
         }
         public void GetData()
         {
-            string pilotDsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            string pilotDsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             ReadData(pilotDsn);
         }
         public void ReadData(string connectionString)

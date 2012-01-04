@@ -17,7 +17,7 @@ namespace iCost
             oldHt = ht;
             newHt = new Hashtable(oldHt);
 
-            Dsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             partInfo = new PartInfo();
             bomHash = new Hashtable(2000);
             parentList = new Hashtable(2000);
