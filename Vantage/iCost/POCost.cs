@@ -88,10 +88,10 @@ namespace iCost
                         QtyNotCosted = QtyNotCosted - orderQty;
                         QtyCosted += orderQty;
                         ValueCosted += orderQty * poUnitCost;
-                        PoLog += "PONum: " + reader["PONum"] + "\t";
-                        PoLog += "PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "\t";
-                        PoLog += "POQty: " + reader["OrderQty"] + "\t";
-                        PoLog += "POCost: " + decimal.Round(poUnitCost, 4).ToString() + "\t";
+                        PoLog += "{PONum: " + reader["PONum"] + "}";
+                        PoLog += "{PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "}";
+                        PoLog += "{POQty: " + reader["OrderQty"] + "}";
+                        PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
                     }
                     else
                     {
@@ -100,11 +100,11 @@ namespace iCost
                         decimal avgPoCost = ValueCosted / QtyCosted;
                         Style style = new Style(partNum);
                         style.AveragePO_Cost = decimal.Round(avgPoCost, 4);
-                        PoLog += "PONum: " + reader["PONum"] + "\t";
-                        PoLog += "PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "\t";
-                        PoLog += "POQty: " + reader["OrderQty"] + "\t";
-                        PoLog += "POCost: " + decimal.Round(poUnitCost, 4).ToString() + "\t";
-                        PoLog += "Final";
+                        PoLog += "{PONum: " + reader["PONum"] + "}";
+                        PoLog += "{PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "}";
+                        PoLog += "{POQty: " + reader["OrderQty"] + "}";
+                        PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
+                        PoLog += "{Stat:Final}";
                         style.PoLog += PoLog;
                         FillDescrption(ref style);
                         ht.Add(partNum, style);
@@ -124,7 +124,7 @@ namespace iCost
                     Style style = new Style(LastPart);
                     decimal avgPoCost = ValueCosted / QtyCosted;
                     style.AveragePO_Cost = avgPoCost;
-                    PoLog += "Ran Out of POs" + "\t";
+                    PoLog += "{Stat:Ran Out of POs" + "}";
                     FillDescrption(ref style);
                     ht.Add(LastPart, style);
                     PoLog = "";
@@ -147,11 +147,11 @@ namespace iCost
                 if (onHandQty < orderQty)
                 {
                     // you are done, just post the cost
-                    PoLog += "PONum: " + reader["PONum"] + "\t";
-                    PoLog += "PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "\t";
-                    PoLog += "POQty: " + reader["OrderQty"] + "\t";
-                    PoLog += "POCost: " + decimal.Round(poUnitCost, 4).ToString() + "\t";
-                    PoLog += "Final";
+                    PoLog += "{PONum: " + reader["PONum"] + "}";
+                    PoLog += "{PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "}";
+                    PoLog += "{POQty: " + reader["OrderQty"] + "}";
+                    PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
+                    PoLog += "{Stat:Final}";
                     Style style = new Style(partNum);
                     style.AveragePO_Cost = poUnitCost;
                     style.PoLog = PoLog;
@@ -169,12 +169,12 @@ namespace iCost
                     QtyNotCosted = onHandQty - orderQty;
                     QtyCosted += orderQty;
                     ValueCosted += orderQty * Convert.ToDecimal(reader["POUnitCost"]);
-                    PoLog += "PONum: "   + reader["PONum"] + "\t";
-                    PoLog += "PODate: " + reader["OrderDate"].ToString().Substring(0,10) + "\t";
-                    PoLog += "POQty: "  + reader["OrderQty"] + "\t";
-                    PoLog += "POCost: " + decimal.Round(poUnitCost, 4).ToString() + "\t";
-                    PoLog += "QtyNotCosted: " + decimal.Round(QtyNotCosted, 0).ToString() + "\t";
-                    PoLog += "ValueCosted: " + decimal.Round(ValueCosted, 2).ToString() + "\t";
+                    PoLog += "{PONum: "   + reader["PONum"] + "}";
+                    PoLog += "{PODate: " + reader["OrderDate"].ToString().Substring(0,10) + "}";
+                    PoLog += "{POQty: "  + reader["OrderQty"] + "}";
+                    PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
+                    PoLog += "{QtyNotCosted: " + decimal.Round(QtyNotCosted, 0).ToString() + "}";
+                    PoLog += "{ValueCosted: " + decimal.Round(ValueCosted, 2).ToString() + "}";
                 }
                 LastPart = partNum;
             }

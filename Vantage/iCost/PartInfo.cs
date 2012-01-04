@@ -74,10 +74,12 @@ namespace iCost
         public decimal GetFreight(string partNum)
         {
             decimal result = 0M;
+            decimal casePack = 1M;
             if (vanPartHash.ContainsKey(partNum))
             {
                 VanPart vanPart = (VanPart)vanPartHash[partNum];
                 string prodCode = vanPart.ProdCode;
+                casePack = vanPart.CasePack;
                 switch (prodCode)
                 {
                     case "5P":
@@ -154,7 +156,7 @@ namespace iCost
                         break;
                 }
             }
-            return result;
+            return result * casePack;
         }
         public decimal GetBurden(string partNum)
         {
