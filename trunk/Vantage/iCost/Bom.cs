@@ -101,8 +101,8 @@ namespace iCost
                                             result = result + (Style)oldHt[childList.Current];
                                             Style child = (Style)oldHt[childList.Current];
 
-                                            result.BomLog += "BOM: " + childList.Current.ToString() + "\t";
-                                            result.BomLog += "Amt:" + child.Cost.ToString() + "\t";
+                                            result.BomLog += "{Child: " + childList.Current.ToString() + "}";
+                                            result.BomLog += "{Amt:" + child.Cost.ToString() + "}";
                                         }
                                         FillDescrption(ref result);
                                         AddToNewHash(result.Upc, result);
