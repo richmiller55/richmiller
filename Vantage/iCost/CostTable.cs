@@ -14,7 +14,7 @@ namespace iCost
         {
             ht = inHash;
             objSess = new Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8331", Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8301", Session.LicenseType.Default);
             // DeleteTable();
             WriteTable();
             // WriteText();

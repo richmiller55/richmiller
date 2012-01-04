@@ -10,7 +10,7 @@ namespace iCost
         string Dsn;
         public PartInfo()
         {
-            Dsn = "DSN=pilot; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             vanPartHash = new Hashtable(2000);
             GetData(Dsn);
         }
