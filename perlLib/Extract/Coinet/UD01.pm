@@ -24,6 +24,7 @@ sub sql {
       t.Key4 as Key4,
       t.Key5 as Key5,
       t.ShortChar01 as PartDescr,
+      t.Number01 as Cost,
       t.Number02 as AvgPoCost,
       t.Number03 as Freight,
       t.Number04 as Duty,
@@ -111,6 +112,7 @@ sub printData {
 	    $row{KEY4} . "\t" .
 	    $row{KEY5} . "\t" .
 	    $row{PARTDESCR} . "\t" .
+	    $row{COST} . "\t" .
 	    $row{AVGPOCOST} . "\t" .
 	    $row{FREIGHT} . "\t" .
 	    $row{DUTY} . "\t" .
