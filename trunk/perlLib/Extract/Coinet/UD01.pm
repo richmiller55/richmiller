@@ -63,26 +63,6 @@ sub sql {
       t.CheckBox18 as CheckBox18,
       t.CheckBox19 as CheckBox19,
       t.CheckBox20 as CheckBox20,
-      t.Date01 as Date01,
-      t.Date02 as Date02,
-      t.Date03 as Date03,
-      t.Date04 as Date04,
-      t.Date05 as Date05,
-      t.Date06 as Date06,
-      t.Date07 as Date07,
-      t.Date08 as Date08,
-      t.Date09 as Date09,
-      t.Date10 as Date10,
-      t.Date11 as Date11,
-      t.Date12 as Date12,
-      t.Date13 as Date13,
-      t.Date14 as Date14,
-      t.Date15 as Date15,
-      t.Date16 as Date16,
-      t.Date17 as Date17,
-      t.Date18 as Date18,
-      t.Date19 as Date19,
-      t.Date20 as Date20,
       t.ShortChar02 as ShortChar02,
       t.ShortChar03 as ShortChar03,
       t.ShortChar04 as ShortChar04,
@@ -170,26 +150,6 @@ sub printData {
 	    $row{CHECKBOX18} . "\t" .
 	    $row{CHECKBOX19} . "\t" .
 	    $row{CHECKBOX20} . "\t" .
-	    $row{DATE01} . "\t" .
-	    $row{DATE02} . "\t" .
-	    $row{DATE03} . "\t" .
-	    $row{DATE04} . "\t" .
-	    $row{DATE05} . "\t" .
-	    $row{DATE06} . "\t" .
-	    $row{DATE07} . "\t" .
-	    $row{DATE08} . "\t" .
-	    $row{DATE09} . "\t" .
-	    $row{DATE10} . "\t" .
-	    $row{DATE11} . "\t" .
-	    $row{DATE12} . "\t" .
-	    $row{DATE13} . "\t" .
-	    $row{DATE14} . "\t" .
-	    $row{DATE15} . "\t" .
-	    $row{DATE16} . "\t" .
-	    $row{DATE17} . "\t" .
-	    $row{DATE18} . "\t" .
-	    $row{DATE19} . "\t" .
-	    $row{DATE20} . "\t" .
 	    $row{SHORTCHAR02} . "\t" .
 	    $row{SHORTCHAR03} . "\t" .
 	    $row{SHORTCHAR04} . "\t" .
