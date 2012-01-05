@@ -39,6 +39,8 @@ use Extract::Coinet::Fiscal;
 use Extract::Coinet::ShipVia;
 use Extract::Coinet::Terms;
 use Extract::Coinet::Vendor;
+use Extract::Coinet::UD01;
+
 main();
 
 sub main {
@@ -64,7 +66,7 @@ sub main {
 #    Extract::Coinet::ContainerDetail->new();
 #    Extract::Coinet::PODetail->new();
 #    Extract::Coinet::POHeader->new();
-    Extract::Coinet::Vendor->new();
+#    Extract::Coinet::Vendor->new();
 #    Extract::Coinet::ShipTo->new();
 #    Extract::Coinet::InvcTax->new();
 #    Extract::Coinet::SalesTer->new();
@@ -79,4 +81,5 @@ sub main {
 #    Extract::Coinet::Fiscal->new();            
 #    Extract::Coinet::ShipVia->new();            
 #    Extract::Coinet::Terms->new();            
+    Extract::Coinet::UD01->new();            
 }
