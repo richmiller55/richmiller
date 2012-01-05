@@ -130,7 +130,7 @@ sub printData {
 	    $row{KEY3} . "\t" .
 	    $row{KEY4} . "\t" .
 	    $row{KEY5} . "\t" .
-	    $row{SHORTCHAR01} . "\t" .
+	    $row{PARTDESCR} . "\t" .
 	    $row{AVGPOCOST} . "\t" .
 	    $row{FREIGHT} . "\t" .
 	    $row{DUTY} . "\t" .
