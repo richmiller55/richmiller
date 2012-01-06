@@ -32,8 +32,8 @@ sub sql {
       t.Number06 as Overhead,
       t.Number07 as PrintExpense,
       t.Number08 as LastPOCost,
-      t.Number09 as Number09,
-      t.Number10 as Number10,
+      t.Number09 as UnitPrice,
+      t.Number10 as CasePack,
       t.Number11 as Number11,
       t.Number12 as Number12,
       t.Number13 as Number13,
@@ -120,8 +120,8 @@ sub printData {
 	    $row{OVERHEAD} . "\t" .
 	    $row{PRINTEXPENSE} . "\t" .
 	    $row{LASTPOCOST} . "\t" .
-	    $row{NUMBER09} . "\t" .
-	    $row{NUMBER10} . "\t" .
+	    $row{UNITPRICE} . "\t" .
+	    $row{CASEPACK} . "\t" .
 	    $row{NUMBER11} . "\t" .
 	    $row{NUMBER12} . "\t" .
 	    $row{NUMBER13} . "\t" .
