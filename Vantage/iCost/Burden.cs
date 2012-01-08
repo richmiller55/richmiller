@@ -36,8 +36,9 @@ namespace iCost
                     if (partInfo.ContainsKey(part.ToString()))
                     {
                         decimal burden = partInfo.GetBurden(part.ToString());
+                        decimal casePack = partInfo.GetCasePack(part.ToString());
                         Style style = (Style)oldHt[part];
-                        style.Burden = burden * style.CasePack;
+                        style.Burden = burden * casePack;
                         newHt.Add(part, style);
                     }
                 }
