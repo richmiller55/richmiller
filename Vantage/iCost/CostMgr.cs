@@ -13,8 +13,9 @@ namespace iCost
         }
         private void UpdateCosts()
         {
-            POCost poCost = new POCost(ht);
-            ht = poCost.NewHt;
+            FullPart part = new FullPart();
+            Hashtable ht = part.NewHt; 
+            POCost poCost = new POCost(ref ht);
             Freight frt = new Freight(ht);
             ht = frt.NewHt;
             Duty duty = new Duty(ht);

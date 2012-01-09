@@ -19,7 +19,7 @@ namespace iCost
         {
             this.partNum = partNum;
             unitPrice = 0M;
-            casePack = 0M;
+            casePack = 1M;
 	        partDescription = "";
             compRetail = "";
 	        prodCode = "";

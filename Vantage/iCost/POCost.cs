@@ -6,7 +6,7 @@ namespace iCost
 {
     public class POCost
     {
-        Hashtable ht;
+        Hashtable oldHt;
         string lastPart;
         string poLog;
         bool costAssigned;
@@ -16,15 +16,15 @@ namespace iCost
         decimal qtyNotCosted;
         PartBin partBin = new PartBin();
         PartInfo partInfo = new PartInfo();
-        public POCost(Hashtable masterCostHt)
+        public POCost(ref Hashtable masterCostHt)
         {
+            oldHt = masterCostHt;
             firstTime = true;
             costAssigned = false;
             valueCosted = 0M;
             qtyCosted = 0M;
             qtyNotCosted = 0M;
             poLog = "";
-            ht = masterCostHt;
             GetData();
         }
         public void GetData()
@@ -38,9 +38,9 @@ namespace iCost
              SELECT
                 poh.PONum  as PONum,
                 poh.OrderDate as OrderDate,
-        		pod.PartNum as PartNum,
+      		pod.PartNum as PartNum,
                 pod.OrderQty as OrderQty,
-		        pod.UnitCost as POUnitCost,
+	        pod.UnitCost as POUnitCost,
                 p.PartDescription as PartDescription
              FROM pub.POHeader as poh
 		       LEFT JOIN pub.PODetail as pod
@@ -98,16 +98,20 @@ namespace iCost
                         ValueCosted += QtyNotCosted * poUnitCost;
                         QtyCosted += QtyNotCosted;
                         decimal avgPoCost = ValueCosted / QtyCosted;
-                        Style style = new Style(partNum);
-                        style.AveragePO_Cost = decimal.Round(avgPoCost, 4);
-                        PoLog += "{PONum: " + reader["PONum"] + "}";
-                        PoLog += "{PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "}";
-                        PoLog += "{POQty: " + reader["OrderQty"] + "}";
-                        PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
-                        PoLog += "{Stat:Final}";
-                        style.PoLog += PoLog;
-                        FillDescrption(ref style);
-                        ht.Add(partNum, style);
+                        // Style style = new Style(partNum);
+                        if (oldHt.ContainsKey(partNum))
+                        {
+                            Style style = (Style)oldHt[partNum];
+                            style.AveragePO_Cost = decimal.Round(avgPoCost, 4);
+                            PoLog += "{PONum: " + reader["PONum"] + "}";
+                            PoLog += "{PODate: " + reader["OrderDate"].ToString().Substring(0, 10) + "}";
+                            PoLog += "{POQty: " + reader["OrderQty"] + "}";
+                            PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
+                            PoLog += "{Stat:Final}";
+                            style.PoLog += PoLog;
+                            //FillDescrption(ref style);
+                            oldHt[partNum] = style;
+                        }
                         PoLog = "";
                         CostAssigned = true;
                         QtyCosted = 0M;
@@ -121,12 +125,16 @@ namespace iCost
                 if (!CostAssigned && !firstTime)
                 { 
                     // assign what you have since you now have a different part number
-                    Style style = new Style(LastPart);
-                    decimal avgPoCost = ValueCosted / QtyCosted;
-                    style.AveragePO_Cost = avgPoCost;
-                    PoLog += "{Stat:Ran Out of POs" + "}";
-                    FillDescrption(ref style);
-                    ht.Add(LastPart, style);
+                    // Style style = new Style(LastPart);
+                    if (oldHt.ContainsKey(lastPart))
+                    {
+                        Style style = (Style)oldHt[lastPart];
+                        decimal avgPoCost = ValueCosted / QtyCosted;
+                        style.AveragePO_Cost = avgPoCost;
+                        PoLog += "{Stat:Ran Out of POs" + "}";
+                        // FillDescrption(ref style);
+                        oldHt[LastPart] = style;
+                    }
                     PoLog = "";
                     CostAssigned = true;
                     QtyCosted = 0M;
@@ -152,11 +160,15 @@ namespace iCost
                     PoLog += "{POQty: " + reader["OrderQty"] + "}";
                     PoLog += "{POCost: " + decimal.Round(poUnitCost, 4).ToString() + "}";
                     PoLog += "{Stat:Final}";
-                    Style style = new Style(partNum);
-                    style.AveragePO_Cost = poUnitCost;
-                    style.PoLog = PoLog;
-                    FillDescrption(ref style);
-                    ht[partNum] = style;
+                    // Style style = new Style(partNum);
+                    if (oldHt.ContainsKey(partNum))
+                    {
+                        Style style = (Style)oldHt[partNum];
+                        style.AveragePO_Cost = poUnitCost;
+                        style.PoLog = PoLog;
+                        // FillDescrption(ref style);
+                        oldHt[partNum] = style;
+                    }
                     PoLog = "";
                     CostAssigned = true;
                     QtyCosted = 0M;
@@ -186,12 +198,6 @@ namespace iCost
             style.CasePack = partInfo.GetCasePack(partNum);
             style.UnitPrice = partInfo.GetUnitPrice(partNum);
         }
-        public Hashtable NewHt
-        {
-            get { return ht; }
-            set { ht = value; }
-        }
-
         public string LastPart
         {
             get { return lastPart; }
