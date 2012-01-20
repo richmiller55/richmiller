@@ -140,6 +140,22 @@ namespace PartUpdate
         purchComments,
         filler
     }
+    public enum prudy
+    {
+        UPC,
+        style,
+        descr,
+        unitPrice,
+        country,
+        type,
+        subClass,
+        loc,
+        casePack,
+        search,
+        backflush,
+        filler
+    }
+
     public enum newPartEx
     {
         UPC, 
@@ -163,7 +179,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/partKim_Beals_30Dec2011.txt";
+        string file = "I:/data/updates/parts/ProductUpload_01-13-12.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -177,7 +193,8 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                xman.NewPartEx(line);
+                // xman.NewPartEx(line);
+                xman.PrudyNewPart(line);
                 // xman.SimpleUpdatePart(line);
                 // xman.UpdateCatalog(line);
             }

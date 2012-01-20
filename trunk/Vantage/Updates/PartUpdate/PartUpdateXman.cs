@@ -156,6 +156,59 @@ namespace PartUpdate
                 }
             }
         }
+        public void PrudyNewPart(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)prudy.UPC];
+            if (partNum == "Part Number")
+            {
+                return;
+            }
+            if (this.partObj.PartExists(partNum))
+            {
+                // throw a fit
+            }
+            else
+            {
+                Epicor.Mfg.BO.PartDataSet ds = new Epicor.Mfg.BO.PartDataSet();
+                this.partObj.GetNewPart(ds);
+                Epicor.Mfg.BO.PartDataSet.PartRow row;
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                row.Company = "CA";
+                row.PartNum = split[(int)prudy.UPC];
+                row.PartDescription = split[(int)prudy.style];
+                row.UserChar1 = split[(int)prudy.style];
+                row.SearchWord = split[(int)prudy.search];
+                row.ShortChar02 = split[(int)prudy.loc];
+                string casePack = split[(int)prudy.casePack];
+                row.Number01 = Convert.ToDecimal(casePack);
+                // string country = split[(int)newPart.country];
+                string country = "China";
+                if (country.CompareTo("China") == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+                else if (country.CompareTo("Taiwan") == 0)
+                {
+                    row.ISOrigCountryNum = 176;
+                }
+                row.ProdCode = split[(int)prudy.subClass];
+                row.ClassID = "FG";
+                row.TypeCode = "P";
+                string unitPrice = split[(int)prudy.unitPrice];
+                row.UnitPrice = Convert.ToDecimal(unitPrice);
+                
+                string message = "posted";
+                try
+                {
+                    partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
         public void NewPartEx(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
