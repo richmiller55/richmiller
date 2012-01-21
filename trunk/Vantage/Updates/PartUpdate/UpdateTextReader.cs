@@ -79,9 +79,9 @@ namespace PartUpdate
         Number06,
         Number07,
         ShortChar07,
+        ShortChar06,
         UnitPrice,
         Number08,
-        ShortChar06,
         Character01,
         Character02
     }
@@ -179,7 +179,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/ProductUpload_01-13-12.txt";
+        string file = "I:/data/updates/parts/Spring1ProductInformationUpload_20Jan2012.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -194,9 +194,9 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
                 // xman.NewPartEx(line);
-                xman.PrudyNewPart(line);
+	            // xman.PrudyNewPart(line);
                 // xman.SimpleUpdatePart(line);
-                // xman.UpdateCatalog(line);
+                xman.UpdateCatalog(line);
             }
         }
     }

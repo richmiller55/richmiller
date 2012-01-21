@@ -330,17 +330,17 @@ namespace PartUpdate
                     row.Number05 = Convert.ToInt32(strNumber05);
                 }
                 string strNumber06 = split[(int)catalog.Number06];
-                if (strNumber06.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
+                if (strNumber06.CompareTo("NA") != 0 & strNumber06.CompareTo("") != 0)
                 {
                     row.Number06 = Convert.ToInt32(strNumber06);
                 }
                 string strNumber07 = split[(int)catalog.Number07];
-                if (strNumber07.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
+                if (strNumber07.CompareTo("NA") != 0 & strNumber07.CompareTo("") != 0)
                 {
                     row.Number07 = Convert.ToInt32(strNumber07);
                 }
                 string strNumber08 = split[(int)catalog.Number08];
-                if (strNumber08.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
+                if (strNumber08.CompareTo("NA") != 0 & strNumber08.CompareTo("") != 0)
                 {
                     row.Number08 = Convert.ToDecimal(strNumber08);
                 }
@@ -352,7 +352,7 @@ namespace PartUpdate
                 string strCheckBox02 = split[(int)catalog.CheckBox02];
                 if (strCheckBox02.CompareTo("NA") != 0)
                 {
-                    if (strCheckBox02.CompareTo("YES") == 0)
+                    if (strCheckBox02.Equals("1"))
                     {
                         row.CheckBox02 = true;
                     }
@@ -364,7 +364,7 @@ namespace PartUpdate
                 string strCheckBox03 = split[(int)catalog.CheckBox03];
                 if (strCheckBox03.CompareTo("NA") != 0)
                 {
-                    if (strCheckBox03.CompareTo("YES") == 0)
+                    if (strCheckBox03.Equals("1"))
                     {
                         row.CheckBox03 = true;
                     }
@@ -376,7 +376,7 @@ namespace PartUpdate
                 string strCheckBox04 = split[(int)catalog.CheckBox04];
                 if (strCheckBox04.CompareTo("NA") != 0)
                 {
-                    if (strCheckBox04.CompareTo("YES") == 0)
+                    if (strCheckBox04.Equals("1"))
                     {
                         row.CheckBox04 = true;
                     }
@@ -388,7 +388,7 @@ namespace PartUpdate
                 string strCheckBox05 = split[(int)catalog.CheckBox05];
                 if (strCheckBox05.CompareTo("NA") != 0)
                 {
-                    if (strCheckBox05.CompareTo("YES") == 0)
+                    if (strCheckBox05.Equals("1"))
                     {
                         row.CheckBox05 = true;
                     }
