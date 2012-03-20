@@ -142,17 +142,23 @@ namespace PartUpdate
     }
     public enum prudy
     {
-        UPC,
         style,
+        UPC,
+        flyer,
         descr,
-        unitPrice,
-        country,
+        shortChar04,
         type,
         subClass,
+        country,
+        shortChar05,
         loc,
-        casePack,
+        nonStockItem,
         search,
-        backflush,
+        casePack,
+        unitPrice,
+        Number08,
+        Character01,
+        Character02,
         filler
     }
 
@@ -179,7 +185,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Spring1ProductInformationUpload_20Jan2012.txt";
+        string file = "I:/data/updates/parts/Spring2_2012NewPartUpload19Mar2012.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -194,9 +200,9 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
                 // xman.NewPartEx(line);
-	            // xman.PrudyNewPart(line);
+	            xman.PrudyNewPart(line);
                 // xman.SimpleUpdatePart(line);
-                xman.UpdateCatalog(line);
+                // xman.UpdateCatalog(line);
             }
         }
     }
