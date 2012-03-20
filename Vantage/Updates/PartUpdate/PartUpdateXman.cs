@@ -164,6 +164,10 @@ namespace PartUpdate
             {
                 return;
             }
+            if (partNum == "UPC Number")
+            {
+                return;
+            }
             if (this.partObj.PartExists(partNum))
             {
                 // throw a fit
@@ -177,27 +181,34 @@ namespace PartUpdate
                 row.Company = "CA";
                 row.PartNum = split[(int)prudy.UPC];
                 row.PartDescription = split[(int)prudy.style];
-                row.UserChar1 = split[(int)prudy.style];
+                row.ShortChar03 = split[(int)prudy.flyer];
+                row.ShortChar04 = split[(int)prudy.shortChar04];
+              
                 row.SearchWord = split[(int)prudy.search];
                 row.ShortChar02 = split[(int)prudy.loc];
                 string casePack = split[(int)prudy.casePack];
                 row.Number01 = Convert.ToDecimal(casePack);
-                // string country = split[(int)newPart.country];
-                string country = "China";
+
+                string country = split[(int)prudy.country];
                 if (country.CompareTo("China") == 0)
                 {
                     row.ISOrigCountryNum = 42;
                 }
-                else if (country.CompareTo("Taiwan") == 0)
+                else if (country.CompareTo("USA") == 0)
                 {
-                    row.ISOrigCountryNum = 176;
+                    row.ISOrigCountryNum = 1;
                 }
+
                 row.ProdCode = split[(int)prudy.subClass];
                 row.ClassID = "FG";
-                row.TypeCode = "P";
+                row.TypeCode = "M";  // SPECIAL FOR PRINT ITEMS
                 string unitPrice = split[(int)prudy.unitPrice];
                 row.UnitPrice = Convert.ToDecimal(unitPrice);
-                
+                string listPrice = split[(int)prudy.Number08];
+                row.Number08 = Convert.ToDecimal(listPrice);
+                row.NonStock = true;
+                row.Character01 = split[(int)prudy.Character01];
+                row.Character02 = split[(int)prudy.Character02];
                 string message = "posted";
                 try
                 {
