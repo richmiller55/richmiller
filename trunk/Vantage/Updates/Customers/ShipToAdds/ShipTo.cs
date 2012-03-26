@@ -11,9 +11,9 @@ namespace ShipToLoad
         string m_shipToId;
         string m_Name;
         string m_Address1;
-        string m_Address2;
-        string m_Address3;
-        string m_City;
+        string m_Address2 = "";
+        string m_Address3 = "";
+        string m_City = "";
         string m_State;
         string m_Zip;
         string m_Country;

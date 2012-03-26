@@ -11,6 +11,7 @@ namespace ShipToLoad
         Epicor.Mfg.Core.Session objSess;
         Epicor.Mfg.BO.Customer customerObj;
         Epicor.Mfg.BO.CustomerDataSet ds;
+        int newShipto = 0;
 
         public ShipToXman()
         {
@@ -35,6 +36,7 @@ namespace ShipToLoad
             }
             catch (Exception e)
             {
+                this.NewShipTo += 1;
                 message = e.Message;
                 result = false;
             }
@@ -46,6 +48,75 @@ namespace ShipToLoad
             ds = custObj.GetByCustID(custID);
             Epicor.Mfg.BO.CustomerDataSet.CustomerRow row = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)ds.Customer.Rows[0];
             return (int)row.CustNum;
+        }
+        private Boolean AddressUpdateNeeded(ShipTo st,Epicor.Mfg.BO.CustomerDataSet.ShipToRow shipToRow)
+        {
+            Boolean result = false;
+            if (st.Address1.CompareTo(shipToRow.Address1) != 0)
+            {
+                result = true;
+                return result;
+            }
+            if (st.Address2.CompareTo(shipToRow.Address2) != 0)
+            {
+                result = true;
+                return result;
+            }
+            if (st.Address3.CompareTo(shipToRow.Address3) != 0)
+            {
+                result = true;
+                return result;
+            }
+            if (st.City.CompareTo(shipToRow.City) != 0)
+            {
+                result = true;
+                return result;
+            }
+            if (st.State.CompareTo(shipToRow.State) != 0)
+            {
+                result = true;
+                return result;
+            }
+            if (st.Zip.CompareTo(shipToRow.ZIP) != 0)
+            {
+                result = true;
+                return result;
+            }
+            return result;
+        }
+        public void UpdateShipTo(ShipTo st)
+        {
+            try
+            {
+                Epicor.Mfg.BO.CustomerDataSet custDs;
+                custDs = customerObj.GetShipTo(st.CustId, st.ShipToId);
+                Epicor.Mfg.BO.CustomerDataSet.ShipToDataTable shipToTable = custDs.ShipTo;
+
+                Epicor.Mfg.BO.CustomerDataSet.ShipToRow shipToRow =
+                    (Epicor.Mfg.BO.CustomerDataSet.ShipToRow)shipToTable.Rows[0];
+                if (this.AddressUpdateNeeded(st, shipToRow))
+                {
+                    shipToRow.Name = st.Name;
+                    shipToRow.Address1 = st.Address1;
+                    shipToRow.Address2 = st.Address2;
+                    shipToRow.Address3 = st.Address3;
+                    shipToRow.City = st.City;
+                    shipToRow.State = st.State;
+                    shipToRow.ZIP = st.Zip;
+                    shipToRow.Country = st.Country;
+                    shipToRow.CountryNum = st.CountryNo;
+                    shipToRow.TerritoryID = "10";
+                    shipToRow.ShipViaCode = st.ShipVia;
+                    shipToRow.Company = "CA";
+                    shipToRow.Country = "US";
+
+                    customerObj.Update(custDs);
+                }
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
         }
         public void addShipTo(ShipTo st)
         {
@@ -74,6 +145,7 @@ namespace ShipToLoad
                 ShipToRow.TerritoryID = "10";
                 ShipToRow.Name = st.Name;
                 ShipToRow.ShipViaCode = st.ShipVia;
+
                 ShipToRow.PhoneNum = st.Phone;
                 ShipToRow.Company = "CA";
                 message = "Shipto Added OK";
@@ -85,5 +157,17 @@ namespace ShipToLoad
                 message = e.Message;
             }
         }
+        public int NewShipTo
+        {
+            get
+            {
+                return newShipto;
+            }
+            set
+            {
+                newShipto = value;
+            }
+        }
+ 
      }
 }
