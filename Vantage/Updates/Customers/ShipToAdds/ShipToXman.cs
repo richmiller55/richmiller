@@ -57,6 +57,11 @@ namespace ShipToLoad
                 result = true;
                 return result;
             }
+            if (!st.Name.Equals(shipToRow.Name))
+            {
+                result = true;
+                return result;
+            }
             if (st.Address2.CompareTo(shipToRow.Address2) != 0)
             {
                 result = true;
@@ -107,9 +112,10 @@ namespace ShipToLoad
                     shipToRow.CountryNum = st.CountryNo;
                     shipToRow.TerritoryID = "10";
                     shipToRow.ShipViaCode = st.ShipVia;
+                    shipToRow.PhoneNum = st.Phone;
                     shipToRow.Company = "CA";
-                    shipToRow.Country = "US";
-
+                    shipToRow.Country = st.Country;
+                    shipToRow.CountryNum = st.CountryNo;
                     customerObj.Update(custDs);
                 }
             }

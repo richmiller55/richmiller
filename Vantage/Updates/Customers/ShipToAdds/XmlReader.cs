@@ -91,7 +91,11 @@ namespace ShipToLoad
             if (!this.mgr.ShipToExists(st))
             {
                 this.mgr.addShipTo(st);
-            } 
+            }
+            else
+            {
+                this.mgr.UpdateShipTo(st);
+            }
         }
     }
 }
