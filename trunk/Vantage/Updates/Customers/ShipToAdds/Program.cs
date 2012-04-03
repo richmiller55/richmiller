@@ -14,8 +14,8 @@ namespace ShipToLoad
         {
             //           Application.EnableVisualStyles();
             //           Application.SetCompatibleTextRenderingDefault(false);
-            // DataReader reader = new DataReader();
-            ProcessXmlDir();
+            DataReader reader = new DataReader();
+            // ProcessXmlDir();
 
         }
 
