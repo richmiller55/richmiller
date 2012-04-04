@@ -9,8 +9,7 @@ namespace POfeed
     {
         static void Main(string[] args)
         {
-            PartBin partBin = new PartBin();
-            partBin.GetPOCost();
+            POReader reader = new POReader();
         }
     }
 }
