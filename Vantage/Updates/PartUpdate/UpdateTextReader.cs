@@ -47,8 +47,7 @@ namespace PartUpdate
     public enum infoUpdate
     {
         UPC,
-        aicDescr,
-        flyerNickname,
+        prodCode,
         filler
     }
     public enum locUpdate
@@ -79,7 +78,6 @@ namespace PartUpdate
         Number06,
         Number07,
         ShortChar07,
-        ShortChar06,
         UnitPrice,
         Number08,
         Character01,
@@ -104,14 +102,6 @@ namespace PartUpdate
         orderType,
         minWos,
         maxWos,
-        filler
-    }
-    public enum subClassPriceUpdate
-    {
-        UPC,
-        subClass,
-        direct,
-        list,
         filler
     }
     public enum descrUpdate
@@ -185,7 +175,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Spring2_2012NewPartUpload19Mar2012.txt";
+        string file = "I:/data/updates/parts/suncaseUpdate.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -200,9 +190,9 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
                 // xman.NewPartEx(line);
-	            xman.PrudyNewPart(line);
+	            // xman.PrudyNewPart(line);
                 // xman.SimpleUpdatePart(line);
-                // xman.UpdateCatalog(line);
+                xman.UpdateInfo(line);
             }
         }
     }

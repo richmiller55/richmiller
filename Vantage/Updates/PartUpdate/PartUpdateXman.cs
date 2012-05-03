@@ -284,7 +284,7 @@ namespace PartUpdate
             {
                 return;
             }
-            if (partNum == "UPC")
+            if (partNum == "UPC Number")
             {
                 return;
             }
@@ -310,11 +310,6 @@ namespace PartUpdate
                     row.ShortChar05 = ShortChar05;
                 }
                 */
-                string ShortChar06 = split[(int)catalog.ShortChar06];
-                if (ShortChar06.CompareTo("") != 0)
-                {
-                    row.ShortChar06 = ShortChar06;
-                }
                 string ShortChar07 = split[(int)catalog.ShortChar07];
                 if (ShortChar07.CompareTo("NA") != 0)
                 {
@@ -545,20 +540,17 @@ namespace PartUpdate
         }
         public void UpdateInfo(string line)
         {
+            // infoUpdate is only used here, use this as the quick
+            // update template
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)infoUpdate.UPC];
-            string aicDesc = split[(int)infoUpdate.aicDescr];
-            string flyerNickname = split[(int)infoUpdate.flyerNickname];
+            string prodCode = split[(int)infoUpdate.prodCode];
 
             if (partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                // row.UnitPrice = Convert.ToDecimal(unitPrice);
-                row.UserChar1 = aicDesc;
-                row.ShortChar04 = flyerNickname;
-
-                // row.ISOrigCountryNum = 42;
+                row.ProdCode = prodCode;
                 string message = "Posted";
                 try
                 {
@@ -625,24 +617,20 @@ namespace PartUpdate
                 }
             }
         }
-
         public void UpdatePrice(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)subClassPriceUpdate.UPC];
-            string unitPrice = split[(int)subClassPriceUpdate.direct];
-            string listPrice = split[(int)subClassPriceUpdate.list];
-            string subClass = split[(int)subClassPriceUpdate.subClass];
+            string partNum = split[(int)priceUpdate.UPC];
+            string unitPrice = split[(int)priceUpdate.unitPrice];
+            string listPrice = split[(int)priceUpdate.listPrice];
 
             if (partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                
                 row.UnitPrice = Convert.ToDecimal(unitPrice);
                 row.Number08 = Convert.ToDecimal(listPrice);
-                row.ProdCode = subClass;
-                row.ISOrigCountryNum = 42;
+                // row.ISOrigCountryNum = 42;
                 string message = "Posted";
                 try
                 {
