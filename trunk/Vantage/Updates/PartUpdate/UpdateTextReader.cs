@@ -52,8 +52,8 @@ namespace PartUpdate
     }
     public enum locUpdate
     {
+        style,
         UPC,
-        descr,
         LOC,
         filler
     }
@@ -175,7 +175,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/suncaseUpdate.txt";
+        string file = "I:/data/updates/parts/CustomLOC_3O_050212.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -189,10 +189,8 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                // xman.NewPartEx(line);
-	            // xman.PrudyNewPart(line);
-                // xman.SimpleUpdatePart(line);
-                xman.UpdateInfo(line);
+              xman.SimpleUpdatePart(line);
+              // xman.UpdateInfo(line);
             }
         }
     }
