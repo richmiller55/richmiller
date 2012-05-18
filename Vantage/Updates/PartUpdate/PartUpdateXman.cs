@@ -544,13 +544,13 @@ namespace PartUpdate
             // update template
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)infoUpdate.UPC];
-            string prodCode = split[(int)infoUpdate.prodCode];
+            string Nickname = split[(int)infoUpdate.ShortChar04];
 
             if (partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.ProdCode = prodCode;
+                row.ShortChar04 = Nickname;
                 string message = "Posted";
                 try
                 {
