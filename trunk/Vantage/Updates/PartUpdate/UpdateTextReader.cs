@@ -47,7 +47,7 @@ namespace PartUpdate
     public enum infoUpdate
     {
         UPC,
-        prodCode,
+        ShortChar04,
         filler
     }
     public enum locUpdate
@@ -175,7 +175,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/CustomLOC_3O_050212.txt";
+        string file = "I:/data/updates/parts/MissingNicknameReaders_17May2012.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -189,8 +189,8 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-              xman.SimpleUpdatePart(line);
-              // xman.UpdateInfo(line);
+              // xman.SimpleUpdatePart(line);
+              xman.UpdateInfo(line);
             }
         }
     }
