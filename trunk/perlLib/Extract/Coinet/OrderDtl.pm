@@ -35,7 +35,8 @@ od.ShortChar01 as ShortChar01, -- char 50
 od.ShortChar02 as ShortChar02, -- char 50
 od.ShortChar03 as ShortChar03, -- char 50
 od.UnitPrice as UnitPrice,     -- decimal 12,4
-od.VoidLine as VoidLine       -- int
+od.VoidLine as VoidLine,       -- int
+od.SellingFactor as SellingFactor
      FROM  pub.OrderDtl as od
    /;
     return $sql;
@@ -76,7 +77,8 @@ sub printData {
                   $row{SHORTCHAR02}       . "\t" . 
                   $row{SHORTCHAR03}       . "\t" . 
                   $row{UNITPRICE}         . "\t" . 
-                  $row{VOIDLINE}          . "\n";
+                  $row{VOIDLINE}          . "\t" . 
+                  $row{SELLINGFACTOR}     . "\n";
     }
     close OUT;
 }
