@@ -87,6 +87,35 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
+        public void SetNoDupPOFlag(string custId)
+        {
+            string message = "OK";
+            bool okToUpdate = true;
+            try
+            {
+                custDs = customerObj.GetByCustID(custId);
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                message = "NoGo";
+                okToUpdate = false;
+            }
+            if (okToUpdate)
+            {
+                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+                custRow.CheckDuplicatePO = true;
+                // custRow.CreditHold = false;
+                try
+                {
+                    customerObj.Update(custDs);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
         public void ChangeShipToTerr(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -193,6 +222,35 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
+        public void ChangeFOBByID(string custId, string NewFOB)
+        {
+            string message = "OK";
+            bool okToUpdate = true;
+            try
+            {
+                custDs = customerObj.GetByCustID(custId);
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                message = "NoGo";
+                okToUpdate = false;
+            }
+            if (okToUpdate)
+            {
+                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+                custRow.ShipViaCode = NewFOB;
+                try
+                {
+                    customerObj.Update(custDs);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
+
         public void ChangeTerr(int custNum, string newTerr)
         {
             string message = "OK";
