@@ -7,16 +7,9 @@ using System.IO;
 
 namespace POfeed
 {
-    public enum col
-    {
-      PONum,
-      POLine,
-      RevisedDate,
-      filler
-    }
     class POReader
     {
-        string file = "I:/data/updates/po/PO_Duedate.txt";
+        string file = "I:/data/updates/po/PO_Date.txt";
         public POReader()
         {
             StreamReader tr = new StreamReader(file);

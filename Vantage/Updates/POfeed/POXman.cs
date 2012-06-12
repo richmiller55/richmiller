@@ -4,7 +4,15 @@ using System.IO;
 
 namespace POfeed
 {
-
+    public enum col
+    {
+        PONum,
+        POLine,
+        upcShortCode,
+        RevisedDate04,
+        RevisedDate01,
+        filler
+    }
     public class POXman
     {
         Epicor.Mfg.Core.Session objSess;
@@ -15,31 +23,92 @@ namespace POfeed
         public POXman()
         {
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.poObj = new Epicor.Mfg.BO.PO(objSess.ConnectionPool);
         }
         public void PODateUpdate(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
             string PONumStr = split[(int)col.PONum];
+            bool processAllLines = false;
             if (PONumStr.Equals("PO")) return;
+            if (PONumStr.Equals("")) return;
             int PONum = Convert.ToInt32(PONumStr);
-            int POLine = Convert.ToInt32(split[(int)col.POLine]);
-            System.DateTime revisedDate = ConvertStrToDate(split[(int)col.RevisedDate]);
+            string strPOLine = split[(int)col.POLine];
+            int POLine = 0;
+            string upc = "";
+            if (strPOLine.Equals("ALL")) {
+                processAllLines = true;
+            } else {
+                POLine = Convert.ToInt32(split[(int)col.POLine]);
+                processAllLines = false;  // stays false
+            }
+            bool processDate04 = false;
+            string strDate04 = split[(int)col.RevisedDate04];
+            int intDate04 = Convert.ToInt32(strDate04);
+            System.DateTime UpdateDate04 = System.DateTime.Today;
+            if (intDate04.Equals(0)) {
+                processDate04 = false;
+            }
+            else {
+                UpdateDate04 = ConvertStrToDate(strDate04);
+                processDate04 = true;
+            }
+            bool processDate01 = false;
+            string strDate01 = split[(int)col.RevisedDate01];
+            int intDate01 = Convert.ToInt32(strDate01);
+            System.DateTime UpdateDate01 = System.DateTime.Today;
+            if (intDate01.Equals(0)) {
+                processDate01 = false;
+            }
+            else {
+                UpdateDate01 = ConvertStrToDate(strDate01);
+                processDate01 = true;
+            }
             
             ds = this.poObj.GetByID(PONum);
+            String violationMsg = "";
+            Epicor.Mfg.BO.PODataSet.POHeaderRow headRow =
+                (Epicor.Mfg.BO.PODataSet.POHeaderRow)ds.POHeader.Rows[0];
+            headRow.ApprovalStatus = "U";
+            headRow.Approve = false;
+            headRow.ReadyToPrint = false;
+            try
+            {
+                System.Boolean approvalValue = false;
+                this.poObj.ChangeApproveSwitch(approvalValue, out violationMsg, ds);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
             Epicor.Mfg.BO.PODataSet.PODetailRow row =
                 (Epicor.Mfg.BO.PODataSet.PODetailRow)ds.PODetail.Rows[POLine - 1];
-            row.CalcDueDate = revisedDate;
+            if (processDate04) row.Date04 = UpdateDate04;
+            if (processDate01) row.Date01 = UpdateDate01;
             try
-                {
-                    this.poObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    string message = e.Message;
-                }
+            {
+                this.poObj.Update(ds);
             }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+            ds = this.poObj.GetByID(PONum);
+            violationMsg = "";
+            headRow = (Epicor.Mfg.BO.PODataSet.POHeaderRow)ds.POHeader.Rows[0];
+            headRow.ApprovalStatus = "A";
+            headRow.Approve = true;
+            headRow.ReadyToPrint = true;
+            try
+            {
+                this.poObj.ChangeApproveSwitch(true, out violationMsg, ds);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+        }
         
         public System.DateTime  ConvertStrToDate(string dateStr)
         {
