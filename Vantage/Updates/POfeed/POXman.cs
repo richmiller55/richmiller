@@ -31,7 +31,7 @@ namespace POfeed
             string strDate04 = split[(int)col.RevisedDate04];
             int intDate04 = Convert.ToInt32(strDate04);
             System.DateTime UpdateDate04 = System.DateTime.Today;
-            if (intDate04.Equals(0))
+            if (intDate04.Equals(0) || intDate04.Equals(19000100))
             {
                 processDate04 = false;
             }
@@ -44,7 +44,7 @@ namespace POfeed
             string strDate01 = split[(int)col.RevisedDate01];
             int intDate01 = Convert.ToInt32(strDate01);
             System.DateTime UpdateDate01 = System.DateTime.Today;
-            if (intDate01.Equals(0))
+            if (intDate01.Equals(0) || intDate01.Equals(19000100))
             {
                 processDate01 = false;
             }
@@ -73,7 +73,7 @@ namespace POfeed
             string strDate04 = split[(int)col.RevisedDate04];
             int intDate04 = Convert.ToInt32(strDate04);
             System.DateTime UpdateDate04 = System.DateTime.Today;
-            if (intDate04.Equals(0))
+            if (intDate04.Equals(0) || intDate04.Equals(19000100))
             {
                 processDate04 = false;
             }
@@ -86,7 +86,7 @@ namespace POfeed
             string strDate01 = split[(int)col.RevisedDate01];
             int intDate01 = Convert.ToInt32(strDate01);
             System.DateTime UpdateDate01 = System.DateTime.Today;
-            if (intDate01.Equals(0))
+            if (intDate01.Equals(0) || intDate01.Equals(19000100))
             {
                 processDate01 = false;
             }

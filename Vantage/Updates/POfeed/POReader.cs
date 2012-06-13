@@ -9,7 +9,7 @@ namespace POfeed
 {
     class POReader
     {
-        string file = "I:/data/updates/po/PO_Date.txt";
+        string file = "I:/data/updates/po/MarcatiUpload061212.txt";
         public POReader()
         {
             StreamReader tr = new StreamReader(file);
