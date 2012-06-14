@@ -55,7 +55,19 @@ sub sql {
       cm.ChangedBy as changedBy,
       cm.ChangeDate as changeDate,
       cm.EstDate  as EstDate,
-      cm.CreditClearUserID as CreditClearUserID
+      cm.CreditClearUserID as CreditClearUserID,
+      cm.BTName        as  BTName,     
+      cm.BTAddress1    as  BTAddress1, 	
+      cm.BTAddress2    as  BTAddress2, 	
+      cm.BTAddress3    as  BTAddress3, 	
+      cm.BTCity	       as  BTCity,     		
+      cm.BTCountry     as  BTCountry,  
+      cm.BTCountryNum  as  BTCountryNum,
+      cm.BTFaxNum      as  BTFaxNum,   	
+      cm.BTFormatStr   as  BTFormatStr,
+      cm.BTPhoneNum    as  BTPhoneNum, 	
+      cm.BTState       as  BTState,    
+      cm.BTZip 	       as  BTZip       
      FROM  pub.customer as cm
         left join pub.CustGrup as cg
         on cg.Company = cm.Company and
@@ -115,7 +127,18 @@ sub printData {
 		  $EstDate   . "\t" .
                   $row{CREDITCLEARUSERID} . "\t" .
                   $row{INACTIVEFLAG} . "\t" .
-
+                  $row{BTNAME} . "\t" .
+                  $row{BTADDRESS1} . "\t" .
+                  $row{BTADDRESS2} . "\t" .
+                  $row{BTADDRESS3} . "\t" .
+                  $row{BTCITY} . "\t" .
+                  $row{BTCOUNTRY} . "\t" .
+                  $row{BTCOUNTRYNUM} . "\t" .
+                  $row{BTFAXNUM} . "\t" .
+                  $row{BTFORMATSTR} . "\t" .
+                  $row{BTPHONENUM} . "\t" .
+                  $row{BTSTATE} . "\t" .
+                  $row{BTZIP} . "\t" .
 		  0 . "\n";
     }
     close OUT;
