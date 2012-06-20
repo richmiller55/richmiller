@@ -299,64 +299,18 @@ namespace PartUpdate
                     row.ShortChar03 = ShortChar03;
                 }
                 string ShortChar04 = split[(int)catalog.ShortChar04];
-                if (ShortChar04 != "NA")
+                if (!ShortChar04.Equals(""))
                 {
                     row.ShortChar04 = ShortChar04;
                 }
-                /*
-                string ShortChar05 = split[(int)catalog.ShortChar05];
-                if (ShortChar05 != "NA")
+                string ShortChar06 = split[(int)catalog.ShortChar06];
+                if (!ShortChar06.Equals(""))
                 {
-                    row.ShortChar05 = ShortChar05;
+                    row.ShortChar06 = ShortChar06;
                 }
-                */
-                string ShortChar07 = split[(int)catalog.ShortChar07];
-                if (ShortChar07.CompareTo("NA") != 0)
-                {
-                    row.ShortChar07 = ShortChar07;
-                }
-                string Character01 = split[(int)catalog.Character01];
-                if (Character01 != "")
-                {
-                    row.Character01 = Character01;
-                }
-                string Character02 = split[(int)catalog.Character02];
-                if (Character02 != "")
-                {
-                    row.Character02 = Character02;
-                }
-                string strNumber01 = split[(int)catalog.Number01];
-                if (strNumber01.CompareTo("NA") != 0)
-                {
-                    row.Number01 = Convert.ToInt32(strNumber01);
-                }
-                string strNumber05 = split[(int)catalog.Number05];
-                if (strNumber05.CompareTo("NA") != 0 & strNumber05.CompareTo("") != 0)
-                {
-                    row.Number05 = Convert.ToInt32(strNumber05);
-                }
-                string strNumber06 = split[(int)catalog.Number06];
-                if (strNumber06.CompareTo("NA") != 0 & strNumber06.CompareTo("") != 0)
-                {
-                    row.Number06 = Convert.ToInt32(strNumber06);
-                }
-                string strNumber07 = split[(int)catalog.Number07];
-                if (strNumber07.CompareTo("NA") != 0 & strNumber07.CompareTo("") != 0)
-                {
-                    row.Number07 = Convert.ToInt32(strNumber07);
-                }
-                string strNumber08 = split[(int)catalog.Number08];
-                if (strNumber08.CompareTo("NA") != 0 & strNumber08.CompareTo("") != 0)
-                {
-                    row.Number08 = Convert.ToDecimal(strNumber08);
-                }
-                string strUnitPrice = split[(int)catalog.UnitPrice];
-                if (strUnitPrice.CompareTo("NA") != 0)
-                {
-                    row.UnitPrice = Convert.ToDecimal(strUnitPrice);
-                }
+
                 string strCheckBox02 = split[(int)catalog.CheckBox02];
-                if (strCheckBox02.CompareTo("NA") != 0)
+                if (!strCheckBox02.Equals("NA"))
                 {
                     if (strCheckBox02.Equals("1"))
                     {
@@ -368,7 +322,7 @@ namespace PartUpdate
                     }
                 }
                 string strCheckBox03 = split[(int)catalog.CheckBox03];
-                if (strCheckBox03.CompareTo("NA") != 0)
+                if (!strCheckBox03.Equals("NA"))
                 {
                     if (strCheckBox03.Equals("1"))
                     {
@@ -380,7 +334,7 @@ namespace PartUpdate
                     }
                 }
                 string strCheckBox04 = split[(int)catalog.CheckBox04];
-                if (strCheckBox04.CompareTo("NA") != 0)
+                if (!strCheckBox04.Equals("NA"))
                 {
                     if (strCheckBox04.Equals("1"))
                     {
@@ -392,7 +346,7 @@ namespace PartUpdate
                     }
                 }
                 string strCheckBox05 = split[(int)catalog.CheckBox05];
-                if (strCheckBox05.CompareTo("NA") != 0)
+                if (!strCheckBox05.Equals("NA"))
                 {
                     if (strCheckBox05.Equals("1"))
                     {
@@ -400,9 +354,56 @@ namespace PartUpdate
                     }
                     else
                     {
-                        row.CheckBox05 = false;
+                        row.CheckBox04 = false;
                     }
                 }
+                string strNumber05 = split[(int)catalog.Number05];
+                if (!strNumber05.Equals(""))
+                {
+                    row.Number05 = Convert.ToInt32(strNumber05);
+                }
+                string strNumber06 = split[(int)catalog.Number06];
+                if (!strNumber06.Equals(""))
+                {
+                    row.Number06 = Convert.ToInt32(strNumber06);
+                }
+                string strNumber07 = split[(int)catalog.Number07];
+                if (!strNumber07.Equals(""))
+                {
+                    row.Number07 = Convert.ToInt32(strNumber07);
+                }
+                string ShortChar07 = split[(int)catalog.ShortChar07];
+                if (!ShortChar07.Equals(""))
+                {
+                    row.ShortChar07 = ShortChar07;
+                }
+                string strNumber01 = split[(int)catalog.Number01];
+                if (!strNumber01.Equals(""))
+                {
+                    row.Number01 = Convert.ToInt32(strNumber01);
+                }
+                string strUnitPrice = split[(int)catalog.UnitPrice];
+                if (!strUnitPrice.Equals(""))
+                {
+                    row.UnitPrice = Convert.ToDecimal(strUnitPrice);
+                }
+                string strNumber08 = split[(int)catalog.Number08];
+                if (!strNumber08.Equals(""))
+                {
+                    row.Number08 = Convert.ToDecimal(strNumber01);
+                }
+                string Character01 = split[(int)catalog.Character01];
+                if (!Character01.Equals(""))
+                {
+                    row.Character01 = Character01;
+                }
+                string Character02 = split[(int)catalog.Character02];
+                if (!Character02.Equals(""))
+                {
+                    row.Character02 = Character02;
+                }
+
+                // the end
                 if (row.IsISOrigCountryNumNull())
                 {
                     row.ISOrigCountryNum = 42;
@@ -413,9 +414,6 @@ namespace PartUpdate
                 }
                 
                 /*
-                string strNumber08 = split[(int)catalog.Number08];
-                if (strNumber08 != "N/A")
-                {
                     string prodClass = row.ProdCode;
                     Regex re = new Regex(@"1[A-Z]");
                     MatchCollection mc = re.Matches(prodClass);
@@ -828,5 +826,7 @@ namespace PartUpdate
             }
         }
     }
+    
 }
      
+    
