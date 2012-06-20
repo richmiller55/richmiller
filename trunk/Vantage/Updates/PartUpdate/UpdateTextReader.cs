@@ -69,7 +69,7 @@ namespace PartUpdate
         UPC,
         ShortChar03,
         ShortChar04,
-        Number01,
+        ShortChar06,
         CheckBox02,
         CheckBox03,
         CheckBox04,
@@ -78,6 +78,7 @@ namespace PartUpdate
         Number06,
         Number07,
         ShortChar07,
+        Number01,
         UnitPrice,
         Number08,
         Character01,
@@ -175,7 +176,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/MissingNicknameReaders_17May2012.txt";
+        string file = "I:/data/updates/parts/Summer_2012_New_Styles_Upload.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -189,8 +190,8 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-              // xman.SimpleUpdatePart(line);
-              xman.UpdateInfo(line);
+
+                xman.UpdateCatalog(line);
             }
         }
     }
