@@ -58,13 +58,13 @@ namespace UpdateCustomerGeneral
     }
     class UpdateTerritoryReader
     {
-        string file = "I:/data/updates/customers/OPN_Setup.txt";
+        string file = "I:/data/updates/customers/terrUpdate_20Jun2012.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
             tr = new StreamReader(file);
-            // processFile();
-            custGrpUpdate();
+            processSimpleFile();
+            // custGrpUpdate();
         }
         void SetDupPOFlag()
         {
@@ -135,21 +135,6 @@ namespace UpdateCustomerGeneral
                 string CustNum = split[(int)fob.CustNum];
                 string NewFOB = "FGRB";
                 xman.ChangeFOBByID(CustId, NewFOB);
-            }
-        }
-        void processFileSimple()
-        {
-            string line = "";
-            CustomerXMan xman = new CustomerXMan();
-
-            while ((line = tr.ReadLine()) != null)
-            {
-                string[] split = line.Split(new Char[] { '\t' });
-                string CustId = split[0];
-                if (CustId.CompareTo("CustId") == 0) continue;
-                string NewTerr = "67";
-                string SalesRepNum = "67";
-                xman.ChangeTerrByID(CustId, NewTerr, SalesRepNum);
             }
         }
     }
