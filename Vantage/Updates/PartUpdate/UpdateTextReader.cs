@@ -38,8 +38,8 @@ namespace PartUpdate
     }
     public enum priceUpdate
     {
-        UPC,
         style,
+        UPC,
         unitPrice,
         listPrice,
         filler
@@ -176,7 +176,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Summer_2012_New_Styles_Upload.txt";
+        string file = "I:/data/updates/parts/Summer_2012_PriceFix.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -191,7 +191,7 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
 
-                xman.UpdateCatalog(line);
+                xman.PriceUpdate(line);
             }
         }
     }
