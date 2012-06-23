@@ -75,8 +75,11 @@ namespace PartUpdate
         {
             // using this for the listPrice conversion
             string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)listPrice.UPC];
-            if (partNum.CompareTo("UPC") == 0) return;
+            string partNum = split[(int)priceUpdate.UPC];
+            if (partNum.Equals("UPC")) return;
+            if (partNum.Equals("Part Number")) return;
+            if (partNum.Equals("UPC Number")) return;
+            
             if (this.partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
@@ -87,8 +90,8 @@ namespace PartUpdate
                     row.ISOrigCountryNum = 42;
                 }
 
-                row.UnitPrice = Convert.ToDecimal(split[(int)listPrice.currentList]);
-                row.Number09 = Convert.ToDecimal(split[(int)listPrice.goalPrice]);
+                row.UnitPrice = Convert.ToDecimal(split[(int)priceUpdate.unitPrice]);
+                row.Number08 = Convert.ToDecimal(split[(int)priceUpdate.listPrice]);
 
                 try
                 {
@@ -390,7 +393,7 @@ namespace PartUpdate
                 string strNumber08 = split[(int)catalog.Number08];
                 if (!strNumber08.Equals(""))
                 {
-                    row.Number08 = Convert.ToDecimal(strNumber01);
+                    row.Number08 = Convert.ToDecimal(strNumber08);
                 }
                 string Character01 = split[(int)catalog.Character01];
                 if (!Character01.Equals(""))
