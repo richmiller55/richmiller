@@ -11,6 +11,7 @@ use Extract::Coinet::PartBin;
 use Extract::Coinet::Part;
 use Extract::Coinet::OrderDtl;
 use Extract::Coinet::OrderHed;
+use Extract::Coinet::OrderRel;
 use Extract::Coinet::ProdGrup;
 use Extract::Coinet::CustGrup;
 use Extract::Coinet::SalesCat;
@@ -52,6 +53,7 @@ sub main {
     Extract::Coinet::Part->new();
     Extract::Coinet::OrderDtl->new();
     Extract::Coinet::OrderHed->new();
+    Extract::Coinet::OrderRel->new();
     Extract::Coinet::ProdGrup->new();
     Extract::Coinet::CustGrup->new();
     Extract::Coinet::CustBillTo->new();
