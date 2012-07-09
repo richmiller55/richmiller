@@ -176,7 +176,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Summer_2012_PriceFix.txt";
+        string file = "I:/data/updates/parts/Inactive070312.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -190,8 +190,7 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-
-                xman.PriceUpdate(line);
+                xman.InactivatePart(line);
             }
         }
     }

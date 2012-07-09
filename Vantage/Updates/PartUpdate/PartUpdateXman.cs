@@ -706,6 +706,27 @@ namespace PartUpdate
                 }
             }
         }
+        public void InactivatePart(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)wosUpdate.UPC];
+
+            if (partObj.PartExists(partNum))
+            {
+                ds = partObj.GetByID(partNum);
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                row.InActive = true;
+                string message = "Posted";
+                try
+                {
+                    partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
         public void SimpleRunOutFlag(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
