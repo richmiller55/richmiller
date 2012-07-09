@@ -58,7 +58,7 @@ namespace UpdateCustomerGeneral
     }
     class UpdateTerritoryReader
     {
-        string file = "I:/data/updates/customers/terrUpdate_20Jun2012.txt";
+        string file = "I:/data/updates/customers/terrUpdate_9Jul2012.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
