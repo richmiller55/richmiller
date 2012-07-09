@@ -40,7 +40,10 @@ sub sql {
       p.OrderLine as OrderLine, -- int
       p.Linked as Linked, -- smallint
       p.Date01 as exAsiaDate,  -- int
-      p.Date02 as customerShipDate   -- int
+      p.Date02 as customerShipDate,
+      p.ShortChar01 as Customer1,
+      p.Character02 as Customer2,
+      0 as filler
     FROM  pub.PODetail as p
    /;
     return $sql;
@@ -87,6 +90,8 @@ sub printData {
                   $row{LINKED}       . "\t" . 
 		  $exAsiaDate        . "\t" . 
 		  $customerShipDate . "\t" . 
+                  $row{CUSTOMER1}       . "\t" . 
+                  $row{CUSTOMER2}       . "\t" . 
                   1  . "\n";
     }
     close OUT;

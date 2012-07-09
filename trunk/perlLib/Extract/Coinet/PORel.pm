@@ -31,7 +31,9 @@ sub sql {
       p.ReqChgDate as ReqChgDate, -- int after
       p.ShippedDate as ShippedDate, -- int after conversion
       p.ContainerID as ContainerID,
-      p.Date01 as Date01
+      p.Date01 as Date01,
+      p.OpenRelease as OpenRelease,
+      0 as filler
      FROM  pub.PORel as p
    /;
     return $sql;
@@ -79,6 +81,7 @@ sub printData {
                   $ShippedDate  . "\t" . 
                   $row{CONTAINERID}  . "\t" .
                   $ExAsiaDate  .  "\t" .
+                  $row{OPENRELEASE}  . "\t" .
                    7 .  "\n";
 
     }
