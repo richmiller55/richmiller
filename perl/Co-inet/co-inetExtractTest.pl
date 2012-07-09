@@ -51,7 +51,7 @@ sub main {
 #    Extract::Coinet::InvcDtl->new();
 #    Extract::Coinet::InvcMisc->new();
 #    Extract::Coinet::PartBin->new();
-#    Extract::Coinet::Part->new();
+    Extract::Coinet::Part->new();
 #    Extract::Coinet::OrderHed->new();
 #    Extract::Coinet::OrderDtl->new();
 #    Extract::Coinet::ProdGrup->new();
@@ -81,5 +81,5 @@ sub main {
 #    Extract::Coinet::Fiscal->new();            
 #    Extract::Coinet::ShipVia->new();            
 #    Extract::Coinet::Terms->new();            
-    Extract::Coinet::UD01->new();            
+#    Extract::Coinet::UD01->new();            
 }
