@@ -18,25 +18,27 @@ sub sql {
     my $sql = qq /
       select
       od.Company as Company, -- char 8 
-od.OrderLine as OrderLine,  -- int
-od.OrderNum as OrderNum,    -- int
-od.OrderQty as OrderQty,    -- decimal 12,2
-od.OpenLine as OpenLine,    -- smallint 
-od.OverridePriceList as OverridePriceList, -- smallint
-od.PartNum as PartNum,               -- char 50
-od.PriceGroupCode as PriceGroupCode, -- char 10
-od.PriceListCode as PriceListCode,   -- char 10
-od.PricingQty as PricingQty,   -- decimal 12,2
-od.ProdCode as ProdCode,       -- char 8
-od.NeedByDate as NeedByDate, -- int after conversion
-od.RequestDate as RequestDate, -- int after conversion
-od.SalesCatID as SalesCatID,   -- char 4
-od.ShortChar01 as ShortChar01, -- char 50 
-od.ShortChar02 as ShortChar02, -- char 50
-od.ShortChar03 as ShortChar03, -- char 50
-od.UnitPrice as UnitPrice,     -- decimal 12,4
-od.VoidLine as VoidLine,       -- int
-od.SellingFactor as SellingFactor
+      od.OrderLine as OrderLine,  -- int
+      od.OrderNum as OrderNum,    -- int
+      od.OrderQty as OrderQty,    -- decimal 12,2
+      od.OpenLine as OpenLine,    -- smallint 
+      od.OverridePriceList as OverridePriceList, -- smallint
+      od.PartNum as PartNum,               -- char 50
+      od.PriceGroupCode as PriceGroupCode, -- char 10
+      od.PriceListCode as PriceListCode,   -- char 10
+      od.PricingQty as PricingQty,   -- decimal 12,2
+      od.ProdCode as ProdCode,       -- char 8
+      od.NeedByDate as NeedByDate, -- int after conversion
+      od.RequestDate as RequestDate, -- int after conversion
+      od.SalesCatID as SalesCatID,   -- char 4
+      od.ShortChar01 as ShortChar01, -- char 50 
+      od.ShortChar02 as ShortChar02, -- char 50
+      od.ShortChar03 as ShortChar03, -- char 50
+      od.UnitPrice as UnitPrice,     -- decimal 12,4
+      od.VoidLine as VoidLine,       -- int
+      od.SellingFactor as SellingFactor,
+      od.XPartNum as XPartNum,
+      0 as filler
      FROM  pub.OrderDtl as od
    /;
     return $sql;
@@ -78,7 +80,9 @@ sub printData {
                   $row{SHORTCHAR03}       . "\t" . 
                   $row{UNITPRICE}         . "\t" . 
                   $row{VOIDLINE}          . "\t" . 
-                  $row{SELLINGFACTOR}     . "\n";
+                  $row{SELLINGFACTOR}     . "\t" . 
+                  $row{XPARTNUM}          . "\t" . 
+		  0 . "\n";
     }
     close OUT;
 }

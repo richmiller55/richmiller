@@ -55,6 +55,7 @@ sub sql {
       p.Number14 as lastPOCost,	
       p.ShortChar05 as OrderingType,
       p.ShortChar06 as PrintOptions,
+      p.ClassID     as ClassID,
       1  as filler
      FROM  pub.Part as p
    /;
@@ -111,6 +112,7 @@ sub printData {
                   $row{LASTPOCOST} . "\t" . 
                   $row{ORDERINGTYPE} . "\t" . 
                   $row{PRINTOPTIONS} . "\t" . 
+                  $row{CLASSID}      . "\t" . 
 	           0    . "\n";
 
     }
