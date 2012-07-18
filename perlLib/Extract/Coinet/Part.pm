@@ -56,6 +56,7 @@ sub sql {
       p.ShortChar05 as OrderingType,
       p.ShortChar06 as PrintOptions,
       p.ClassID     as ClassID,
+      p.CheckBox08 as DirectShip,         -- smallint
       1  as filler
      FROM  pub.Part as p
    /;
@@ -113,6 +114,7 @@ sub printData {
                   $row{ORDERINGTYPE} . "\t" . 
                   $row{PRINTOPTIONS} . "\t" . 
                   $row{CLASSID}      . "\t" . 
+                  $row{DIRECTSHIP}      . "\t" . 
 	           0    . "\n";
 
     }
