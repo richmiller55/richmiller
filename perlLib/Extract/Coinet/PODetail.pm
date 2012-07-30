@@ -41,6 +41,8 @@ sub sql {
       p.Linked as Linked, -- smallint
       p.Date01 as exAsiaDate,  -- int
       p.Date02 as customerShipDate,
+      p.Date03 as requestedShipDate,
+      p.Date04 as proformaDeliveryDate,
       p.ShortChar01 as Customer1,
       p.Character02 as Customer2,
       0 as filler
@@ -64,32 +66,40 @@ sub printData {
 	$exAsiaDate =~ s/-//g;
 	my $customerShipDate = $row{CUSTOMERSHIPDATE};
 	$customerShipDate =~ s/-//g;
+
+	my $requestedShipDate = $row{REQUESTEDSHIPDATE};
+	$requestedShipDate =~ s/-//g;
+
+	my $proformaDeliveryDate = $row{PROFORMADELIVERYDATE};
+	$proformaDeliveryDate =~ s/-//g;
         
 	print OUT  $i . "\t" .
-                  $row{COMPANY}       . "\t" . 
-                  $row{OPENLINE}     . "\t" . 
-                  $row{VOIDLINE}     . "\t" . 
-                  $row{PONUM}     . "\t" . 
-                  $row{POLINE}     . "\t" . 
-                  $row{LINEDESC}     . "\t" . 
-                  $row{IUM}     . "\t" . 
-                  $row{UNITCOST}     . "\t" . 
-                  $row{ORDERQTY}     . "\t" . 
-                  $row{XORDERQTY}     . "\t" . 
-                  $row{TAXABLE}     . "\t" . 
-                  $row{PUM}     . "\t" . 
+                  $row{COMPANY}         . "\t" . 
+                  $row{OPENLINE}        . "\t" . 
+                  $row{VOIDLINE}        . "\t" . 
+                  $row{PONUM}           . "\t" . 
+                  $row{POLINE}          . "\t" . 
+                  $row{LINEDESC}        . "\t" . 
+                  $row{IUM}             . "\t" . 
+                  $row{UNITCOST}        . "\t" . 
+                  $row{ORDERQTY}        . "\t" . 
+                  $row{XORDERQTY}       . "\t" . 
+                  $row{TAXABLE}         . "\t" . 
+                  $row{PUM}             . "\t" . 
                   $row{COSTPERCODE}     . "\t" . 
-                  $row{PARTNUM}     . "\t" . 
-                  $row{VENPARTNUM}     . "\t" . 
-                  $row{ADVANCEPAYBAL}     . "\t" . 
-                  $row{CONFIRMED}     . "\t" . 
-                  $row{DATECHGREQ}     . "\t" . 
+                  $row{PARTNUM}         . "\t" . 
+                  $row{VENPARTNUM}      . "\t" . 
+                  $row{ADVANCEPAYBAL}   . "\t" . 
+                  $row{CONFIRMED}       . "\t" . 
+                  $row{DATECHGREQ}      . "\t" . 
                   $row{CONFIRMDATE}     . "\t" . 
-                  $row{ORDERNUM}     . "\t" . 
-                  $row{ORDERLINE}    . "\t" . 
-                  $row{LINKED}       . "\t" . 
-		  $exAsiaDate        . "\t" . 
-		  $customerShipDate . "\t" . 
+                  $row{ORDERNUM}        . "\t" . 
+                  $row{ORDERLINE}       . "\t" . 
+                  $row{LINKED}          . "\t" . 
+		  $exAsiaDate           . "\t" . 
+		  $customerShipDate     . "\t" . 
+		  $requestedShipDate    . "\t" . 
+		  $proformaDeliveryDate . "\t" . 
                   $row{CUSTOMER1}       . "\t" . 
                   $row{CUSTOMER2}       . "\t" . 
                   1  . "\n";
