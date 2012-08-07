@@ -38,6 +38,8 @@ sub sql {
       od.VoidLine as VoidLine,       -- int
       od.SellingFactor as SellingFactor,
       od.XPartNum as XPartNum,
+      od.Discount as Discount,
+      od.DiscountPercent as DiscountPercent,
       0 as filler
      FROM  pub.OrderDtl as od
    /;
@@ -82,6 +84,8 @@ sub printData {
                   $row{VOIDLINE}          . "\t" . 
                   $row{SELLINGFACTOR}     . "\t" . 
                   $row{XPARTNUM}          . "\t" . 
+                  $row{DISCOUNT}          . "\t" . 
+                  $row{DISCOUNTPERCENT}          . "\t" . 
 		  0 . "\n";
     }
     close OUT;
