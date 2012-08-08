@@ -9,7 +9,7 @@ namespace POfeed
 {
     class POReader
     {
-        string file = "I:/data/updates/po/MarcatiUpload061212.txt";
+        string file = "I:/data/updates/po/tasklist.txt";
         public POReader()
         {
             StreamReader tr = new StreamReader(file);
@@ -21,7 +21,7 @@ namespace POfeed
             POXman xman = new POXman();
             while ((line = tr.ReadLine()) != null)
             {
-                xman.PODateUpdate(line);
+                xman.UpdateExAsia(line);
             }
         }
     }

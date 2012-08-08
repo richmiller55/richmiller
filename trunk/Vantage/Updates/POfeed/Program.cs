@@ -9,7 +9,7 @@ namespace POfeed
     {
         static void Main(string[] args)
         {
-            POReader reader = new POReader();
+            CouchReader x = new CouchReader();
         }
     }
 }

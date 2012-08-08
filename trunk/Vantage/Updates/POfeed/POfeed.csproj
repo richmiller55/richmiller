@@ -38,12 +38,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\client803\client\Epicor.Mfg.IF.IPO.dll</HintPath>
     </Reference>
+    <Reference Include="LitJson, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SharpCouch\bin\Debug\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCouch, Version=1.0.4397.22075, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SharpCouch\bin\Debug\SharpCouch.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="POReader.cs" />
+    <Compile Include="CouchReader.cs" />
     <Compile Include="POXman.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
