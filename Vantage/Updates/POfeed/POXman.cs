@@ -108,6 +108,10 @@ namespace POfeed
                 string message = e.Message;
             }
         }
+        public void UpdateExAsia(string line)
+        {
+        }
+
         public void PODateUpdate(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -118,7 +122,7 @@ namespace POfeed
             int PONum = Convert.ToInt32(PONumStr);
             string strPOLine = split[(int)col.POLine];
             int POLine = 0;
-            string upc = "";
+            // string upc = "";
             if (strPOLine.Equals("ALL")) {
                 processAllLines = true;
             } else {
