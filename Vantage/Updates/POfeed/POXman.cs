@@ -22,7 +22,7 @@ namespace POfeed
         public POXman()
         {
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.poObj = new Epicor.Mfg.BO.PO(objSess.ConnectionPool);
         }
         void LoopOverRows(string[] split, Epicor.Mfg.BO.PODataSet ds)
