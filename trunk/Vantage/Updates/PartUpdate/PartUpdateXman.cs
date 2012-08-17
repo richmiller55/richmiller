@@ -103,7 +103,6 @@ namespace PartUpdate
                 }
             }
         }
-
         public void NewPart(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });

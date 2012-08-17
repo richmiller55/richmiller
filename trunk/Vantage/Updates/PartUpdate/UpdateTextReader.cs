@@ -176,7 +176,7 @@ namespace PartUpdate
 
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Inactive070312.txt";
+        string file = "I:/data/updates/parts/TGarget_Upload.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -190,7 +190,7 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                xman.InactivatePart(line);
+                xman.NewPartEx(line);
             }
         }
     }
