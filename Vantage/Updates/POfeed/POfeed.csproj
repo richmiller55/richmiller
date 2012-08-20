@@ -52,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CouchReader.cs" />
+    <Compile Include="HashReader.cs" />
     <Compile Include="POXman.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Tran.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
