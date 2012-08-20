@@ -15,16 +15,19 @@ namespace POfeed
 
         public Tran(Hashtable htTran)
         {
-            // process the ht
+            TransType = htTran["TransType"].ToString();
+            TypeOfDate = htTran["TypeOfDate"].ToString();
+            PODateStr = htTran["PODate"].ToString();
+            POId = htTran["POId"].ToString();
             SetPONum();
             SetDate();
         }
         public void SetPONum()
         {
-            string poSide = poId.Split("_")[0];
+            string poSide = POId.Split('_')[0];
             this.PONum = Convert.ToInt32(poSide);
-            string lineSide = poId.Split("_")[1];
-            this.PONum = Convert.ToInt32(poSide);
+            string lineSide = poId.Split('_')[1];
+            this.POLine = Convert.ToInt32(lineSide);
         }
         public string TypeOfDate
         {
@@ -103,10 +106,9 @@ namespace POfeed
                 poLine = value;
             }
         }
-        public void SetDate(Tran tran)
+        public void SetDate()
         {
-            // old maybe do this in Tran
-            string dateStr = tran.PODateStr;
+            string dateStr = PODateStr;
             string year = dateStr.Substring(0, 4);
             string month = dateStr.Substring(4, 2);
             string day = dateStr.Substring(6, 2);

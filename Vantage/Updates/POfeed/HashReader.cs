@@ -10,26 +10,6 @@ using LitJson;
 
 namespace POfeed
 {
-    class UpdateTextReader
-    {
-        string file = "I:/data/updates/parts/TGarget_Upload.txt";
-        StreamReader tr;
-        public UpdateTextReader()
-        {
-            tr = new StreamReader(file);
-            processFile();
-        }
-        void processFile()
-        {
-
-            PartUpdateXman xman = new PartUpdateXman();
-
-            while ((line = tr.ReadLine()) != null)
-            {
-                xman.NewPartEx(line);
-            }
-        }
-    }
     public enum vooRec
     {
         Count,
@@ -51,15 +31,17 @@ namespace POfeed
             string file = "I:/data/updates/po/poUpdates_19Aug2012.txt";
             StreamReader tr = new StreamReader(file);
             string line = "";
+            POXman xman = new POXman();
             while ((line = tr.ReadLine()) != null)
             {
                 string[] segs = line.Split(new Char[] { '\t' });
-                Hashtable ht = new Hashtable(10);
+                Hashtable ht = new Hashtable(5);
                 ht["POId"] = segs[(int)vooRec.POId];
                 ht["PODate"] = segs[(int)vooRec.POdate];
-                ht["TranType"] = segs[(int)vooRec.TranType];
+                ht["TransType"] = segs[(int)vooRec.TranType];
                 ht["TypeOfDate"] = segs[(int)vooRec.TypeOfDate];
-                vooRecs.Add(ht);
+                Tran tran = new Tran(ht);
+                xman.PODateUpdate(tran);
             }
         }
     }

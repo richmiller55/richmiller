@@ -9,7 +9,9 @@ namespace POfeed
     {
         static void Main(string[] args)
         {
-            CouchReader x = new CouchReader();
+            HashReader x = new HashReader();
+            x.RunFile();
+            // CouchReader x = new CouchReader();
         }
     }
 }
