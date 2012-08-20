@@ -21,12 +21,19 @@ namespace POfeed
         //   sys   8301
         public POXman()
         {
+            // keep old
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
                 "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.poObj = new Epicor.Mfg.BO.PO(objSess.ConnectionPool);
         }
+        public void ProcessTran(Tran tran)
+        {
+            // new
+
+        }
         void LoopOverRows(string[] split, Epicor.Mfg.BO.PODataSet ds)
         {
+            // old
             bool processDate04 = false;
             string strDate04 = split[(int)col.RevisedDate04];
             int intDate04 = Convert.ToInt32(strDate04);
@@ -69,6 +76,7 @@ namespace POfeed
         }
         void UpdateLine(string[] split,Epicor.Mfg.BO.PODataSet ds,int rowNum)
         {
+            // old
             bool processDate04 = false;
             string strDate04 = split[(int)col.RevisedDate04];
             int intDate04 = Convert.ToInt32(strDate04);
@@ -111,26 +119,10 @@ namespace POfeed
         public void UpdateExAsia(string line)
         {
         }
-
-        public void PODateUpdate(string line)
+        public void OpenPO(Tran tran)
         {
-            string[] split = line.Split(new Char[] { '\t' });
-            string PONumStr = split[(int)col.PONum];
-            bool processAllLines = false;
-            if (PONumStr.Equals("PO")) return;
-            if (PONumStr.Equals("")) return;
-            int PONum = Convert.ToInt32(PONumStr);
-            string strPOLine = split[(int)col.POLine];
-            int POLine = 0;
-            // string upc = "";
-            if (strPOLine.Equals("ALL")) {
-                processAllLines = true;
-            } else {
-                POLine = Convert.ToInt32(split[(int)col.POLine]);
-                processAllLines = false;  // stays false
-            }
-            
-            ds = this.poObj.GetByID(PONum);
+            // new
+            ds = this.poObj.GetByID(tran.PONum);
             String violationMsg = "";
             Epicor.Mfg.BO.PODataSet.POHeaderRow headRow =
                 (Epicor.Mfg.BO.PODataSet.POHeaderRow)ds.POHeader.Rows[0];
@@ -147,6 +139,28 @@ namespace POfeed
             {
                 string message = e.Message;
             }
+        }
+
+        public void PODateUpdate(string line)
+        {
+            // old
+            string[] split = line.Split(new Char[] { '\t' });
+            string PONumStr = split[(int)col.PONum];
+            bool processAllLines = false;
+            if (PONumStr.Equals("PO")) return;
+            if (PONumStr.Equals("")) return;
+            int PONum = Convert.ToInt32(PONumStr);
+            string strPOLine = split[(int)col.POLine];
+            int POLine = 0;
+            // string upc = "";
+            if (strPOLine.Equals("ALL")) {
+                processAllLines = true;
+            } else {
+                POLine = Convert.ToInt32(split[(int)col.POLine]);
+                processAllLines = false;  // stays false
+            }
+            
+            
             if (processAllLines)
             {
                 LoopOverRows(split, ds);
@@ -173,16 +187,6 @@ namespace POfeed
             }
         }
         
-        public System.DateTime  ConvertStrToDate(string dateStr)
-        {
-            string year = dateStr.Substring(0, 4);
-            string month = dateStr.Substring(4, 2);
-            string day = dateStr.Substring(6, 2);
-
-            System.DateTime dateObj = new DateTime(Convert.ToInt32(year),
-                Convert.ToInt32(month), Convert.ToInt32(day));
-            return dateObj;
-        }
 
     }
 }
