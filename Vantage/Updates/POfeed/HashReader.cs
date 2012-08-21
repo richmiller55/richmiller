@@ -37,6 +37,7 @@ namespace POfeed
                 string[] segs = line.Split(new Char[] { '\t' });
                 Hashtable ht = new Hashtable(5);
                 ht["POId"] = segs[(int)vooRec.POId];
+                ht["seq"] = segs[(int)vooRec.Count];
                 ht["PODate"] = segs[(int)vooRec.POdate];
                 ht["TransType"] = segs[(int)vooRec.TranType];
                 ht["TypeOfDate"] = segs[(int)vooRec.TypeOfDate];

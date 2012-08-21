@@ -13,7 +13,7 @@ namespace POfeed
         {
             // keep old
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
-                "AppServerDC://VantageDB1:8331", Epicor.Mfg.Core.Session.LicenseType.Default);
+                "AppServerDC://VantageDB1:8301", Epicor.Mfg.Core.Session.LicenseType.Default);
             this.poObj = new Epicor.Mfg.BO.PO(objSess.ConnectionPool);
         }
         public void PODateUpdate(Tran tran)
@@ -66,18 +66,24 @@ namespace POfeed
         private void UpdateLine(Tran tran)
         {
             Epicor.Mfg.BO.PODataSet ds = this.poObj.GetByID(tran.PONum);
-            int rowNum = tran.POLine - 1;
-            Epicor.Mfg.BO.PODataSet.PODetailRow row =
-    (Epicor.Mfg.BO.PODataSet.PODetailRow)ds.PODetail.Rows[rowNum];
-            if (tran.TypeOfDate.Equals("exAsia_")) row.Date01 = tran.PODate;
-            else if (tran.TypeOfDate.Equals("profor_"))row.Date04 = tran.PODate;
-            try
+
+            foreach (Epicor.Mfg.BO.PODataSet.PODetailRow row in ds.PODetail.Rows)
             {
-                this.poObj.Update(ds);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
+                if (row.POLine.Equals(tran.POLine))
+                {
+                    // Epicor.Mfg.BO.PODataSet.PODetailRow row =
+                    //(Epicor.Mfg.BO.PODataSet.PODetailRow)ds.PODetail.Rows[rowNum];
+                    if (tran.TypeOfDate.Equals("exAsia_")) row.Date01 = tran.PODate;
+                    else if (tran.TypeOfDate.Equals("profor_")) row.Date04 = tran.PODate;
+                    try
+                    {
+                        this.poObj.Update(ds);
+                    }
+                    catch (Exception e)
+                    {
+                        string message = e.Message;
+                    }
+                }
             }
         }
     }
