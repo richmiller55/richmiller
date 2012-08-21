@@ -12,6 +12,7 @@ namespace POfeed
         string typeOfDate;
         int poNum;
         int poLine;
+        int seq;
 
         public Tran(Hashtable htTran)
         {
@@ -19,6 +20,7 @@ namespace POfeed
             TypeOfDate = htTran["TypeOfDate"].ToString();
             PODateStr = htTran["PODate"].ToString();
             POId = htTran["POId"].ToString();
+            seq = Convert.ToInt32(htTran["seq"]);
             SetPONum();
             SetDate();
         }
