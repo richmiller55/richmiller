@@ -53,9 +53,9 @@ sub main {
 
 #    Extract::Coinet::OrderHed->new();
 #    Extract::Coinet::OrderDtl->new();
-    Extract::Coinet::OrderRel->new();
+#    Extract::Coinet::OrderRel->new();
 #    Extract::Coinet::ProdGrup->new();
-#    Extract::Coinet::CustGrup->new();
+    Extract::Coinet::CustGrup->new();
 #    Extract::Coinet::SalesCat->new();
 #    Extract::Coinet::ShipHead->new();
 #    Extract::Coinet::ShipDtl->new();
