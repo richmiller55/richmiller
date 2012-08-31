@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using System.Xml;
 using System.IO;
@@ -69,7 +70,7 @@ namespace PartUpdate
         UPC,
         ShortChar03,
         ShortChar04,
-        ShortChar06,
+        Number01,
         CheckBox02,
         CheckBox03,
         CheckBox04,
@@ -78,7 +79,6 @@ namespace PartUpdate
         Number06,
         Number07,
         ShortChar07,
-        Number01,
         UnitPrice,
         Number08,
         Character01,
@@ -173,10 +173,10 @@ namespace PartUpdate
         printOption,
         filler
     }
-
+    
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/TGarget_Upload.txt";
+        string file = "I:/data/updates/parts/Fall_1_2012_PartUpdate.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -190,7 +190,7 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                xman.NewPartEx(line);
+                xman.CatalogPartUpdate(line);
             }
         }
     }

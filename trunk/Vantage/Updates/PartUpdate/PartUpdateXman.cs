@@ -278,7 +278,7 @@ namespace PartUpdate
                 }
             }
         }
-        public void UpdateCatalog(string line)
+        public void CatalogPartUpdate(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)catalog.UPC];
@@ -290,158 +290,361 @@ namespace PartUpdate
             {
                 return;
             }
-            if (this.partObj.PartExists(partNum))
+            if (!this.partObj.PartExists(partNum))
             {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-
-                string ShortChar03 = split[(int)catalog.ShortChar03];
-                if (ShortChar03 != "NA")
+                return;
+            }
+            
+            Epicor.Mfg.BO.PartDataSet l_ds = new Epicor.Mfg.BO.PartDataSet();
+            l_ds = partObj.GetByID(partNum);
+            Epicor.Mfg.BO.PartDataSet.PartRow l_row;
+            l_row = (Epicor.Mfg.BO.PartDataSet.PartRow)l_ds.Part.Rows[0];
+            l_row.Company = "CA";
+            
+            if ((DoWeHaveData("Description"))) {
+              string Description = split[(int)GetEnumIndex("Description")];
+                if (Description != "NA")
                 {
-                    row.ShortChar03 = ShortChar03;
-                }
-                string ShortChar04 = split[(int)catalog.ShortChar04];
-                if (!ShortChar04.Equals(""))
-                {
-                    row.ShortChar04 = ShortChar04;
-                }
-                string ShortChar06 = split[(int)catalog.ShortChar06];
-                if (!ShortChar06.Equals(""))
-                {
-                    row.ShortChar06 = ShortChar06;
-                }
-
-                string strCheckBox02 = split[(int)catalog.CheckBox02];
-                if (!strCheckBox02.Equals("NA"))
-                {
-                    if (strCheckBox02.Equals("1"))
-                    {
-                        row.CheckBox02 = true;
-                    }
-                    else
-                    {
-                        row.CheckBox02 = false;
-                    }
-                }
-                string strCheckBox03 = split[(int)catalog.CheckBox03];
-                if (!strCheckBox03.Equals("NA"))
-                {
-                    if (strCheckBox03.Equals("1"))
-                    {
-                        row.CheckBox03 = true;
-                    }
-                    else
-                    {
-                        row.CheckBox03 = false;
-                    }
-                }
-                string strCheckBox04 = split[(int)catalog.CheckBox04];
-                if (!strCheckBox04.Equals("NA"))
-                {
-                    if (strCheckBox04.Equals("1"))
-                    {
-                        row.CheckBox04 = true;
-                    }
-                    else
-                    {
-                        row.CheckBox04 = false;
-                    }
-                }
-                string strCheckBox05 = split[(int)catalog.CheckBox05];
-                if (!strCheckBox05.Equals("NA"))
-                {
-                    if (strCheckBox05.Equals("1"))
-                    {
-                        row.CheckBox05 = true;
-                    }
-                    else
-                    {
-                        row.CheckBox04 = false;
-                    }
-                }
-                string strNumber05 = split[(int)catalog.Number05];
-                if (!strNumber05.Equals(""))
-                {
-                    row.Number05 = Convert.ToInt32(strNumber05);
-                }
-                string strNumber06 = split[(int)catalog.Number06];
-                if (!strNumber06.Equals(""))
-                {
-                    row.Number06 = Convert.ToInt32(strNumber06);
-                }
-                string strNumber07 = split[(int)catalog.Number07];
-                if (!strNumber07.Equals(""))
-                {
-                    row.Number07 = Convert.ToInt32(strNumber07);
-                }
-                string ShortChar07 = split[(int)catalog.ShortChar07];
-                if (!ShortChar07.Equals(""))
-                {
-                    row.ShortChar07 = ShortChar07;
-                }
-                string strNumber01 = split[(int)catalog.Number01];
-                if (!strNumber01.Equals(""))
-                {
-                    row.Number01 = Convert.ToInt32(strNumber01);
-                }
-                string strUnitPrice = split[(int)catalog.UnitPrice];
-                if (!strUnitPrice.Equals(""))
-                {
-                    row.UnitPrice = Convert.ToDecimal(strUnitPrice);
-                }
-                string strNumber08 = split[(int)catalog.Number08];
-                if (!strNumber08.Equals(""))
-                {
-                    row.Number08 = Convert.ToDecimal(strNumber08);
-                }
-                string Character01 = split[(int)catalog.Character01];
-                if (!Character01.Equals(""))
-                {
-                    row.Character01 = Character01;
-                }
-                string Character02 = split[(int)catalog.Character02];
-                if (!Character02.Equals(""))
-                {
-                    row.Character02 = Character02;
-                }
-
-                // the end
-                if (row.IsISOrigCountryNumNull())
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-                if (row.ISOrigCountryNum == 0)
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-                
-                /*
-                    string prodClass = row.ProdCode;
-                    Regex re = new Regex(@"1[A-Z]");
-                    MatchCollection mc = re.Matches(prodClass);
-                    Decimal ListPrice = 0.0M;
-
-                    if (mc.Count > 0)
-                    {
-                        ListPrice = UnitPrice / .70M;
-                    }
-                    else
-                    {
-                        ListPrice = UnitPrice / .80M;
-                    }
-                    Decimal rndListPrice = Math.Round(ListPrice, 2);
-                    row.Number08 = rndListPrice;
-                }  */
-
-                try
-                {
-                    this.partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    string message = e.Message;
+                    l_row.PartDescription = Description;
                 }
             }
+            if ((DoWeHaveData("ShortChar01"))) {
+              string ShortChar01 = split[(int)GetEnumIndex("ShortChar01")];
+                if (ShortChar01 != "NA")
+                {
+                    l_row.ShortChar01 = ShortChar01;
+                }
+            }
+            if ((DoWeHaveData("ShortChar02"))) {
+              string ShortChar02 = split[(int)GetEnumIndex("ShortChar02")];
+                if (ShortChar02 != "NA")
+                {
+                    l_row.ShortChar02 = ShortChar02;
+                }
+            }
+            if ((DoWeHaveData("ShortChar03"))) {
+              string ShortChar03 = split[(int)GetEnumIndex("ShortChar03")];
+                if (ShortChar03 != "NA")
+                {
+                    l_row.ShortChar03 = ShortChar03;
+                }
+            }
+            if ((DoWeHaveData("ShortChar04")))
+            {
+              string ShortChar04 = split[(int)GetEnumIndex("ShortChar04")];
+                if (ShortChar04 != "NA")
+                {
+                    l_row.ShortChar04 = ShortChar04;
+                }
+            }
+            if ((DoWeHaveData("ShortChar05")))
+            {
+              string ShortChar05 = split[(int)GetEnumIndex("ShortChar05")];
+                if (ShortChar05 != "NA")
+                {
+                    l_row.ShortChar05 = ShortChar05;
+                }
+            }
+            if ((DoWeHaveData("ShortChar06")))
+            {
+              string ShortChar06 = split[(int)GetEnumIndex("ShortChar06")];
+                if (ShortChar06 != "NA")
+                {
+                    l_row.ShortChar06 = ShortChar06;
+                }
+            }
+            if ((DoWeHaveData("ShortChar07")))
+            {
+              string ShortChar07 = split[(int)GetEnumIndex("ShortChar07")];
+                if (ShortChar07 != "NA")
+                {
+                    l_row.ShortChar07 = ShortChar07;
+                }
+            }
+            if ((DoWeHaveData("UnitPrice")))
+            {
+              object UnitPrice = split[(int)GetEnumIndex("UnitPrice")];
+                if (!UnitPrice.Equals(""))
+                {
+                    l_row.UnitPrice = Convert.ToDecimal(UnitPrice);
+                }
+            }
+            if ((DoWeHaveData("Number01")))
+            {
+              object Number01 = split[(int)GetEnumIndex("Number01")];
+                if (!Number01.Equals(""))
+                {
+                    l_row.Number01 = Convert.ToDecimal(Number01);
+                }
+            }
+            if ((DoWeHaveData("Number02")))
+            {
+              object Number02 = split[(int)GetEnumIndex("Number02")];
+                if (!Number02.Equals(""))
+                {
+                    l_row.Number02 = Convert.ToDecimal(Number02);
+                }
+            }
+            if ((DoWeHaveData("Number03")))
+            {
+              object Number03 = split[(int)GetEnumIndex("Number03")];
+                if (!Number03.Equals(""))
+                {
+                    l_row.Number03 = Convert.ToDecimal(Number03);
+                }
+            }
+            if ((DoWeHaveData("Number04")))
+            {
+              object Number04 = split[(int)GetEnumIndex("Number04")];
+                if (!Number04.Equals(""))
+                {
+                    l_row.Number04 = Convert.ToDecimal(Number04);
+                }
+            }
+            if ((DoWeHaveData("Number05")))
+            {
+              object Number05 = split[(int)GetEnumIndex("Number05")];
+                if (!Number05.Equals(""))
+                {
+                    l_row.Number05 = Convert.ToDecimal(Number05);
+                }
+            }
+            if ((DoWeHaveData("Number06")))
+            {
+              object Number06 = split[(int)GetEnumIndex("Number06")];
+                if (!Number06.Equals(""))
+                {
+                    l_row.Number06 = Convert.ToDecimal(Number06);
+                }
+            }
+            if ((DoWeHaveData("Number07")))
+            {
+              object Number07 = split[(int)GetEnumIndex("Number07")];
+                if (!Number07.Equals(""))
+                {
+                    l_row.Number07 = Convert.ToDecimal(Number07);
+                }
+            }
+            if ((DoWeHaveData("Number08")))
+            {
+              object Number08 = split[(int)GetEnumIndex("Number08")];
+                if (!Number08.Equals(""))
+                {
+                    l_row.Number08 = Convert.ToDecimal(Number08);
+                }
+            }
+            if ((DoWeHaveData("Number09")))
+            {
+              object Number09 = split[(int)GetEnumIndex("Number09")];
+                if (!Number09.Equals(""))
+                {
+                    l_row.Number09 = Convert.ToDecimal(Number09);
+                }
+            }
+            if ((DoWeHaveData("Number10")))
+            {
+              object Number10 = split[(int)GetEnumIndex("Number10")];
+                if (!Number10.Equals(""))
+                {
+                    l_row.Number10 = Convert.ToDecimal(Number10);
+                }
+            }
+            if ((DoWeHaveData("Number11")))
+            {
+              object Number11 = split[(int)GetEnumIndex("Number11")];
+                if (!Number11.Equals(""))
+                {
+                    l_row.Number11 = Convert.ToDecimal(Number11);
+                }
+            }
+            if ((DoWeHaveData("Number12")))
+            {
+              object Number12 = split[(int)GetEnumIndex("Number12")];
+                if (!Number12.Equals(""))
+                {
+                    l_row.Number12 = Convert.ToDecimal(Number12);
+                }
+            }
+            if ((DoWeHaveData("CheckBox01")))
+            {
+              object CheckBox01 = split[(int)GetEnumIndex("CheckBox01")];
+                if (!CheckBox01.Equals(""))
+                {
+                    if (CheckBox01.Equals("x"))
+                    {
+                        l_row.CheckBox01 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox01 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox02")))
+            {
+              object CheckBox02 = split[(int)GetEnumIndex("CheckBox02")];
+                if (!CheckBox02.Equals("NA"))
+                {
+                    if (CheckBox02.Equals("x"))
+                    {
+                        l_row.CheckBox02 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox02 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox03")))
+            {
+              object CheckBox03 = split[(int)GetEnumIndex("CheckBox03")];
+                if (!CheckBox03.Equals("NA"))
+                {
+                    if (CheckBox03.Equals("x"))
+                    {
+                        l_row.CheckBox03 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox03 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox04")))
+            {
+              object CheckBox04 = split[(int)GetEnumIndex("CheckBox04")];
+                if (!CheckBox04.Equals("NA"))
+                {
+                    if (CheckBox04.Equals("x"))
+                    {
+                        l_row.CheckBox04 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox04 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox05")))
+            {
+              object CheckBox05 = split[(int)GetEnumIndex("CheckBox05")];
+                if (!CheckBox05.Equals("NA"))
+                {
+                    if (CheckBox05.Equals("x"))
+                    {
+                        l_row.CheckBox05 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox05 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox06")))
+            {
+              object CheckBox06 = split[(int)GetEnumIndex("CheckBox06")];
+                if (!CheckBox06.Equals("NA"))
+                {
+                    if (CheckBox06.Equals("x"))
+                    {
+                        l_row.CheckBox06 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox06 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox07")))
+            {
+              object CheckBox07 = split[(int)GetEnumIndex("CheckBox07")];
+                if (!CheckBox07.Equals("NA"))
+                {
+                    if (CheckBox07.Equals("x"))
+                    {
+                        l_row.CheckBox07 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox07 = false;
+                    }
+                }
+            }
+            if ((DoWeHaveData("CheckBox08")))
+            {
+              object CheckBox08 = split[(int)GetEnumIndex("CheckBox08")];
+                if (!CheckBox08.Equals("NA"))
+                {
+                    if (CheckBox08.Equals("x"))
+                    {
+                        l_row.CheckBox08 = true;
+                    }
+                    else
+                    {
+                        l_row.CheckBox08 = false;
+                    }
+                }
+            }
+            if (DoWeHaveData("Character01"))
+            {
+              string Character01 = split[(int)GetEnumIndex("Character01")];
+                if (!Character01.Equals(""))
+                  l_row.Character01 = Character01;
+            }
+            if ((DoWeHaveData("Character02")))
+            {
+              string Character02 = split[(int)GetEnumIndex("Character02")];
+                if (!Character02.Equals(""))
+                  l_row.Character02 = Character02;
+            }
+            if ((DoWeHaveData("Character03")))
+            {
+              string Character03 = split[(int)GetEnumIndex("Character03")];
+                if (!Character03.Equals(""))
+                  l_row.Character03 = Character03;
+            }
+            if ((DoWeHaveData("Character04")))
+            {
+              string Character04 = split[(int)GetEnumIndex("Character04")];
+                if (!Character04.Equals(""))
+                    l_row.Character04 = Character04;
+            }
+            try
+            {
+                this.partObj.Update(l_ds);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+        }
+        private bool DoWeHaveData(string key)
+        {
+            bool foundMatch = false;
+            foreach (catalog catentry in Enum.GetValues(typeof(catalog)))
+            {
+                if (key.Equals(catentry.ToString()))
+                {
+                    foundMatch = true;
+                    break;
+                }
+            }
+            return foundMatch;
+        }
+        private int GetEnumIndex(string key)
+        {
+            int foundIndex = 0;
+            int i = 0;
+            foreach (catalog catentry in Enum.GetValues(typeof(catalog)))
+            {
+                if (key.Equals(catentry.ToString()))
+                {
+                    foundIndex = i;
+                    break;
+                }
+                i++;
+            }
+            return foundIndex;
         }
         public void SetAsDefaultWarehouse(string line)
         {
