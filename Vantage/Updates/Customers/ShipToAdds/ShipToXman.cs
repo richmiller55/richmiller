@@ -138,7 +138,7 @@ namespace ShipToLoad
                 int index = count - 1;
                 Epicor.Mfg.BO.CustomerDataSet.ShipToRow ShipToRow = (Epicor.Mfg.BO.CustomerDataSet.ShipToRow)ds.ShipTo.Rows[index];
                 ShipToRow.ShipToNum = st.ShipToId;
-
+                ShipToRow.PhoneNum = st.Phone;
                 ShipToRow.Address1 = st.Address1;
                 ShipToRow.Address2 = st.Address2;
                 ShipToRow.Address3 = st.Address3;
