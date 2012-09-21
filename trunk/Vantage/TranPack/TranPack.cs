@@ -10,8 +10,8 @@ namespace Pack
         public TranPack()
         {
             ArrayList packs = GetData();
-            // DropTable();
-            // CreateTable();
+            DropTable();
+            CreateTable();
             UpdateTable(packs);
         }
         public ArrayList GetData()
@@ -26,7 +26,7 @@ namespace Pack
                 p.FreightedShipViaCode as FreightedShipViaCode,
                 p.ShipDate as ShipDate
                 FROM pub.ShipHead as p
-                where 
+                where
                 p.ShipDate = curdate()
                 order by p.ShipDate desc
                 ";
@@ -48,6 +48,7 @@ namespace Pack
                 create table t_CurrentPacks (
                  PackNum  int,
                  CustNum  int,
+                 OrderNum int,
                  ShipToNum varchar(14),
                  ShipViaCode varchar(4),
                  index t_currentPacksIdx1(PackNum)
