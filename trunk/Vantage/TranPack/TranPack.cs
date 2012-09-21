@@ -10,8 +10,8 @@ namespace Pack
         public TranPack()
         {
             ArrayList packs = GetData();
-            DropTable();
-            CreateTable();
+            // DropTable();
+            // CreateTable();
             UpdateTable(packs);
         }
         public ArrayList GetData()
@@ -74,8 +74,24 @@ namespace Pack
                 sqlUpdate.AppendLine(",CustNum = " + ht["CustNum"]);
                 sqlUpdate.AppendLine(",ShipToNum = " + "'" + ht["ShipToNum"] + "'");
                 sqlUpdate.AppendLine(",ShipViaCode = " + "'" + ht["ShipViaCode"] + "'");
-                ExecuteUpdate(sqlUpdate.ToString());
+                if (RecordNotThere(System.Convert.ToInt32(ht["PackNum"]))) ExecuteUpdate(sqlUpdate.ToString());
             }
+        }
+        private bool RecordNotThere(int PackNum)
+        {
+            bool result = true;
+            string sql = @"
+            select PackNum from t_CurrentPacks where PackNum = " + PackNum.ToString();
+            string Dsn = GetMySqlDsn();
+            using (OdbcConnection connection = new OdbcConnection(Dsn))
+            {
+                OdbcCommand command = new OdbcCommand(sql, connection);
+                connection.Open();
+                OdbcDataReader reader = command.ExecuteReader();
+                if (reader.HasRows) result = false;
+                reader.Close();
+            }
+            return result;
         }
         private void ExecuteUpdate(string sql)
         {
