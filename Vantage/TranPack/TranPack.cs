@@ -7,16 +7,15 @@ namespace Pack
 {
     public class TranPack
     {
-        
-        ArrayList packs;
         public TranPack()
         {
-            packs = GetData(Dsn);
-
+            ArrayList packs = GetData();
+            DropTable();
+            CreateTable();
+            UpdateTable(packs);
         }
         public ArrayList GetData()
         {
-
             string queryString = @" 
              SELECT top 1000
 	        p.PackNum as PackNum,
@@ -31,10 +30,9 @@ namespace Pack
                 p.ShipDate = curdate()
                 order by p.ShipDate desc
                 ";
-
             string Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             ArrayList al;
-            using (OdbcConnection connection = new OdbcConnection(connectionString))
+            using (OdbcConnection connection = new OdbcConnection(Dsn))
             {
                 OdbcCommand command = new OdbcCommand(queryString, connection);
                 connection.Open();
@@ -43,28 +41,65 @@ namespace Pack
                 reader.Close();
             }
             return al;
-            
         }
-        private void UpdateRemoteSql(ArrayList al)
+        private void CreateTable()
         {
-            string Dsn = "DSN=GC; HOST=gc.rlm5.com; DB=coinet_db1; UID=focus; PWD=focusgroup";
-            StringBuilder sqlUpdate = new StringBuilder();
-            sqlUpdate.AppendLine("insert qShipHead");
-            sqlUpdate.AppendLine("set ");
+            string queryString = @" 
+                create table t_CurrentPacks (
+                 PackNum  int,
+                 CustNum  int,
+                 ShipToNum varchar(14),
+                 ShipViaCode varchar(4),
+                 index t_currentPacksIdx1(PackNum)
+                )";
+            ExecuteUpdate(queryString);
+        }
+        private void DropTable()
+        {
+            string queryString = @" 
+                drop table if exists t_CurrentPacks ";
+            ExecuteUpdate(queryString);
+        }
+        private string GetMySqlDsn()
+        {
+            return "DSN=GC; HOST=gc.rlm5.com; DB=coinet_db1; UID=focus; PWD=focusgroup";
+        }
+        private void UpdateTable(ArrayList al)
+        {
+            foreach (Hashtable ht in al)
+            {
+                StringBuilder sqlUpdate = new StringBuilder();
+                sqlUpdate.AppendLine("insert into t_CurrentPacks ");
+                sqlUpdate.AppendLine("set PackNum = " + ht["PackNum"]);
+                sqlUpdate.AppendLine(",CustNum = " + ht["CustNum"]);
+                sqlUpdate.AppendLine(",ShipToNum = " + "'" + ht["ShipToNum"] + "'");
+                sqlUpdate.AppendLine(",ShipViaCode = " + "'" + ht["ShipViaCode"] + "'");
+                ExecuteUpdate(sqlUpdate.ToString());
+            }
+        }
+        private void ExecuteUpdate(string sql)
+        {
+            string Dsn = GetMySqlDsn();
+            using (OdbcConnection connection = new OdbcConnection(Dsn))
+            {
+                OdbcCommand command = new OdbcCommand(sql, connection);
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+            }
         }
         private ArrayList PackHash(OdbcDataReader reader)
         {
             ArrayList al = new ArrayList();
             while (reader.Read())
             {
-                Hashtable pack = new Hashtable();
-                pack["ShipToNum"] = reader["ShiptoNum"].ToString();
-                pack["ShipDate"] = reader["ShipDate"].ToString();
-                pack["PackNum"] = reader["PackNum"].ToString();
-                pack["CustNum"] = reader["custNum"].ToString();
-                pack["ShipViaCode"] = reader["ShipViaCode"].ToString();
-                pack["Voided"] = reader["Voided"].ToString();
-                al.Add(pack);
+                Hashtable packT = new Hashtable();
+                packT["ShipToNum"] = reader["ShiptoNum"].ToString();
+                packT["ShipDate"] = reader["ShipDate"].ToString();
+                packT["PackNum"] = reader["PackNum"].ToString();
+                packT["CustNum"] = reader["custNum"].ToString();
+                packT["ShipViaCode"] = reader["ShipViaCode"].ToString();
+                packT["Voided"] = reader["Voided"].ToString();
+                al.Add(packT);
             }
             return al;
         }
