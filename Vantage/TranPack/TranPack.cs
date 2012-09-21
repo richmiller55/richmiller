@@ -1,221 +1,72 @@
 using System;
 using System.Data.Odbc;
 using System.Collections;
+using System.Text;
 
-namespace iCost
+namespace Pack
 {
-    public class PartInfo
+    public class TranPack
     {
-        Hashtable vanPartHash;
-        string Dsn;
-        public PartInfo()
+        
+        ArrayList packs;
+        public TranPack()
         {
-            Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
-            vanPartHash = new Hashtable(2000);
-            GetData(Dsn);
+            packs = GetData(Dsn);
+
         }
-        public void GetData(string connectionString)
+        public ArrayList GetData()
         {
+
             string queryString = @" 
-             SELECT
-	            p.PartNum as PartNum,
-                p.PartDescription  as PartDescription,
-                p.UnitPrice as UnitPrice,
-                p.ShortChar02 as loc,
-                p.ProdCode as ProdCode,
-                p.Number01 as CasePack,
-                pg.Number01 as DutyRate,
-                pg.Number02 as Burden,
-                pg.ShortChar01 as CompRetail
-                FROM pub.Part as p
-                LEFT JOIN pub.ProdGrup as pg
-                ON p.ProdCode = pg.ProdCode
-                WHERE pg.ProdCode is not null
-               ";
+             SELECT top 1000
+	        p.PackNum as PackNum,
+                p.Voided as Voided,
+                p.CustNum as CustNum,
+                p.ShipToNum as ShipToNum,
+                p.ShipViaCode as ShipViaCode,
+                p.FreightedShipViaCode as FreightedShipViaCode,
+                p.ShipDate as ShipDate
+                FROM pub.ShipHead as p
+                where 
+                p.ShipDate = curdate()
+                order by p.ShipDate desc
+                ";
+
+            string Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            ArrayList al;
             using (OdbcConnection connection = new OdbcConnection(connectionString))
             {
                 OdbcCommand command = new OdbcCommand(queryString, connection);
                 connection.Open();
                 OdbcDataReader reader = command.ExecuteReader();
-                InitVanPartHash(reader);
+                 al = PackHash(reader);
                 reader.Close();
             }
+            return al;
+            
         }
-        public string GetDescr(string partNum)
+        private void UpdateRemoteSql(ArrayList al)
         {
-            string result = "NotFound";
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.PartDescription;
-            }
-            return result;
+            string Dsn = "DSN=GC; HOST=gc.rlm5.com; DB=coinet_db1; UID=focus; PWD=focusgroup";
+            StringBuilder sqlUpdate = new StringBuilder();
+            sqlUpdate.AppendLine("insert qShipHead");
+            sqlUpdate.AppendLine("set ");
         }
-        public string GetLoc(string partNum)
+        private ArrayList PackHash(OdbcDataReader reader)
         {
-            string result = "NotFound";
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.Loc;
-            }
-            return result;
-        }
-        public string GetProdCode(string partNum)
-        {
-            string result = "NotFound";
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.ProdCode;
-            }
-            return result;
-        }
-        public decimal GetFreight(string partNum)
-        {
-            decimal result = 0M;
-            decimal casePack = 1M;
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                string prodCode = vanPart.ProdCode;
-                casePack = vanPart.CasePack;
-                switch (prodCode)
-                {
-                    case "5P":
-                        result = .10M;
-                        break;
-                    case "11A":
-                        result = .15M;
-                        break;
-                    case "11B":
-                        result = .15M;
-                        break;
-                    case "11C":
-                        result = .15M;
-                        break;
-                    case "11Z":
-                        result = .15M;
-                        break;
-                    case "5A":
-                        result = .47M;
-                        break;
-                    case "5B":
-                        result = .47M;
-                        break;
-                    case "5C":
-                        result = .47M;
-                        break;
-                    case "5D":
-                        result = .47M;
-                        break;
-                    case "5E":
-                        result = .47M;
-                        break;
-                    case "5F":
-                        result = .47M;
-                        break;
-                    case "5G":
-                        result = .47M;
-                        break;
-                    case "5H":
-                        result = .47M;
-                        break;
-                    case "5I":
-                        result = .47M;
-                        break;
-                    case "5J":
-                        result = .47M;
-                        break;
-                    case "5M":
-                        result = .47M;
-                        break;
-                    case "5z":
-                        result = .47M;
-                        break;
-                    case "5Z":
-                        result = .47M;
-                        break;
-                    case "3A":
-                        result = .47M;
-                        break;
-                    case "3B":
-                        result = .47M;
-                        break;
-                    case "3C":
-                        result = .47M;
-                        break;
-                    case "3D":
-                        result = .47M;
-                        break;
-                    case "3Z":
-                        result = .47M;
-                        break;
-                    default:
-                        result = .06M;
-                        break;
-                }
-            }
-            return result * casePack;
-        }
-        public decimal GetBurden(string partNum)
-        {
-            decimal result = 0M;
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.Burden;
-            }
-            return result;
-        }
-        public decimal GetDutyRate(string partNum)
-        {
-            decimal result = 0M;
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.DutyRate;
-            }
-            return result;
-        }
-        public bool ContainsKey(string partNum)
-        {
-            return vanPartHash.ContainsKey(partNum);
-        }
-        public decimal GetUnitPrice(string partNum)
-        {
-            decimal result = 0M;
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.UnitPrice;
-            }
-            return result;
-        }
-        public decimal GetCasePack(string partNum)
-        {
-            decimal result = 0M;
-            if (vanPartHash.ContainsKey(partNum))
-            {
-                VanPart vanPart = (VanPart)vanPartHash[partNum];
-                result = vanPart.CasePack;
-            }
-            return result;
-        }
-        private void InitVanPartHash(OdbcDataReader reader)
-        {
+            ArrayList al = new ArrayList();
             while (reader.Read())
             {
-                VanPart vp = new VanPart(reader["PartNum"].ToString());
-                vp.ProdCode = reader["ProdCode"].ToString();
-                vp.PartDescription = reader["PartDescription"].ToString();
-                vp.Loc = reader["Loc"].ToString();
-                vp.CompRetail = reader["CompRetail"].ToString();
-                vp.UnitPrice = Convert.ToDecimal(reader["UnitPrice"]);
-                vp.Burden = Convert.ToDecimal(reader["Burden"]);
-                vp.DutyRate = Convert.ToDecimal(reader["DutyRate"]);
-                vanPartHash.Add(reader["PartNum"], vp);
+                Hashtable pack = new Hashtable();
+                pack["ShipToNum"] = reader["ShiptoNum"].ToString();
+                pack["ShipDate"] = reader["ShipDate"].ToString();
+                pack["PackNum"] = reader["PackNum"].ToString();
+                pack["CustNum"] = reader["custNum"].ToString();
+                pack["ShipViaCode"] = reader["ShipViaCode"].ToString();
+                pack["Voided"] = reader["Voided"].ToString();
+                al.Add(pack);
             }
+            return al;
         }
     }
 }

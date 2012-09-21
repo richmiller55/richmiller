@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace iCost
+namespace Pack
 {
     class Program
     {
         static void Main(string[] args)
         {
-            CostMgr mgr = new CostMgr();
+            TranPack mgr = new TranPack();
         }
     }
 }
