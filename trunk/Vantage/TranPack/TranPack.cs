@@ -49,6 +49,7 @@ namespace Pack
                  PackNum  int,
                  CustNum  int,
                  OrderNum int,
+                 PONum varchar(14),
                  ShipToNum varchar(14),
                  ShipViaCode varchar(4),
                  index t_currentPacksIdx1(PackNum)
