@@ -10,8 +10,8 @@ namespace Pack
         public TranPack()
         {
             ArrayList packs = GetData();
-            DropTable();
-            CreateTable();
+            // DropTable();
+            // CreateTable();
             UpdateTable(packs);
         }
         public ArrayList GetData()
