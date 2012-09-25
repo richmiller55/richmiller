@@ -10,8 +10,8 @@ namespace Pack
         public TranPack()
         {
             ArrayList packs = GetData();
-            // DropTable();
-            // CreateTable();
+            DropTable();
+            CreateTable();
             UpdateTable(packs);
         }
         public ArrayList GetData()
@@ -52,6 +52,7 @@ namespace Pack
                  PONum varchar(14),
                  ShipToNum varchar(14),
                  ShipViaCode varchar(4),
+                 ShipDate    varchar(15),
                  index t_currentPacksIdx1(PackNum)
                 )";
             ExecuteUpdate(queryString);
@@ -76,6 +77,7 @@ namespace Pack
                 sqlUpdate.AppendLine(",CustNum = " + ht["CustNum"]);
                 sqlUpdate.AppendLine(",ShipToNum = " + "'" + ht["ShipToNum"] + "'");
                 sqlUpdate.AppendLine(",ShipViaCode = " + "'" + ht["ShipViaCode"] + "'");
+                sqlUpdate.AppendLine(",ShipDate = " + "'" + ht["ShipDate"] + "'");
                 if (RecordNotThere(System.Convert.ToInt32(ht["PackNum"]))) ExecuteUpdate(sqlUpdate.ToString());
             }
         }
