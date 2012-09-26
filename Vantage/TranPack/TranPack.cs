@@ -10,8 +10,8 @@ namespace Pack
         public TranPack()
         {
             ArrayList packs = GetData();
-            DropTable();
-            CreateTable();
+            // DropTable();
+            // CreateTable();
             UpdateTable(packs);
         }
         public ArrayList GetData()
@@ -90,7 +90,25 @@ namespace Pack
             using (OdbcConnection connection = new OdbcConnection(Dsn))
             {
                 OdbcCommand command = new OdbcCommand(sql, connection);
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        string message = e.Message;
+                        // wait a second
+                        System.Threading.Thread.Sleep(1000);
+                        connection.Open();
+                    }
+                    catch (Exception e2)
+                    {
+                        string message = e2.Message;
+                        Environment.Exit(0);
+                    }
+                }        
                 OdbcDataReader reader = command.ExecuteReader();
                 if (reader.HasRows) result = false;
                 reader.Close();
@@ -103,7 +121,25 @@ namespace Pack
             using (OdbcConnection connection = new OdbcConnection(Dsn))
             {
                 OdbcCommand command = new OdbcCommand(sql, connection);
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        string message = e.Message;
+                        // wait a second
+                        System.Threading.Thread.Sleep(1000);
+                        connection.Open();
+                    }
+                    catch (Exception e2)
+                    {
+                        string message = e2.Message;
+                        Environment.Exit(0);
+                    }
+                }
                 int rowsAffected = command.ExecuteNonQuery();
             }
         }
