@@ -94,18 +94,22 @@ namespace Pack
                 {
                     connection.Open();
                 }
-                catch (Exception e)
+                catch (System.Data.Odbc.OdbcException e)
                 {
                     try
                     {
+                        Console.WriteLine(" RecordNotThere Connection issue 1st catch");
                         string message = e.Message;
+                        Console.WriteLine(message);
                         // wait a second
                         System.Threading.Thread.Sleep(1000);
                         connection.Open();
                     }
                     catch (Exception e2)
                     {
+                        Console.WriteLine(" RecordNotThere Connection issue 2nd catch");
                         string message = e2.Message;
+                        Console.WriteLine(message);
                         Environment.Exit(0);
                     }
                 }        
@@ -125,11 +129,13 @@ namespace Pack
                 {
                     connection.Open();
                 }
-                catch (Exception e)
+                catch (System.Data.Odbc.OdbcException e)
                 {
                     try
                     {
+                        Console.WriteLine("In ExecuteUpdate Connection issue 1st catch");
                         string message = e.Message;
+                        Console.WriteLine(message);
                         // wait a second
                         System.Threading.Thread.Sleep(1000);
                         connection.Open();
@@ -137,6 +143,8 @@ namespace Pack
                     catch (Exception e2)
                     {
                         string message = e2.Message;
+                        Console.WriteLine("In ExecuteUpdate Connection issue 2nd catch shutdown");
+                        Console.WriteLine(message);
                         Environment.Exit(0);
                     }
                 }
