@@ -49,7 +49,7 @@ namespace Pack
                  PackNum  int,
                  CustNum  int,
                  OrderNum int,
-                 PONum varchar(14),
+                 PONum varchar(40),
                  ShipToNum varchar(14),
                  ShipViaCode varchar(4),
                  ShipDate    varchar(15),
@@ -69,6 +69,12 @@ namespace Pack
         }
         private void UpdateTable(ArrayList al)
         {
+            DateTime date3 = DateTime.Today;
+            string fmt = "00";
+            string yyyymmdd   = date3.Year.ToString()
+                              + date3.Month.ToString(fmt)
+                              + date3.Day.ToString(fmt);
+
             foreach (Hashtable ht in al)
             {
                 StringBuilder sqlUpdate = new StringBuilder();
@@ -77,7 +83,7 @@ namespace Pack
                 sqlUpdate.AppendLine(",CustNum = " + ht["CustNum"]);
                 sqlUpdate.AppendLine(",ShipToNum = " + "'" + ht["ShipToNum"] + "'");
                 sqlUpdate.AppendLine(",ShipViaCode = " + "'" + ht["ShipViaCode"] + "'");
-                sqlUpdate.AppendLine(",ShipDate = " + "'" + ht["ShipDate"] + "'");
+                sqlUpdate.AppendLine(",ShipDate = " + "'" + yyyymmdd + "'");
                 if (RecordNotThere(System.Convert.ToInt32(ht["PackNum"]))) ExecuteUpdate(sqlUpdate.ToString());
             }
         }
