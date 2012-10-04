@@ -67,7 +67,8 @@ sub sql {
       cm.BTFormatStr   as  BTFormatStr,
       cm.BTPhoneNum    as  BTPhoneNum, 	
       cm.BTState       as  BTState,    
-      cm.BTZip 	       as  BTZip       
+      cm.BTZip 	       as  BTZip,
+      cm.ShortChar01   as  FreightTerms
      FROM  pub.customer as cm
         left join pub.CustGrup as cg
         on cg.Company = cm.Company and
@@ -139,6 +140,7 @@ sub printData {
                   $row{BTPHONENUM} . "\t" .
                   $row{BTSTATE} . "\t" .
                   $row{BTZIP} . "\t" .
+                  $row{FREIGHTTERMS} . "\t" .
 		  0 . "\n";
     }
     close OUT;

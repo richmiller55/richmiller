@@ -27,7 +27,8 @@ sub sql {
       v.City     as City,     -- varchar(50)
       v.State    as State, -- varchar(50)  
       v.ZIP    as Zip,     -- varchar(10)  
-      v.Country  as Country -- varchar(50)  
+      v.Country  as Country, -- varchar(50)  
+      v.APAcctID as APAcctID -- varchar(5)
      FROM  pub.Vendor as v
    /;
     return $sql;
@@ -57,7 +58,8 @@ sub printData {
                   $row{CITY}         . "\t" . 
                   $row{STATE}        . "\t" . 
                   $row{ZIP}          . "\t" . 
-                  $row{COUNTRY}      . "\n";
+                  $row{COUNTRY}      . "\t",
+                  $row{APACCTID}     . "\n";
     }
     close OUT;
 }

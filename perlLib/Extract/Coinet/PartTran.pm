@@ -7,8 +7,8 @@ use strict;
 
 sub getFileNameOut {
     my $self = shift;
-    my $dir = ">d:/users/rich/export/alternate/";
-    my $file = "PartTran15.txt";
+    my $dir = ">I:/transfer/";
+    my $file = "PartTran.txt";
     return $dir . $file;
 }
 
@@ -171,8 +171,7 @@ pt.EmpID as EmpID,
 pt.ReconcileNum as ReconcileNum
      FROM  pub.PartTran as pt
 where 
--- pt.PartNum = '1057'
-pt.TranNum > 809092
+pt.TranNum >1420000
 
    /;
     return $sql;
