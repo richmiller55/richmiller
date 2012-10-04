@@ -40,7 +40,8 @@ sub sql {
       oh.TotalTax as TotalTax,             -- decimal 12,2
       oh.VoidOrder as VoidOrder,            -- int      
       oh.CheckBox04 as inPrintSetup,        -- int
-      oh.CheckBox07 as offShore        -- int
+      oh.CheckBox07 as offShore,        -- int
+      oh.CheckBox03 as freightFree        -- int
      FROM  pub.OrderHed as oh
    /;
     return $sql;
@@ -91,6 +92,7 @@ sub printData {
                   $row{VOIDORDER}          . "\t" .
                   $row{INPRINTSETUP}       . "\t" .
                   $row{OFFSHORE}           . "\t" .
+                  $row{FREIGHTFREE}        . "\t" .
 		  0                        . "\n";
     }
     close OUT;
