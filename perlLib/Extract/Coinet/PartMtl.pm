@@ -21,6 +21,7 @@ sub sql {
       pm.PartNum as ParentPart, -- char50
       pm.MtlSeq as MtlSeq, -- int
       pm.MtlPartNum as MtlPartNum, -- char 50
+      pm.QtyPer as QtyPer,
       0 as filler
      FROM  pub.PartMtl as pm
    /;
@@ -43,6 +44,7 @@ sub printData {
                 $row{PARENTPART}  . "\t" .
                 $row{MTLSEQ}      . "\t" .
                 $row{MTLPARTNUM}  . "\t" .
+                $row{QTYPER}      . "\t" .
                 1                 . "\n";
     }
     close OUT;
