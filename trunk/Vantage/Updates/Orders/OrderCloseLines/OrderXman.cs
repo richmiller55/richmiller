@@ -43,6 +43,23 @@ namespace OrderCloseLines
             OrdRelJobProdDataSet ds = salesOrder.GetJobProd(orderNum, orderLineNum, 1, 1, 1, out morePages);
             return ds;
         }
+        public void CloseOrder(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string orderNumStr = split[(int)input.orderNum];
+            int orderNum = Convert.ToInt32(orderNumStr);
+            string custId = split[(int)input.custId];
+            this.CheckCustOnCreditHold(orderNum, custId);
+            this.CheckOrderLinkToInterCompanyPO(orderNum);
+            try
+            {
+                this.salesOrder.CloseOrder(orderNum);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+        }
         public void CloseOrderLine(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -57,15 +74,15 @@ namespace OrderCloseLines
             OrdRelJobProdDataSet ds = this.GetJobProd(orderNum, orderLine);
 
             try
-                {
-                    this.salesOrder.CloseOrderLine(orderNum, orderLine);
-                }
-                catch (Exception e)
-                {
-                    string message = e.Message;
-                }
+            {
+                this.salesOrder.CloseOrderLine(orderNum, orderLine);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
             }
         }
+    }
 }
 
      
