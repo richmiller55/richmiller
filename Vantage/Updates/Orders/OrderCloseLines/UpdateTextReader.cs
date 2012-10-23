@@ -15,7 +15,7 @@ namespace OrderCloseLines
     }
     class UpdateTextReader
     {
-        string file = "D:/users/rich/data/orderUpdates/conceptEyesCloseOrderLineList_14Jan2011.txt";
+        string file = "I:/data/updates/orders/WalmartCloseOrders9Jun11.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -28,7 +28,7 @@ namespace OrderCloseLines
             OrderXman xman = new OrderXman();
             while ((line = tr.ReadLine()) != null)
             {
-                xman.CloseOrderLine(line);
+                xman.CloseOrder(line);
             }
         }
     }
