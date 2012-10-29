@@ -31,11 +31,10 @@ namespace InventoryAdj
         void processFile()
         {
             string line = "";
-            PartUpdateXman xman = new PartUpdateXman();
-
+            AdjXman xman = new AdjXman();
             while ((line = tr.ReadLine()) != null)
             {
-                xman.CatalogPartUpdate(line);
+                xman.InventoryAdjust(line);
             }
         }
     }
