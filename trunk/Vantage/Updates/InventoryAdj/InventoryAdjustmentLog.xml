@@ -235,48 +235,22 @@
 	</parameters>
 </tracePacket>
 
-<tracePacket>
-	<businessObject>Epicor.Mfg.BO.ReportMonitor</businessObject>
-	<methodName>GetRowsKeepIdleTime</methodName>
-	<returnType>Epicor.Mfg.BO.ReportMonitorDataSet</returnType>
-	<localTime>10/26/2012 15:11:13:5276250 PM</localTime>
-	<executionTime>0</executionTime>
-	<parameters>
-		<parameter name='whereClauseSysRptLst' type='System.String' ><![CDATA[AutoAction <> '' AND WorkStationID ='CATS1 1']]></parameter>
-		<parameter name='pageSize' type='System.Int32' ><![CDATA[0]]></parameter>
-		<parameter name='absolutePage' type='System.Int32' ><![CDATA[0]]></parameter>
-		<parameter name='morePages' type='System.Boolean' ><![CDATA[]]></parameter>
-	</parameters>
-</tracePacket>
-
-<tracePacket>
-	<businessObject>Epicor.Mfg.BO.ReportMonitor</businessObject>
-	<methodName>GetRowsKeepIdleTime</methodName>
-	<returnType>Epicor.Mfg.BO.ReportMonitorDataSet</returnType>
-	<localTime>10/26/2012 15:11:43:5276250 PM</localTime>
-	<executionTime>15.625</executionTime>
-	<parameters>
-		<parameter name='whereClauseSysRptLst' type='System.String' ><![CDATA[AutoAction <> '' AND WorkStationID ='CATS1 1']]></parameter>
-		<parameter name='pageSize' type='System.Int32' ><![CDATA[0]]></parameter>
-		<parameter name='absolutePage' type='System.Int32' ><![CDATA[0]]></parameter>
-		<parameter name='morePages' type='System.Boolean' ><![CDATA[]]></parameter>
-	</parameters>
-</tracePacket>
-
-<tracePacket>
-	<businessObject>Epicor.Mfg.BO.ReportMonitor</businessObject>
-	<methodName>GetRowsKeepIdleTime</methodName>
-	<returnType>Epicor.Mfg.BO.ReportMonitorDataSet</returnType>
-	<localTime>10/26/2012 15:12:13:5432500 PM</localTime>
-	<executionTime>0</executionTime>
-	<parameters>
-		<parameter name='whereClauseSysRptLst' type='System.String' ><![CDATA[AutoAction <> '' AND WorkStationID ='CATS1 1']]></parameter>
-		<parameter name='pageSize' type='System.Int32' ><![CDATA[0]]></parameter>
-		<parameter name='absolutePage' type='System.Int32' ><![CDATA[0]]></parameter>
-		<parameter name='morePages' type='System.Boolean' ><![CDATA[]]></parameter>
-	</parameters>
-</tracePacket>
-
-
 </tracegroup>
 </root>
+
+Epicor.Mfg.Common.BusinessObjectException was unhandled
+  Message="ttInventoryQtyAdj record not found."
+  Source="Epicor.Mfg.BO.InventoryQtyAdj"
+  Language="EN-US"
+  StackTrace:
+       at Epicor.Mfg.Proxy.InventoryQtyAdjImpl.SetInventoryQtyAdj(InventoryQtyAdjDataSet ds)
+       at InventoryAdj.AdjXman.InventoryAdjust(String line) in D:\users\rich\projects\svn\InventoryAdj\AdjXman.cs:line 50
+       at InventoryAdj.UpdateTextReader.processFile() in D:\users\rich\projects\svn\InventoryAdj\UpdateTextReader.cs:line 37
+       at InventoryAdj.UpdateTextReader..ctor() in D:\users\rich\projects\svn\InventoryAdj\UpdateTextReader.cs:line 29
+       at InventoryAdj.Program.Main(String[] args) in D:\users\rich\projects\svn\InventoryAdj\Program.cs:line 11
+       at System.AppDomain._nExecuteAssembly(Assembly assembly, String[] args)
+       at System.AppDomain.ExecuteAssembly(String assemblyFile, Evidence assemblySecurity, String[] args)
+       at Microsoft.VisualStudio.HostingProcess.HostProc.RunUsersAssembly()
+       at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+       at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+       at System.Threading.ThreadHelper.ThreadStart()

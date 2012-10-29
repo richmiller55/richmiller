@@ -1,0 +1,574 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<?xml-stylesheet href = "TracePacket_Default.xsl" type = "text/xsl"?>
+<root name="Tracing" description="Tracing description">
+<tracegroup name="initialization">
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.GenXData</businessObject>
+	<methodName>GetList</methodName>
+	<returnType>Epicor.Mfg.BO.XXXDefListDataSet</returnType>
+	<localTime>10/28/2012 16:54:42:9026250 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='whereClause' type='System.String' ><![CDATA[Key2 = 'App.InventoryQtyAdjEntry.InventoryQtyAdjustForm']]></parameter>
+		<parameter name='pageSize' type='System.Int32' ><![CDATA[0]]></parameter>
+		<parameter name='absolutePage' type='System.Int32' ><![CDATA[0]]></parameter>
+		<parameter name='morePages' type='System.Boolean' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 16:54:53:2463750 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdj</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjDataSet</returnType>
+	<localTime>10/28/2012 16:54:53:2932500 PM</localTime>
+	<executionTime>46.875</executionTime>
+	<parameters>
+		<parameter name='partnumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 16:54:53:3401250 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>GetByID</methodName>
+	<returnType>Epicor.Mfg.BO.PartDataSet</returnType>
+	<localTime>10/28/2012 16:54:53:6057500 PM</localTime>
+	<executionTime>265.625</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdjBrw</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet</returnType>
+	<localTime>10/28/2012 16:54:54:0120000 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+		<parameter name='wareHouseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='primaryBin' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdj</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjDataSet</returnType>
+	<localTime>10/28/2012 16:54:54:0745000 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='partnumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 16:54:54:0901250 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>GetByID</methodName>
+	<returnType>Epicor.Mfg.BO.PartDataSet</returnType>
+	<localTime>10/28/2012 16:54:54:1213750 PM</localTime>
+	<executionTime>62.5</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdjBrw</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet</returnType>
+	<localTime>10/28/2012 16:54:54:1838750 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+		<parameter name='wareHouseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='primaryBin' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>KitPartStatus</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 16:54:54:5432500 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='cPartNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+		<parameter name='cKitMessage' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.WhseBin</businessObject>
+	<methodName>GetRows</methodName>
+	<returnType>Epicor.Mfg.BO.WhseBinDataSet</returnType>
+	<localTime>10/28/2012 16:56:02:2932500 PM</localTime>
+	<executionTime>62.5</executionTime>
+	<parameters>
+		<parameter name='whereClauseWhseBin' type='System.String' ><![CDATA[WareHouseCode='01' AND BinNum='30041']]></parameter>
+		<parameter name='whereClauseWhseBinAttch' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pageSize' type='System.Int32' ><![CDATA[0]]></parameter>
+		<parameter name='absolutePage' type='System.Int32' ><![CDATA[0]]></parameter>
+		<parameter name='morePages' type='System.Boolean' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.Lib.BOReader</businessObject>
+	<methodName>GetList</methodName>
+	<returnType>System.Data.DataSet</returnType>
+	<localTime>10/28/2012 16:56:21:4338750 PM</localTime>
+	<executionTime>125</executionTime>
+	<parameters>
+		<parameter name='boName' type='System.String' ><![CDATA[Reason]]></parameter>
+		<parameter name='whereClause' type='System.String' ><![CDATA[ReasonType='M']]></parameter>
+		<parameter name='columnList' type='System.String' ><![CDATA[ReasonCode,ReasonType,Description]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>NegativeInventoryTest</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 16:56:49:1838750 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='pcPartNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+		<parameter name='pcWhseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='pcBinNum' type='System.String' ><![CDATA[30041]]></parameter>
+		<parameter name='pcLotNum' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pcDimCode' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pdDimConvFactor' type='System.Decimal' ><![CDATA[1]]></parameter>
+		<parameter name='pdTranQty' type='System.Decimal' ><![CDATA[-4193]]></parameter>
+		<parameter name='pcNeqQtyAction' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pcMessage' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>PreSetInventoryQtyAdj</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 16:56:49:1838750 PM</localTime>
+	<executionTime>46.875</executionTime>
+	<parameters>
+		<parameter name='ds' type='Epicor.Mfg.BO.InventoryQtyAdjDataSet' ><InventoryQtyAdjDataSet xmlns="http://www.epicor.com/Mfg/100/BO.InventoryQtyAdj/InventoryQtyAdj" /></parameter>
+		<parameter name='requiresUserInput' type='System.Boolean' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>SetInventoryQtyAdj</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 16:56:49:2463750 PM</localTime>
+	<executionTime>421.875</executionTime>
+	<parameters>
+		<parameter name='ds' type='Epicor.Mfg.BO.InventoryQtyAdjDataSet' ><InventoryQtyAdjDataSet xmlns="http://www.epicor.com/Mfg/100/BO.InventoryQtyAdj/InventoryQtyAdj" /></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdj</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjDataSet</returnType>
+	<localTime>10/28/2012 16:56:49:6682500 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='partnumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 16:56:49:6682500 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>GetByID</methodName>
+	<returnType>Epicor.Mfg.BO.PartDataSet</returnType>
+	<localTime>10/28/2012 16:56:49:6995000 PM</localTime>
+	<executionTime>46.875</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdjBrw</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet</returnType>
+	<localTime>10/28/2012 16:56:49:7776250 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026217133]]></parameter>
+		<parameter name='wareHouseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='primaryBin' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 17:32:02:0745000 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdj</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjDataSet</returnType>
+	<localTime>10/28/2012 17:32:02:1057500 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partnumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 17:32:02:1370000 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>GetByID</methodName>
+	<returnType>Epicor.Mfg.BO.PartDataSet</returnType>
+	<localTime>10/28/2012 17:32:02:1682500 PM</localTime>
+	<executionTime>62.5</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdjBrw</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet</returnType>
+	<localTime>10/28/2012 17:32:02:2307500 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+		<parameter name='wareHouseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='primaryBin' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdj</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjDataSet</returnType>
+	<localTime>10/28/2012 17:32:02:2463750 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='partnumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 17:32:02:2463750 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>GetByID</methodName>
+	<returnType>Epicor.Mfg.BO.PartDataSet</returnType>
+	<localTime>10/28/2012 17:32:02:2776250 PM</localTime>
+	<executionTime>62.5</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdjBrw</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet</returnType>
+	<localTime>10/28/2012 17:32:02:3401250 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+		<parameter name='wareHouseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='primaryBin' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>KitPartStatus</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 17:32:02:3557500 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='cPartNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+		<parameter name='cKitMessage' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.WhseBin</businessObject>
+	<methodName>GetRows</methodName>
+	<returnType>Epicor.Mfg.BO.WhseBinDataSet</returnType>
+	<localTime>10/28/2012 17:32:16:3401250 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='whereClauseWhseBin' type='System.String' ><![CDATA[WareHouseCode='01' AND BinNum='30041']]></parameter>
+		<parameter name='whereClauseWhseBinAttch' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pageSize' type='System.Int32' ><![CDATA[0]]></parameter>
+		<parameter name='absolutePage' type='System.Int32' ><![CDATA[0]]></parameter>
+		<parameter name='morePages' type='System.Boolean' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.Lib.BOReader</businessObject>
+	<methodName>GetList</methodName>
+	<returnType>System.Data.DataSet</returnType>
+	<localTime>10/28/2012 17:32:34:4338750 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='boName' type='System.String' ><![CDATA[Reason]]></parameter>
+		<parameter name='whereClause' type='System.String' ><![CDATA[ReasonType='M']]></parameter>
+		<parameter name='columnList' type='System.String' ><![CDATA[ReasonCode,ReasonType,Description]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>NegativeInventoryTest</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 17:32:53:5588750 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='pcPartNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+		<parameter name='pcWhseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='pcBinNum' type='System.String' ><![CDATA[30041]]></parameter>
+		<parameter name='pcLotNum' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pcDimCode' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pdDimConvFactor' type='System.Decimal' ><![CDATA[1]]></parameter>
+		<parameter name='pdTranQty' type='System.Decimal' ><![CDATA[-101]]></parameter>
+		<parameter name='pcNeqQtyAction' type='System.String' ><![CDATA[]]></parameter>
+		<parameter name='pcMessage' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>PreSetInventoryQtyAdj</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 17:32:53:5745000 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='ds' type='Epicor.Mfg.BO.InventoryQtyAdjDataSet' ><InventoryQtyAdjDataSet xmlns="http://www.epicor.com/Mfg/100/BO.InventoryQtyAdj/InventoryQtyAdj">
+  <InventoryQtyAdj>
+    <Company>CA</Company>
+    <PartNum>757026220195</PartNum>
+    <WareHseCode>01</WareHseCode>
+    <OnHandQty>79</OnHandQty>
+    <BinNum>30041</BinNum>
+    <AdjustQuantity>101</AdjustQuantity>
+    <ReasonCode>CNT</ReasonCode>
+    <DimCode />
+    <LotNum />
+    <Reference>RLM_test</Reference>
+    <UnitOfMeasure>EA</UnitOfMeasure>
+    <TransDate>2012-10-28T00:00:00-07:00</TransDate>
+    <ConvFactor>1</ConvFactor>
+    <ReasonType>M</ReasonType>
+    <SerialNoQty>0</SerialNoQty>
+    <TempSerialNo>0</TempSerialNo>
+    <ReasonCodeReq>true</ReasonCodeReq>
+    <AllowNegQty>false</AllowNegQty>
+    <LegalNumberMessage />
+    <DimCodeDimCodeDescription />
+    <PartPartDescription>ASU01-CLG-SPRT-BURG-000</PartPartDescription>
+    <PartPricePerCode>E</PartPricePerCode>
+    <PartSalesUM />
+    <PartSellingFactor>1</PartSellingFactor>
+    <PartTrackDimension>false</PartTrackDimension>
+    <PartTrackLots>false</PartTrackLots>
+    <PartTrackSerialNum>false</PartTrackSerialNum>
+    <ReasonCodeDescription>INADJ-Cycle Count Adjustment</ReasonCodeDescription>
+    <WareHseDescription>Hayward</WareHseDescription>
+    <WhseBinDescription>Floor: Bulk Storage 1</WhseBinDescription>
+    <RowIdent />
+    <RowMod />
+  </InventoryQtyAdj>
+</InventoryQtyAdjDataSet></parameter>
+		<parameter name='requiresUserInput' type='System.Boolean' ><![CDATA[]]></parameter>
+	</parameters>
+	<paramDataSetChanges>
+		<paramDataSet name='ds' useDataSetNbr='0' >
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='BinNum' ><![CDATA[30041]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='AdjustQuantity' ><![CDATA[101]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='ReasonCode' ><![CDATA[CNT]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='Reference' ><![CDATA[RLM_test]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='ReasonCodeDescription' ><![CDATA[INADJ-Cycle Count Adjustment]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='WhseBinDescription' ><![CDATA[Floor: Bulk Storage 1]]></changedValue>
+		</paramDataSet>
+	</paramDataSetChanges>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>SetInventoryQtyAdj</methodName>
+	<returnType>void</returnType>
+	<localTime>10/28/2012 17:32:53:6057500 PM</localTime>
+	<executionTime>78.125</executionTime>
+	<parameters>
+		<parameter name='ds' type='Epicor.Mfg.BO.InventoryQtyAdjDataSet' ><InventoryQtyAdjDataSet xmlns="http://www.epicor.com/Mfg/100/BO.InventoryQtyAdj/InventoryQtyAdj">
+  <InventoryQtyAdj>
+    <Company>CA</Company>
+    <PartNum>757026220195</PartNum>
+    <WareHseCode>01</WareHseCode>
+    <OnHandQty>79</OnHandQty>
+    <BinNum>30041</BinNum>
+    <AdjustQuantity>101</AdjustQuantity>
+    <ReasonCode>CNT</ReasonCode>
+    <DimCode />
+    <LotNum />
+    <Reference>RLM_test</Reference>
+    <UnitOfMeasure>EA</UnitOfMeasure>
+    <TransDate>2012-10-28T00:00:00-07:00</TransDate>
+    <ConvFactor>1</ConvFactor>
+    <ReasonType>M</ReasonType>
+    <SerialNoQty>0</SerialNoQty>
+    <TempSerialNo>0</TempSerialNo>
+    <ReasonCodeReq>true</ReasonCodeReq>
+    <AllowNegQty>false</AllowNegQty>
+    <LegalNumberMessage />
+    <DimCodeDimCodeDescription />
+    <PartPartDescription>ASU01-CLG-SPRT-BURG-000</PartPartDescription>
+    <PartPricePerCode>E</PartPricePerCode>
+    <PartSalesUM />
+    <PartSellingFactor>1</PartSellingFactor>
+    <PartTrackDimension>false</PartTrackDimension>
+    <PartTrackLots>false</PartTrackLots>
+    <PartTrackSerialNum>false</PartTrackSerialNum>
+    <ReasonCodeDescription>INADJ-Cycle Count Adjustment</ReasonCodeDescription>
+    <WareHseDescription>Hayward</WareHseDescription>
+    <WhseBinDescription>Floor: Bulk Storage 1</WhseBinDescription>
+    <RowIdent />
+    <RowMod>U</RowMod>
+  </InventoryQtyAdj>
+</InventoryQtyAdjDataSet></parameter>
+	</parameters>
+	<paramDataSetChanges>
+		<paramDataSet name='ds' useDataSetNbr='0' >
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='BinNum' ><![CDATA[30041]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='AdjustQuantity' ><![CDATA[101]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='ReasonCode' ><![CDATA[CNT]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='Reference' ><![CDATA[RLM_test]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='ReasonCodeDescription' ><![CDATA[INADJ-Cycle Count Adjustment]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='WhseBinDescription' ><![CDATA[Floor: Bulk Storage 1]]></changedValue>
+			<changedValue tableName='InventoryQtyAdj' rowState='Modified' rowNum='0' colName='RowMod' ><![CDATA[U]]></changedValue>
+		</paramDataSet>
+	</paramDataSetChanges>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdj</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjDataSet</returnType>
+	<localTime>10/28/2012 17:32:53:6995000 PM</localTime>
+	<executionTime>0</executionTime>
+	<parameters>
+		<parameter name='partnumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>PartExists</methodName>
+	<returnType>bool</returnType>
+	<localTime>10/28/2012 17:32:53:6995000 PM</localTime>
+	<executionTime>31.25</executionTime>
+	<parameters>
+		<parameter name='partNumber' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.Part</businessObject>
+	<methodName>GetByID</methodName>
+	<returnType>Epicor.Mfg.BO.PartDataSet</returnType>
+	<localTime>10/28/2012 17:32:53:7307500 PM</localTime>
+	<executionTime>46.875</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+	</parameters>
+</tracePacket>
+
+<tracePacket>
+	<businessObject>Epicor.Mfg.BO.InventoryQtyAdj</businessObject>
+	<methodName>GetInventoryQtyAdjBrw</methodName>
+	<returnType>Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet</returnType>
+	<localTime>10/28/2012 17:32:53:7776250 PM</localTime>
+	<executionTime>15.625</executionTime>
+	<parameters>
+		<parameter name='partNum' type='System.String' ><![CDATA[757026220195]]></parameter>
+		<parameter name='wareHouseCode' type='System.String' ><![CDATA[01]]></parameter>
+		<parameter name='primaryBin' type='System.String' ><![CDATA[]]></parameter>
+	</parameters>
+</tracePacket>
+
+
+</tracegroup>
+</root>
