@@ -79,7 +79,7 @@ namespace PartUpdate
             if (partNum.Equals("UPC")) return;
             if (partNum.Equals("Part Number")) return;
             if (partNum.Equals("UPC Number")) return;
-            
+
             if (this.partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
@@ -125,7 +125,7 @@ namespace PartUpdate
                 row.PartNum = split[(int)newPart.UPC];
                 row.PartDescription = split[(int)newPart.style];
                 row.UserChar1 = split[(int)newPart.style];
-                
+
                 row.ShortChar02 = split[(int)newPart.loc];
                 string casePack = split[(int)newPart.casePack];
                 row.Number01 = Convert.ToDecimal(casePack);
@@ -185,7 +185,7 @@ namespace PartUpdate
                 row.PartDescription = split[(int)prudy.style];
                 row.ShortChar03 = split[(int)prudy.flyer];
                 row.ShortChar04 = split[(int)prudy.shortChar04];
-              
+
                 row.SearchWord = split[(int)prudy.search];
                 row.ShortChar02 = split[(int)prudy.loc];
                 string casePack = split[(int)prudy.casePack];
@@ -294,36 +294,40 @@ namespace PartUpdate
             {
                 return;
             }
-            
+
             Epicor.Mfg.BO.PartDataSet l_ds = new Epicor.Mfg.BO.PartDataSet();
             l_ds = partObj.GetByID(partNum);
             Epicor.Mfg.BO.PartDataSet.PartRow l_row;
             l_row = (Epicor.Mfg.BO.PartDataSet.PartRow)l_ds.Part.Rows[0];
             l_row.Company = "CA";
-            
-            if ((DoWeHaveData("Description"))) {
-              string Description = split[(int)GetEnumIndex("Description")];
+
+            if ((DoWeHaveData("Description")))
+            {
+                string Description = split[(int)GetEnumIndex("Description")];
                 if (Description != "NA")
                 {
                     l_row.PartDescription = Description;
                 }
             }
-            if ((DoWeHaveData("ShortChar01"))) {
-              string ShortChar01 = split[(int)GetEnumIndex("ShortChar01")];
+            if ((DoWeHaveData("ShortChar01")))
+            {
+                string ShortChar01 = split[(int)GetEnumIndex("ShortChar01")];
                 if (ShortChar01 != "NA")
                 {
                     l_row.ShortChar01 = ShortChar01;
                 }
             }
-            if ((DoWeHaveData("ShortChar02"))) {
-              string ShortChar02 = split[(int)GetEnumIndex("ShortChar02")];
+            if ((DoWeHaveData("ShortChar02")))
+            {
+                string ShortChar02 = split[(int)GetEnumIndex("ShortChar02")];
                 if (ShortChar02 != "NA")
                 {
                     l_row.ShortChar02 = ShortChar02;
                 }
             }
-            if ((DoWeHaveData("ShortChar03"))) {
-              string ShortChar03 = split[(int)GetEnumIndex("ShortChar03")];
+            if ((DoWeHaveData("ShortChar03")))
+            {
+                string ShortChar03 = split[(int)GetEnumIndex("ShortChar03")];
                 if (ShortChar03 != "NA")
                 {
                     l_row.ShortChar03 = ShortChar03;
@@ -331,7 +335,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("ShortChar04")))
             {
-              string ShortChar04 = split[(int)GetEnumIndex("ShortChar04")];
+                string ShortChar04 = split[(int)GetEnumIndex("ShortChar04")];
                 if (ShortChar04 != "NA")
                 {
                     l_row.ShortChar04 = ShortChar04;
@@ -339,7 +343,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("ShortChar05")))
             {
-              string ShortChar05 = split[(int)GetEnumIndex("ShortChar05")];
+                string ShortChar05 = split[(int)GetEnumIndex("ShortChar05")];
                 if (ShortChar05 != "NA")
                 {
                     l_row.ShortChar05 = ShortChar05;
@@ -347,7 +351,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("ShortChar06")))
             {
-              string ShortChar06 = split[(int)GetEnumIndex("ShortChar06")];
+                string ShortChar06 = split[(int)GetEnumIndex("ShortChar06")];
                 if (ShortChar06 != "NA")
                 {
                     l_row.ShortChar06 = ShortChar06;
@@ -355,7 +359,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("ShortChar07")))
             {
-              string ShortChar07 = split[(int)GetEnumIndex("ShortChar07")];
+                string ShortChar07 = split[(int)GetEnumIndex("ShortChar07")];
                 if (ShortChar07 != "NA")
                 {
                     l_row.ShortChar07 = ShortChar07;
@@ -363,7 +367,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("UnitPrice")))
             {
-              object UnitPrice = split[(int)GetEnumIndex("UnitPrice")];
+                object UnitPrice = split[(int)GetEnumIndex("UnitPrice")];
                 if (!UnitPrice.Equals(""))
                 {
                     l_row.UnitPrice = Convert.ToDecimal(UnitPrice);
@@ -371,7 +375,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number01")))
             {
-              object Number01 = split[(int)GetEnumIndex("Number01")];
+                object Number01 = split[(int)GetEnumIndex("Number01")];
                 if (!Number01.Equals(""))
                 {
                     l_row.Number01 = Convert.ToDecimal(Number01);
@@ -379,7 +383,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number02")))
             {
-              object Number02 = split[(int)GetEnumIndex("Number02")];
+                object Number02 = split[(int)GetEnumIndex("Number02")];
                 if (!Number02.Equals(""))
                 {
                     l_row.Number02 = Convert.ToDecimal(Number02);
@@ -387,7 +391,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number03")))
             {
-              object Number03 = split[(int)GetEnumIndex("Number03")];
+                object Number03 = split[(int)GetEnumIndex("Number03")];
                 if (!Number03.Equals(""))
                 {
                     l_row.Number03 = Convert.ToDecimal(Number03);
@@ -395,7 +399,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number04")))
             {
-              object Number04 = split[(int)GetEnumIndex("Number04")];
+                object Number04 = split[(int)GetEnumIndex("Number04")];
                 if (!Number04.Equals(""))
                 {
                     l_row.Number04 = Convert.ToDecimal(Number04);
@@ -403,7 +407,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number05")))
             {
-              object Number05 = split[(int)GetEnumIndex("Number05")];
+                object Number05 = split[(int)GetEnumIndex("Number05")];
                 if (!Number05.Equals(""))
                 {
                     l_row.Number05 = Convert.ToDecimal(Number05);
@@ -411,7 +415,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number06")))
             {
-              object Number06 = split[(int)GetEnumIndex("Number06")];
+                object Number06 = split[(int)GetEnumIndex("Number06")];
                 if (!Number06.Equals(""))
                 {
                     l_row.Number06 = Convert.ToDecimal(Number06);
@@ -419,7 +423,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number07")))
             {
-              object Number07 = split[(int)GetEnumIndex("Number07")];
+                object Number07 = split[(int)GetEnumIndex("Number07")];
                 if (!Number07.Equals(""))
                 {
                     l_row.Number07 = Convert.ToDecimal(Number07);
@@ -427,7 +431,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number08")))
             {
-              object Number08 = split[(int)GetEnumIndex("Number08")];
+                object Number08 = split[(int)GetEnumIndex("Number08")];
                 if (!Number08.Equals(""))
                 {
                     l_row.Number08 = Convert.ToDecimal(Number08);
@@ -435,7 +439,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number09")))
             {
-              object Number09 = split[(int)GetEnumIndex("Number09")];
+                object Number09 = split[(int)GetEnumIndex("Number09")];
                 if (!Number09.Equals(""))
                 {
                     l_row.Number09 = Convert.ToDecimal(Number09);
@@ -443,7 +447,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number10")))
             {
-              object Number10 = split[(int)GetEnumIndex("Number10")];
+                object Number10 = split[(int)GetEnumIndex("Number10")];
                 if (!Number10.Equals(""))
                 {
                     l_row.Number10 = Convert.ToDecimal(Number10);
@@ -451,7 +455,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number11")))
             {
-              object Number11 = split[(int)GetEnumIndex("Number11")];
+                object Number11 = split[(int)GetEnumIndex("Number11")];
                 if (!Number11.Equals(""))
                 {
                     l_row.Number11 = Convert.ToDecimal(Number11);
@@ -459,7 +463,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("Number12")))
             {
-              object Number12 = split[(int)GetEnumIndex("Number12")];
+                object Number12 = split[(int)GetEnumIndex("Number12")];
                 if (!Number12.Equals(""))
                 {
                     l_row.Number12 = Convert.ToDecimal(Number12);
@@ -467,7 +471,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox01")))
             {
-              object CheckBox01 = split[(int)GetEnumIndex("CheckBox01")];
+                object CheckBox01 = split[(int)GetEnumIndex("CheckBox01")];
                 if (!CheckBox01.Equals(""))
                 {
                     if (CheckBox01.Equals("x"))
@@ -482,7 +486,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox02")))
             {
-              object CheckBox02 = split[(int)GetEnumIndex("CheckBox02")];
+                object CheckBox02 = split[(int)GetEnumIndex("CheckBox02")];
                 if (!CheckBox02.Equals("NA"))
                 {
                     if (CheckBox02.Equals("x"))
@@ -497,7 +501,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox03")))
             {
-              object CheckBox03 = split[(int)GetEnumIndex("CheckBox03")];
+                object CheckBox03 = split[(int)GetEnumIndex("CheckBox03")];
                 if (!CheckBox03.Equals("NA"))
                 {
                     if (CheckBox03.Equals("x"))
@@ -512,7 +516,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox04")))
             {
-              object CheckBox04 = split[(int)GetEnumIndex("CheckBox04")];
+                object CheckBox04 = split[(int)GetEnumIndex("CheckBox04")];
                 if (!CheckBox04.Equals("NA"))
                 {
                     if (CheckBox04.Equals("x"))
@@ -527,7 +531,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox05")))
             {
-              object CheckBox05 = split[(int)GetEnumIndex("CheckBox05")];
+                object CheckBox05 = split[(int)GetEnumIndex("CheckBox05")];
                 if (!CheckBox05.Equals("NA"))
                 {
                     if (CheckBox05.Equals("x"))
@@ -542,7 +546,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox06")))
             {
-              object CheckBox06 = split[(int)GetEnumIndex("CheckBox06")];
+                object CheckBox06 = split[(int)GetEnumIndex("CheckBox06")];
                 if (!CheckBox06.Equals("NA"))
                 {
                     if (CheckBox06.Equals("x"))
@@ -557,7 +561,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox07")))
             {
-              object CheckBox07 = split[(int)GetEnumIndex("CheckBox07")];
+                object CheckBox07 = split[(int)GetEnumIndex("CheckBox07")];
                 if (!CheckBox07.Equals("NA"))
                 {
                     if (CheckBox07.Equals("x"))
@@ -572,7 +576,7 @@ namespace PartUpdate
             }
             if ((DoWeHaveData("CheckBox08")))
             {
-              object CheckBox08 = split[(int)GetEnumIndex("CheckBox08")];
+                object CheckBox08 = split[(int)GetEnumIndex("CheckBox08")];
                 if (!CheckBox08.Equals("NA"))
                 {
                     if (CheckBox08.Equals("x"))
@@ -587,25 +591,25 @@ namespace PartUpdate
             }
             if (DoWeHaveData("Character01"))
             {
-              string Character01 = split[(int)GetEnumIndex("Character01")];
+                string Character01 = split[(int)GetEnumIndex("Character01")];
                 if (!Character01.Equals(""))
-                  l_row.Character01 = Character01;
+                    l_row.Character01 = Character01;
             }
             if ((DoWeHaveData("Character02")))
             {
-              string Character02 = split[(int)GetEnumIndex("Character02")];
+                string Character02 = split[(int)GetEnumIndex("Character02")];
                 if (!Character02.Equals(""))
-                  l_row.Character02 = Character02;
+                    l_row.Character02 = Character02;
             }
             if ((DoWeHaveData("Character03")))
             {
-              string Character03 = split[(int)GetEnumIndex("Character03")];
+                string Character03 = split[(int)GetEnumIndex("Character03")];
                 if (!Character03.Equals(""))
-                  l_row.Character03 = Character03;
+                    l_row.Character03 = Character03;
             }
             if ((DoWeHaveData("Character04")))
             {
-              string Character04 = split[(int)GetEnumIndex("Character04")];
+                string Character04 = split[(int)GetEnumIndex("Character04")];
                 if (!Character04.Equals(""))
                     l_row.Character04 = Character04;
             }
@@ -692,7 +696,7 @@ namespace PartUpdate
             if (partObj.PartExists(partNum))
             {
                 ds = partObj.GetByID(partNum);
-                partObj.GetNewPartWhse(ds,partNum,mfgSys);
+                partObj.GetNewPartWhse(ds, partNum, mfgSys);
 
                 // Epicor.Mfg.BO.PartDataSet.PartWhseRow wrow;
                 string message = "AOK";
@@ -719,12 +723,12 @@ namespace PartUpdate
                         break;
                     }
                     if (wrow.WarehouseCode.CompareTo("") == 0)
-                    { 
+                    {
                         wrow.WarehouseCode = "01";
                         wrow.WarehouseDescription = "Huntwood";
                         process = true;
                     }
-                    i++;                    
+                    i++;
                     if (process)
                     {
                         try
@@ -741,318 +745,7 @@ namespace PartUpdate
                 }
             }
         }
-        public void UpdateInfo(string line)
-        {
-            // infoUpdate is only used here, use this as the quick
-            // update template
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)infoUpdate.UPC];
-            string Nickname = split[(int)infoUpdate.ShortChar04];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.ShortChar04 = Nickname;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void UpdatePrintOptions(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)printOption.UPC];
-            string printOptions = split[(int)printOption.printOption];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-
-                row.ShortChar06 = printOptions;
-                if (row.IsISOrigCountryNumNull() || row.ISOrigCountryNum == 0)
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void UpdateDescr(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)descrUpdate.UPC];
-            string name = split[(int)descrUpdate.name];
-            string descr = split[(int)descrUpdate.descr];
-            string colors = split[(int)descrUpdate.colors];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                // row.UnitPrice = Convert.ToDecimal(unitPrice);
-                row.ShortChar04 = name;
-                row.Character02 = descr;
-                row.Character01 = colors;
-                row.ISOrigCountryNum = 42;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void UpdatePrice(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)priceUpdate.UPC];
-            string unitPrice = split[(int)priceUpdate.unitPrice];
-            string listPrice = split[(int)priceUpdate.listPrice];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.UnitPrice = Convert.ToDecimal(unitPrice);
-                row.Number08 = Convert.ToDecimal(listPrice);
-                // row.ISOrigCountryNum = 42;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void UpdateBackflush(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)backflush.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                plantRow = (Epicor.Mfg.BO.PartDataSet.PartPlantRow)ds.PartPlant.Rows[0];
-                plantRow.BackFlush = true;
-
-               // row.ISOrigCountryNum = 42;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void UpdateWOS(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)wosUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                
-                string orderType = split[(int)wosUpdate.orderType];
-                orderType.Trim();
-
-                row.ShortChar05 = orderType;
-                string minWOSStr = split[(int)wosUpdate.minWos];
-                int minWOS = Convert.ToInt32(minWOSStr);
-                if (minWOS > 0)
-                {
-                    row.Number02 = minWOS;
-                }
-
-                string maxWOSStr = split[(int)wosUpdate.maxWos];
-                int maxWOS = Convert.ToInt32(maxWOSStr);
-                if (maxWOS > 0)
-                {
-                    row.Number03 = maxWOS;
-                }
-                row.ISOrigCountryNum = 42;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void InactivatePart(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)wosUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.InActive = true;
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void SimpleRunOutFlag(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)runOutUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-
-                string runOutFlag = split[(int)runOutUpdate.runOut];
-                runOutFlag.Trim();
-                string lowRunOut = runOutFlag.ToLower();
-                int result = lowRunOut.CompareTo("1");
-                if (result == 0) { row.RunOut = true; }
-
-                row.ISOrigCountryNum = 42;
-                // row.CountryNumDescription = "China";
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void UpdateRunOutFlag(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)runOutUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                
-                string runOutFlag = split[(int)runOutUpdate.runOut];
-                runOutFlag.Trim();
-                string lowRunOut = runOutFlag.ToLower();
-                int result = lowRunOut.CompareTo("1");
-                if (result == 0) { row.RunOut = true; }
-
-/*
- *              string inactiveFlag = split[(int)runOutUpdate.inactive];
-                inactiveFlag.Trim();
-                string lowInactive = inactiveFlag.ToLower();
-                result = lowInactive.CompareTo("y");
-                if (result == 0) { row.InActive = true; }
-*/
-/*
-                string pmFlag = split[(int)runOutUpdate.pmFlag]; // purch vs manufact
-                pmFlag.Trim();
-                string lowPmFlag = pmFlag.ToLower();
-                result = lowPmFlag.CompareTo("m");
-                if (result == 0) { row.TypeCode = "M"; }
-                result = lowPmFlag.CompareTo("p");
-                if (result == 0) { row.TypeCode = "P"; }
-                // row.ISOrigCountry = "42";
-                row.ISOrigCountryNum = 42;
-                // row.CountryNumDescription = "China";
-
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
- */
-            }
- 
-        }
-        public void UpdatePartCasePack(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)casePackUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                string casePackStr = split[(int)casePackUpdate.casePack];
-                row.Number01 = Convert.ToInt32(casePackStr);
-
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void SimpleUpdatePart(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)locUpdate.UPC];
-
-            if (partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.ShortChar02 = split[(int)locUpdate.LOC];
-
-                string message = "Posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
     }
-    
 }
      
     
