@@ -8,18 +8,7 @@ using System.IO;
 
 namespace PartUpdate
 {
-    public enum catalogOld
-    {
-        UPC,
-        description,
-        ShortChar02,
-        ShortChar03,
-        ShortChar05,
-        Number02,
-        Number03,
-        RunOut,
-        filler
-    }
+    
     public enum listPrice
     {
         UPC,
@@ -45,25 +34,6 @@ namespace PartUpdate
         listPrice,
         filler
     }
-    public enum infoUpdate
-    {
-        UPC,
-        ShortChar04,
-        filler
-    }
-    public enum locUpdate
-    {
-        style,
-        UPC,
-        LOC,
-        filler
-    }
-    public enum casePackUpdate
-    {
-        UPC,
-        casePack,
-        filler
-    }
     public enum catalog
     {
         Description,
@@ -79,6 +49,7 @@ namespace PartUpdate
         Number06,
         Number07,
         ShortChar07,
+        ShortChar06,
         UnitPrice,
         Number08,
         Character01,
@@ -176,7 +147,7 @@ namespace PartUpdate
     
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Fall_1_2012_PartUpdate.txt";
+        string file = "I:/data/updates/parts/Fall22012StyleUpdate30Oct2012.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
