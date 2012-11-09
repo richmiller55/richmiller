@@ -20,9 +20,12 @@ sub sql {
       ih.fiscalYear as FiscalYear,
       ih.fiscalPeriod as FiscalPeriod,
       ih.InvoiceNum as InvoiceNum,
-      ih.OrderNum as OrderNum,
       id.InvoiceLine as InvoiceLine,
       ih.InvoiceDate as InvoiceDate,
+      id.PackNum as PackNum,
+      id.PackLine as PackLine,
+      ih.OrderNum as OrderNum,
+      id.OrderLine as OrderLine,
       id.ShipDate as ShipDate,
       id.SellingShipQty as SellingShipQty,
       id.UnitPrice as UnitPrice,
@@ -48,7 +51,6 @@ sub sql {
       id.DiscountPercent as DiscountPercent,
       id.SellingFactor as SellingFactor,
       id.SellingFactorDirection as SellingFactorDirection
-
       from pub.InvcHead as ih
        left join pub.InvcDtl as id
          on id.Company = ih.Company and
@@ -91,9 +93,12 @@ sub printData {
                   $row{FISCALYEAR} . "\t" . 
                   $row{FISCALPERIOD}     . "\t" . 
                   $row{INVOICENUM}   . "\t" . 
-                  $row{ORDERNUM}     . "\t" . 
                   $row{INVOICELINE}     . "\t" . 
                   $InvoiceDate   . "\t" . 
+                  $row{PACKNUM}     . "\t" . 
+                  $row{PACKLINE}     . "\t" . 
+                  $row{ORDERNUM}     . "\t" . 
+                  $row{ORDERLINE}     . "\t" . 
                   $ShipDate         . "\t" . 
                   $row{SELLINGSHIPQTY}     . "\t" . 
                   $row{UNITPRICE}     . "\t" . 
