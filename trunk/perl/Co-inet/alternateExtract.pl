@@ -2,10 +2,10 @@ use strict;
 
 use lib "../perlLib";
 use Extract::OutToFile;
-use Extract::Coinet::PartTran;
+use Extract::Coinet::ExPartTran;
 
 main();
 
 sub main {
-    Extract::Coinet::PartTran->new();
+    Extract::Coinet::ExPartTran->new();
 }

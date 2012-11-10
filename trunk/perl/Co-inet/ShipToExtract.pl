@@ -39,19 +39,17 @@ use Extract::Coinet::PartMtl;
 use Extract::Coinet::Fiscal;
 use Extract::Coinet::ShipVia;
 use Extract::Coinet::Terms;
-use Extract::Coinet::Vendor;
 main();
 
 sub main {
 #    Extract::Coinet::SalesDetail->new();
 #    Extract::Coinet::Customer->new();
 #    Extract::Coinet::InvcHead->new();
-    Extract::Coinet::InvcHeadEx->new();
-    Extract::Coinet::InvcDtl->new();
-    Extract::Coinet::InvcMisc->new();
+#    Extract::Coinet::InvcHeadEx->new();
+#    Extract::Coinet::InvcDtl->new();
+#    Extract::Coinet::InvcMisc->new();
 #    Extract::Coinet::PartBin->new();
 #    Extract::Coinet::Part->new();
-#    Extract::Coinet::Vendor->new();
 
 #    Extract::Coinet::OrderHed->new();
 #    Extract::Coinet::OrderDtl->new();
@@ -68,8 +66,8 @@ sub main {
 #    Extract::Coinet::ContainerDetail->new();
 #    Extract::Coinet::PODetail->new();
 #    Extract::Coinet::POHeader->new();
-#    Extract::Coinet::ShipTo->new();
-    Extract::Coinet::InvcTax->new();
+    Extract::Coinet::ShipTo->new();
+#    Extract::Coinet::InvcTax->new();
 #    Extract::Coinet::SalesTer->new();
 #    Extract::Coinet::SalesRep->new();
 #    Extract::Coinet::Region->new();    
