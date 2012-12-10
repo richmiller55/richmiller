@@ -111,7 +111,7 @@ pt.EmpID as EmpID,
 pt.ReconcileNum as ReconcileNum
      FROM  pub.PartTran as pt
 where 
-pt.TranNum >1420000
+pt.TranNum >1508326
 
    /;
     return $sql;
