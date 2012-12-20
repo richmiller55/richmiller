@@ -68,13 +68,18 @@ namespace POfeed
             Epicor.Mfg.BO.PODataSet ds = this.poObj.GetByID(tran.PONum);
 
             foreach (Epicor.Mfg.BO.PODataSet.PODetailRow row in ds.PODetail.Rows)
+                
             {
-                if (row.POLine.Equals(tran.POLine))
+                foreach (Epicor.Mfg.BO.PODataSet.PORelRow relRow in ds.PORel.Rows) 
+                if (row.PartNum.Equals(relRow.POLinePartNum))
                 {
-                    // Epicor.Mfg.BO.PODataSet.PODetailRow row =
-                    //(Epicor.Mfg.BO.PODataSet.PODetailRow)ds.PODetail.Rows[rowNum];
                     if (tran.TypeOfDate.Equals("exAsia_")) row.Date01 = tran.PODate;
-                    else if (tran.TypeOfDate.Equals("profor_")) row.Date04 = tran.PODate;
+                    else if (tran.TypeOfDate.Equals("profor_"))
+                    {
+                        relRow.PromiseDt = tran.PODate;
+                        // yes you could pull it from the database, 
+                        // relRow.PromiseDt = row.Date04;
+                    }
                     try
                     {
                         this.poObj.Update(ds);
