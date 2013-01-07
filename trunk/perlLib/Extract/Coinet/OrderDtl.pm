@@ -40,6 +40,7 @@ sub sql {
       od.XPartNum as XPartNum,
       od.Discount as Discount,
       od.DiscountPercent as DiscountPercent,
+      od.Number01 as EDIPOlineNum,
       0 as filler
      FROM  pub.OrderDtl as od
    /;
@@ -85,7 +86,8 @@ sub printData {
                   $row{SELLINGFACTOR}     . "\t" . 
                   $row{XPARTNUM}          . "\t" . 
                   $row{DISCOUNT}          . "\t" . 
-                  $row{DISCOUNTPERCENT}          . "\t" . 
+                  $row{DISCOUNTPERCENT}   . "\t" . 
+                  $row{EDIPOLINENUM}   . "\t" . 
 		  0 . "\n";
     }
     close OUT;
