@@ -16,11 +16,10 @@ namespace PartUpdate
         Epicor.Mfg.BO.Part partObj;
         Epicor.Mfg.BO.PartDataSet ds;
         Epicor.Mfg.BO.PartDataSet.PartRow row;
-        Epicor.Mfg.BO.PartDataSet.PartPlantRow plantRow;
+        // Epicor.Mfg.BO.PartDataSet.PartPlantRow plantRow;
         Epicor.Mfg.BO.PartDataSet.PartWhseRow whseRow;
         //   pilot 8331
         //   sys 8301
-
         public PartUpdateXman()
         {
             objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
@@ -71,6 +70,35 @@ namespace PartUpdate
                 }
             }
         }
+        public void LocUpdate(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)locUpdate.UPC];
+            if (partNum.Equals("UPC")) return;
+            if (partNum.Equals("Part Number")) return;
+            if (partNum.Equals("UPC Number")) return;
+
+            if (this.partObj.PartExists(partNum))
+            {
+                ds = partObj.GetByID(partNum);
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+
+                if (row.IsISOrigCountryNumNull() || row.ISOrigCountryNum == 0)
+                {
+                    row.ISOrigCountryNum = 42;
+                }
+
+                row.ShortChar02 = split[(int)locUpdate.newLoc];
+                try
+                {
+                    this.partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    string message = e.Message;
+                }
+            }
+        }
         public void PriceUpdate(string line)
         {
             // using this for the listPrice conversion
@@ -100,61 +128,6 @@ namespace PartUpdate
                 catch (Exception e)
                 {
                     string message = e.Message;
-                }
-            }
-        }
-        public void NewPart(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)newPart.UPC];
-            if (partNum == "Part Number")
-            {
-                return;
-            }
-            if (this.partObj.PartExists(partNum))
-            {
-                // throw a fit
-            }
-            else
-            {
-                Epicor.Mfg.BO.PartDataSet ds = new Epicor.Mfg.BO.PartDataSet();
-                this.partObj.GetNewPart(ds);
-                Epicor.Mfg.BO.PartDataSet.PartRow row;
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.Company = "CA";
-                row.PartNum = split[(int)newPart.UPC];
-                row.PartDescription = split[(int)newPart.style];
-                row.UserChar1 = split[(int)newPart.style];
-
-                row.ShortChar02 = split[(int)newPart.loc];
-                string casePack = split[(int)newPart.casePack];
-                row.Number01 = Convert.ToDecimal(casePack);
-                // string country = split[(int)newPart.country];
-                string country = "China";
-                if (country.CompareTo("China") == 0)
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-                else if (country.CompareTo("Taiwan") == 0)
-                {
-                    row.ISOrigCountryNum = 176;
-                }
-                row.ProdCode = split[(int)newPart.subClass];
-                row.ClassID = "FG";
-                row.TypeCode = "P";
-                string unitPrice = split[(int)newPart.unitPrice];
-                row.UnitPrice = Convert.ToDecimal(unitPrice);
-                string purchCommentsRaw = split[(int)newPart.purchComments];
-                string purchComments = purchCommentsRaw.Replace(".", ".\n");
-                row.PurComment = purchComments;
-                string message = "posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
                 }
             }
         }
@@ -222,66 +195,11 @@ namespace PartUpdate
                 }
             }
         }
-        public void NewPartEx(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)newPart.UPC];
-            if (partNum == "UPC")
-            {
-                return;
-            }
-            if (this.partObj.PartExists(partNum))
-            {
-                // throw a fit
-            }
-            else
-            {
-                Epicor.Mfg.BO.PartDataSet ds = new Epicor.Mfg.BO.PartDataSet();
-                this.partObj.GetNewPart(ds);
-                Epicor.Mfg.BO.PartDataSet.PartRow row;
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.Company = "CA";
-                row.PartNum = split[(int)newPartEx.UPC];
-                row.PartDescription = split[(int)newPartEx.style];
-                row.UserChar1 = split[(int)newPartEx.style];
-
-                row.ShortChar02 = split[(int)newPartEx.loc];
-                string casePack = split[(int)newPartEx.casePack];
-                row.Number01 = Convert.ToDecimal(casePack);
-                string country = split[(int)newPartEx.country];
-                // string country = "China";
-                if (country.CompareTo("China") == 0)
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-                else if (country.CompareTo("Taiwan") == 0)
-                {
-                    row.ISOrigCountryNum = 176;
-                }
-                row.ProdCode = split[(int)newPartEx.subClass];
-                row.ClassID = "FG";
-                row.TypeCode = "P";
-                string unitPrice = split[(int)newPartEx.unitPrice];
-                row.UnitPrice = Convert.ToDecimal(unitPrice);
-                // string purchCommentsRaw = split[(int)newPart.purchComments];
-                // string purchComments = purchCommentsRaw.Replace(".", ".\n");
-                // row.PurComment = purchComments;
-                row.SearchWord = split[(int)newPartEx.search];
-                string message = "posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void CatalogPartUpdate(string line)
+        public void PartAddUpdate(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)catalog.UPC];
+
             if (partNum == "Part Number")
             {
                 return;
@@ -290,23 +208,64 @@ namespace PartUpdate
             {
                 return;
             }
-            if (!this.partObj.PartExists(partNum))
+            if (partNum == "UPC")
             {
                 return;
             }
-
             Epicor.Mfg.BO.PartDataSet l_ds = new Epicor.Mfg.BO.PartDataSet();
-            l_ds = partObj.GetByID(partNum);
+            if (!this.partObj.PartExists(partNum))
+            {
+                this.partObj.GetNewPart(l_ds);
+                
+            }
+            else
+            {
+                l_ds = partObj.GetByID(partNum);
+            }
             Epicor.Mfg.BO.PartDataSet.PartRow l_row;
             l_row = (Epicor.Mfg.BO.PartDataSet.PartRow)l_ds.Part.Rows[0];
+            // note: not sure that this will work if you are updateing not adding new
+            l_row.PartNum = partNum;
+            // canned stuff to automate in next pass
             l_row.Company = "CA";
-
-            if ((DoWeHaveData("Description")))
+            l_row.ClassID = "FG";
+            l_row.TypeCode = "M";
+            if (DoWeHaveData("style"))
             {
-                string Description = split[(int)GetEnumIndex("Description")];
+                string Description = split[(int)GetEnumIndex("style")];
                 if (Description != "NA")
                 {
                     l_row.PartDescription = Description;
+                }
+            }
+
+            if (DoWeHaveData("subClass"))
+            {
+                string subClass = split[(int)GetEnumIndex("subClass")];
+                if (subClass != "NA")
+                {
+                    l_row.ProdCode = subClass;
+                }
+            }
+            if (DoWeHaveData("country"))
+            {
+                string country = split[(int)GetEnumIndex("country")];
+                if (country.Equals("China"))
+                {
+                    l_row.ISOrigCountryNum = 42;
+                }
+                else if (country.Equals("Taiwan"))
+                {
+                    l_row.ISOrigCountryNum = 176;
+                }
+                l_row.CountryNumDescription = country;
+            }
+            if (DoWeHaveData("casePack"))
+            {
+                string strCasePack = split[(int)GetEnumIndex("casePack")];
+                if (strCasePack != "NA")
+                {
+                    l_row.Number01 = Convert.ToDecimal(strCasePack);
                 }
             }
             if ((DoWeHaveData("ShortChar01")))
@@ -320,6 +279,14 @@ namespace PartUpdate
             if ((DoWeHaveData("ShortChar02")))
             {
                 string ShortChar02 = split[(int)GetEnumIndex("ShortChar02")];
+                if (ShortChar02 != "NA")
+                {
+                    l_row.ShortChar02 = ShortChar02;
+                }
+            }
+            if ((DoWeHaveData("loc")))
+            {
+                string ShortChar02 = split[(int)GetEnumIndex("loc")];
                 if (ShortChar02 != "NA")
                 {
                     l_row.ShortChar02 = ShortChar02;
@@ -589,6 +556,12 @@ namespace PartUpdate
                     }
                 }
             }
+            if (DoWeHaveData("UserChar1"))
+            {
+                string UserChar1 = split[(int)GetEnumIndex("UserChar1")];
+                if (!UserChar1.Equals(""))
+                    l_row.UserChar1 = UserChar1;
+            }
             if (DoWeHaveData("Character01"))
             {
                 string Character01 = split[(int)GetEnumIndex("Character01")];
@@ -661,7 +634,6 @@ namespace PartUpdate
                 whseRow = (Epicor.Mfg.BO.PartDataSet.PartWhseRow)ds.PartWhse.Rows[0];
                 whseRow.WarehouseCode = "01";
                 whseRow.WarehouseDescription = "Hayward";
-                string note = "";
                 try
                 {
                     partObj.Update(ds);
@@ -669,7 +641,6 @@ namespace PartUpdate
                 catch (Exception e)
                 {
                     string message = e.Message;
-                    note = "update failed";
                 }
 
                 ds = partObj.GetByID(partNum);
@@ -684,7 +655,6 @@ namespace PartUpdate
                 catch (Exception e)
                 {
                     string message = e.Message;
-                    note = "update failed";
                 }
             }
         }
@@ -714,7 +684,6 @@ namespace PartUpdate
                     catch (Exception e)
                     {
                         message = e.Message;
-                        string note = "index out of range";
                         break;
                     }
                     if (wrow.WarehouseCode.CompareTo("01") == 0)
