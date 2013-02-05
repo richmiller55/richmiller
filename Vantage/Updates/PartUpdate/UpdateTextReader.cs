@@ -34,22 +34,13 @@ namespace PartUpdate
         listPrice,
         filler
     }
-    public enum catalog
+    public enum catalogOld
     {
         Description,
         UPC,
         ShortChar03,
         ShortChar04,
         Number01,
-        CheckBox02,
-        CheckBox03,
-        CheckBox04,
-        CheckBox05,
-        Number05,
-        Number06,
-        Number07,
-        ShortChar07,
-        ShortChar06,
         UnitPrice,
         Number08,
         Character01,
@@ -60,6 +51,13 @@ namespace PartUpdate
         style,
         UPC,
         runOut,
+        filler
+    }
+    public enum locUpdate
+    {
+        style,
+        UPC,
+        newLoc,
         filler
     }
     public enum backflush
@@ -85,21 +83,19 @@ namespace PartUpdate
         colors,
         filler
     }
-    public enum newPart
+    public enum catalog
     {
         UPC,
         style,
-        descr,
-        type,
         subClass,
-        purchType,
-        unitPrice,
         country,
+        purchType,
+        UnitPrice,
+        type,
         loc,
         casePack,
         search,
-        shortChar05,
-        purchComments,
+        UserChar1,
         filler
     }
     public enum prudy
@@ -144,10 +140,9 @@ namespace PartUpdate
         printOption,
         filler
     }
-    
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Fall22012StyleUpdate30Oct2012.txt";
+        string file = "I:/data/updates/parts/partCreateKim_5Jan2013.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -161,7 +156,8 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
-                xman.CatalogPartUpdate(line);
+                xman.PartAddUpdate(line);
+                // xman.LocUpdate(line);
             }
         }
     }
