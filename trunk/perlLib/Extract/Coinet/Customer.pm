@@ -52,6 +52,11 @@ sub sql {
       cm.CheckBox01 as optiPortMemeber,
       cm.CheckBox02 as visionSourceMemeber,
       cm.CheckBox03 as inactiveFlag,
+
+      cm.CheckBox04 as printSetup,
+      cm.CheckBox05 as NoInvoiceMailing,
+      cm.CheckBox06 as InvoiceInABox,
+      
       cm.ChangedBy as changedBy,
       cm.ChangeDate as changeDate,
       cm.EstDate  as EstDate,
@@ -128,6 +133,10 @@ sub printData {
 		  $EstDate   . "\t" .
                   $row{CREDITCLEARUSERID} . "\t" .
                   $row{INACTIVEFLAG} . "\t" .
+                  $row{PRINTSETUP} . "\t" .
+                  $row{NOINVOICEMAILING} . "\t" .
+                  $row{INVOICEINABOX} . "\t" .
+
                   $row{BTNAME} . "\t" .
                   $row{BTADDRESS1} . "\t" .
                   $row{BTADDRESS2} . "\t" .
