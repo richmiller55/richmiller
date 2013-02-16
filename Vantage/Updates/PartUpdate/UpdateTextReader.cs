@@ -86,6 +86,12 @@ namespace PartUpdate
     public enum catalog
     {
         UPC,
+        ListPrice,
+        UnitPrice,
+    }
+    public enum catalogNiceKim
+    {
+        UPC,
         style,
         subClass,
         country,
@@ -142,7 +148,7 @@ namespace PartUpdate
     }
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/partCreateKim_5Jan2013.txt";
+        string file = "I:/data/updates/parts/PriceChange021513Final.txt";
         StreamReader tr;
         public UpdateTextReader()
         {

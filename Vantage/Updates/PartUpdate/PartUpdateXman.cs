@@ -204,6 +204,10 @@ namespace PartUpdate
             {
                 return;
             }
+            if (partNum == "PartNum")
+            {
+                return;
+            }
             if (partNum == "UPC Number")
             {
                 return;
@@ -228,8 +232,8 @@ namespace PartUpdate
             l_row.PartNum = partNum;
             // canned stuff to automate in next pass
             l_row.Company = "CA";
-            l_row.ClassID = "FG";
-            l_row.TypeCode = "M";
+            // l_row.ClassID = "FG";
+            //   l_row.TypeCode = "M";
             if (DoWeHaveData("style"))
             {
                 string Description = split[(int)GetEnumIndex("style")];
@@ -399,6 +403,14 @@ namespace PartUpdate
             if ((DoWeHaveData("Number08")))
             {
                 object Number08 = split[(int)GetEnumIndex("Number08")];
+                if (!Number08.Equals(""))
+                {
+                    l_row.Number08 = Convert.ToDecimal(Number08);
+                }
+            }
+            if ((DoWeHaveData("ListPrice")))
+            {
+                object Number08 = split[(int)GetEnumIndex("ListPrice")];
                 if (!Number08.Equals(""))
                 {
                     l_row.Number08 = Convert.ToDecimal(Number08);
