@@ -42,7 +42,7 @@ main();
 
 sub main {
 #    Extract::Coinet::SalesDetail->new();
-#    Extract::Coinet::Customer->new();
+    Extract::Coinet::Customer->new();
 #    Extract::Coinet::InvcHead->new();
 #    Extract::Coinet::InvcHeadEx->new();
 #    Extract::Coinet::InvcDtl->new();

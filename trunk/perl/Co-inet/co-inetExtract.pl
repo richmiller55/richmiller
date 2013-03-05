@@ -9,6 +9,7 @@ use Extract::Coinet::InvcDtl;
 use Extract::Coinet::InvcMisc;
 use Extract::Coinet::PartBin;
 use Extract::Coinet::Part;
+use Extract::Coinet::PartPlant;
 use Extract::Coinet::OrderDtl;
 use Extract::Coinet::OrderHed;
 use Extract::Coinet::OrderRel;
@@ -51,6 +52,7 @@ sub main {
     Extract::Coinet::InvcMisc->new();
     Extract::Coinet::PartBin->new();
     Extract::Coinet::Part->new();
+    Extract::Coinet::PartPlant->new();
     Extract::Coinet::OrderDtl->new();
     Extract::Coinet::OrderHed->new();
     Extract::Coinet::OrderRel->new();
