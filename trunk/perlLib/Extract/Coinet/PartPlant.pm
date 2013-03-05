@@ -1,4 +1,4 @@
-package Extract::Coinet::PartBin;
+package Extract::Coinet::PartPlant;
 
 @ISA = qw ( Extract::OutToFile );
 
@@ -8,7 +8,7 @@ use strict;
 sub getFileNameOut {
     my $self = shift;
     my $dir = ">i:/transfer/";
-    my $file = "PartBin.txt";
+    my $file = "PartPlant.txt";
     return $dir . $file;
 }
 
@@ -17,13 +17,17 @@ sub sql {
    
     my $sql = qq /
       select
-      pb.Company as Company, -- char 8 
-      pb.partNum  as partNum,  -- char 50
-      pb.WarehouseCode as WarehouseCode, -- char 8
-      pb.BinNum as BinNum, -- char 10
-      pb.OnhandQty as OnhandQty, -- decimal 12,2
-      pb.LotNum as LotNum  -- char 30
-     FROM  pub.PartBin as pb
+      pp.Company as Company, -- char 8 
+      pp.Plant  as Plant,  -- char 8
+      pp.PartNum  as PartNum,  -- char 50
+      pp.PrimWhse as PrimWhse, -- char 8
+      pp.MinimumQty as MinimumQty, -- decimal 12,2
+      pp.MaximumQty as MaximumQty, -- decimal 12,2
+      pp.SafetyQty as SafetyQty,
+      pp.MinOrderQty as MinOrderQty,
+      pp.AllocQty as AllocQty,
+      0 as fill
+     FROM  pub.PartPlant as pp
    /;
     return $sql;
 }
@@ -41,11 +45,15 @@ sub printData {
         
 	print OUT  $i . "\t" .
                   $row{COMPANY}      . "\t" . 
-                  $row{PARTNUM}     . "\t" . 
-                  $row{WAREHOUSECODE}     . "\t" . 
-                  $row{BINNUM}     . "\t" . 
-                  $row{ONHANDQTY}     . "\t" . 
-                  $row{LOTNUM}     . "\n";
+                  $row{PLANT}        . "\t" . 
+                  $row{PARTNUM}      . "\t" . 
+                  $row{PRIMWHSE}     . "\t" . 
+                  $row{MINIMUMQTY}   . "\t" . 
+                  $row{MAXIMUMQTY}   . "\t" . 
+                  $row{SAFETYQTY}    . "\t" . 
+                  $row{MINORDERQTY}  . "\t" . 
+                  $row{ALLOCQTY}     . "\t" . 
+                  $row{FILL}         . "\n";
     }
     close OUT;
 }
