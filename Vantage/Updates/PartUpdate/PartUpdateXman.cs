@@ -99,38 +99,6 @@ namespace PartUpdate
                 }
             }
         }
-        public void PriceUpdate(string line)
-        {
-            // using this for the listPrice conversion
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)priceUpdate.UPC];
-            if (partNum.Equals("UPC")) return;
-            if (partNum.Equals("Part Number")) return;
-            if (partNum.Equals("UPC Number")) return;
-
-            if (this.partObj.PartExists(partNum))
-            {
-                ds = partObj.GetByID(partNum);
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-
-                if (row.IsISOrigCountryNumNull() || row.ISOrigCountryNum == 0)
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-
-                row.UnitPrice = Convert.ToDecimal(split[(int)priceUpdate.unitPrice]);
-                row.Number08 = Convert.ToDecimal(split[(int)priceUpdate.listPrice]);
-
-                try
-                {
-                    this.partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    string message = e.Message;
-                }
-            }
-        }
         public void PrudyNewPart(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -612,7 +580,7 @@ namespace PartUpdate
             bool foundMatch = false;
             foreach (catalog catentry in Enum.GetValues(typeof(catalog)))
             {
-                if (key.Equals(catentry.ToString()))
+                if (key.Equals(catentry.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
                     foundMatch = true;
                     break;

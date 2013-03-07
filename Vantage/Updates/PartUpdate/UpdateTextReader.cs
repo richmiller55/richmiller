@@ -26,7 +26,7 @@ namespace PartUpdate
         unitPrice,
         filler
     }
-    public enum priceUpdate
+    public enum price
     {
         style,
         UPC,
@@ -65,7 +65,7 @@ namespace PartUpdate
         UPC,
         filler
     }
-    public enum catalog
+    public enum catalogIRC
     {
         
         UPC,
@@ -84,11 +84,26 @@ namespace PartUpdate
         colors,
         filler
     }
-    public enum catalogPriceIncrease
+    public enum catalog
     {
+        style,
         UPC,
-        ListPrice,
+        ShortChar03,
+        ShortChar04,
+        casePack,
+        CheckBox02,
+        CheckBox03,
+        CheckBox04,
+        CheckBox05,
+        Number05,
+        Number06,
+        Number07,
+        ShortChar07,
         UnitPrice,
+        Number08,
+        Character01,
+        Character02,
+        filler
     }
     public enum catalogNiceKim
     {
@@ -149,7 +164,7 @@ namespace PartUpdate
     }
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/IPRCoding022013.txt";
+        string file = "I:/data/updates/parts/Spring_2_2013NewStylesUpload030613.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
