@@ -99,6 +99,26 @@ namespace PartUpdate
                 }
             }
         }
+        public void MakeManufactured(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)makeManu.UPC];
+
+            if (this.partObj.PartExists(partNum))
+            {
+                ds = partObj.GetByID(partNum);
+                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                row.TypeCode = "M";
+                try
+                {
+                    this.partObj.Update(ds);
+                }
+                catch (Exception e)
+                {
+                    string message = e.Message;
+                }
+            }
+        }
         public void PrudyNewPart(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });

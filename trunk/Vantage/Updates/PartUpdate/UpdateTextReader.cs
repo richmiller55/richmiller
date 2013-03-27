@@ -84,25 +84,27 @@ namespace PartUpdate
         colors,
         filler
     }
+
+    public enum makeManu
+    {
+        UPC,
+        style
+    }
     public enum catalog
     {
-        style,
         UPC,
+        style,
+        UserChar1,
         ShortChar03,
         ShortChar04,
+        subClass,
+        purchType,
+        type,
+        ShortChar05,
+        loc,
+        search,
         casePack,
-        CheckBox02,
-        CheckBox03,
-        CheckBox04,
-        CheckBox05,
-        Number05,
-        Number06,
-        Number07,
-        ShortChar07,
-        UnitPrice,
-        Number08,
-        Character01,
-        Character02,
+        country,
         filler
     }
     public enum catalogNiceKim
@@ -164,7 +166,7 @@ namespace PartUpdate
     }
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/Spring_2_2013NewStylesUpload030613.txt";
+        string file = "I:/data/updates/parts/NFL_Part_Upload_032713.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -178,8 +180,11 @@ namespace PartUpdate
 
             while ((line = tr.ReadLine()) != null)
             {
+                // more like the odd one off.
+                // xman.MakeManufactured(line);
+                // this is the normal complex update
                 xman.PartAddUpdate(line);
-                // xman.LocUpdate(line);
+                
             }
         }
     }
