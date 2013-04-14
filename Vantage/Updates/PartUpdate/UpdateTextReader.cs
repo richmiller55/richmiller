@@ -107,7 +107,7 @@ namespace PartUpdate
         country,
         filler
     }
-    public enum catalogNiceKim
+    public enum catalogKim
     {
         UPC,
         style,
@@ -166,7 +166,7 @@ namespace PartUpdate
     }
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/NFL_Part_Upload_032713.txt";
+        string file = "I:/data/updates/parts/CollegiatePartUpload041213.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -182,8 +182,12 @@ namespace PartUpdate
             {
                 // more like the odd one off.
                 // xman.MakeManufactured(line);
-                // this is the normal complex update
                 xman.PartAddUpdate(line);
+                // runs the plant update so backflush
+                xman.SetAsDefaultWarehouse(line);
+                // this is the normal complex update
+               
+                
                 
             }
         }
