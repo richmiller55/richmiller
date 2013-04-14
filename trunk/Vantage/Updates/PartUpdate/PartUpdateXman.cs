@@ -219,9 +219,12 @@ namespace PartUpdate
             // note: not sure that this will work if you are updateing not adding new
             l_row.PartNum = partNum;
             // canned stuff to automate in next pass
+            // 10Apr13, so noted but they are not automated at this point,
+            // non stock added to the list
             l_row.Company = "CA";
-            // l_row.ClassID = "FG";
-            //   l_row.TypeCode = "M";
+            l_row.ClassID = "FG";
+            l_row.NonStock = false;
+            l_row.TypeCode = "P";
             if (DoWeHaveData("style"))
             {
                 string Description = split[(int)GetEnumIndex("style")];
@@ -560,7 +563,14 @@ namespace PartUpdate
             {
                 string UserChar1 = split[(int)GetEnumIndex("UserChar1")];
                 if (!UserChar1.Equals(""))
-                    l_row.UserChar1 = UserChar1;
+                    if (UserChar1.Length > 30)
+                    {
+                        l_row.UserChar1 = UserChar1.Substring(0, 30).Trim();
+                    }
+                    else
+                    {
+                        l_row.UserChar1 = UserChar1;
+                    }
             }
             if (DoWeHaveData("Character01"))
             {
@@ -626,7 +636,7 @@ namespace PartUpdate
         public void SetAsDefaultWarehouse(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)backflush.UPC];
+            string partNum = split[(int)catalog.UPC];
 
             if (partObj.PartExists(partNum))
             {
@@ -642,12 +652,12 @@ namespace PartUpdate
                 {
                     string message = e.Message;
                 }
-
                 ds = partObj.GetByID(partNum);
                 Epicor.Mfg.BO.PartDataSet.PartPlantRow prow;
                 prow = (Epicor.Mfg.BO.PartDataSet.PartPlantRow)ds.PartPlant.Rows[0];
                 prow.PrimWhse = "01";
                 prow.PrimWhseDescription = "Hayward";
+                prow.BackFlush = true;
                 try
                 {
                     partObj.Update(ds);
