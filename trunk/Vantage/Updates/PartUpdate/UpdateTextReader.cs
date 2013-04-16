@@ -166,7 +166,7 @@ namespace PartUpdate
     }
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/CollegiatePartUpload041213.txt";
+        string file = "I:/data/updates/parts/CollegiatepartUpload041613.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
