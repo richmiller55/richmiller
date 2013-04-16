@@ -233,13 +233,20 @@ namespace PartUpdate
                     l_row.PartDescription = Description;
                 }
             }
-
             if (DoWeHaveData("subClass"))
             {
                 string subClass = split[(int)GetEnumIndex("subClass")];
                 if (subClass != "NA")
                 {
                     l_row.ProdCode = subClass;
+                }
+            }
+            if (DoWeHaveData("search"))
+            {
+                string search = split[(int)GetEnumIndex("search")];
+                if (search != "NA")
+                {
+                    l_row.SearchWord = search;
                 }
             }
             if (DoWeHaveData("country"))
