@@ -13,9 +13,10 @@ namespace POfeed
         int poNum;
         int poLine;
         int seq;
-
+        bool updateOk;
         public Tran(Hashtable htTran)
         {
+            UpdateOk = true; // flag set if exception in date conversion
             TransType = htTran["TransType"].ToString();
             TypeOfDate = htTran["TypeOfDate"].ToString();
             PODateStr = htTran["PODate"].ToString();
@@ -108,6 +109,17 @@ namespace POfeed
                 poLine = value;
             }
         }
+        public bool UpdateOk
+        {
+            get
+            {
+                return updateOk;
+            }
+            set
+            {
+                updateOk = value;
+            }
+        }
         public void SetDate()
         {
             string dateStr = PODateStr;
@@ -115,9 +127,16 @@ namespace POfeed
             string month = dateStr.Substring(4, 2);
             string day = dateStr.Substring(6, 2);
 
-            System.DateTime dateObj = new DateTime(Convert.ToInt32(year),
-                Convert.ToInt32(month), Convert.ToInt32(day));
-            this.PODate = dateObj;
+            try
+            {
+                System.DateTime dateObj = new DateTime(Convert.ToInt32(year),
+                    Convert.ToInt32(month), Convert.ToInt32(day));
+                this.PODate = dateObj;
+            }
+           catch (Exception e) {
+               string mess = e.Message;
+               UpdateOk = false;
+           }
         }
 
     }
