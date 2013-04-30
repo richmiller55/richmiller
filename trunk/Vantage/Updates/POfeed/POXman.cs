@@ -18,9 +18,12 @@ namespace POfeed
         }
         public void PODateUpdate(Tran tran)
         {
-            UnApprovePO(tran);
-            UpdateLine(tran);
-            ApprovePO(tran);
+            if (tran.UpdateOk)
+            {
+                UnApprovePO(tran);
+                UpdateLine(tran);
+                ApprovePO(tran);
+            }
         }
         private void UnApprovePO(Tran tran)
         {
