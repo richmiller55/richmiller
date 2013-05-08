@@ -28,7 +28,7 @@ namespace POfeed
         }
         public void RunFile()
         {
-            string file = "I:/data/updates/po/poUpdates_30Apr2013.txt";
+            string file = "I:/data/updates/po/poUpdates.txt";
             StreamReader tr = new StreamReader(file);
             string line = "";
             POXman xman = new POXman();
