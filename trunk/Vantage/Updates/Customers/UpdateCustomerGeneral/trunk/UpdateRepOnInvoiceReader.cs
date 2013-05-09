@@ -16,7 +16,7 @@ namespace UpdateCustomerGeneral
     }
     class UpdateRepOnInvoiceReader
     {
-        string file = @"I:\data\updates\customers\results.txt";
+        string file = @"I:\data\updates\customers\correctSalesRep_7Feb2013.txt";
         StreamReader tr;
         public UpdateRepOnInvoiceReader()
         {

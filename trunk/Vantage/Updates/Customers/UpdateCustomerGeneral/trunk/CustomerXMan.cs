@@ -165,6 +165,35 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
+        public void SetCheckBox06(string custId)
+        {
+            string message = "OK";
+            bool okToUpdate = true;
+            try
+            {
+                custDs = customerObj.GetByCustID(custId);
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                message = "NoGo";
+                okToUpdate = false;
+            }
+            if (okToUpdate)
+            {
+                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
+                custRow.CheckBox06 = true;
+                try
+                {
+                    customerObj.Update(custDs);
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+            }
+        }
+
         public void ChangeTerrByID(string custId, string newTerr, string salesRepNum)
         {
             string message = "OK";

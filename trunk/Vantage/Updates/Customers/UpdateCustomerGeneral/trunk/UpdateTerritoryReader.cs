@@ -11,7 +11,6 @@ namespace UpdateCustomerGeneral
     {
         newTerr,
         custId,
-        shipToNum,
         custName,
         salesRepNum,
         filler
@@ -19,6 +18,7 @@ namespace UpdateCustomerGeneral
     public enum terrTran
     {
         custId,
+        shipToId,
         newTerr,
         salesRepNum,
         filler
@@ -58,13 +58,27 @@ namespace UpdateCustomerGeneral
     }
     class UpdateTerritoryReader
     {
-        string file = "I:/data/updates/customers/terrUpdate_9Jul2012.txt";
+        string file = "I:/data/updates/customers/terr72_09May2013.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
             tr = new StreamReader(file);
-            processSimpleFile();
-            // custGrpUpdate();
+            // processSimpleFile();
+            processFile();
+        }
+
+        void SetInvBoxFlag()
+        {
+            string line = "";
+            CustomerXMan xman = new CustomerXMan();
+
+            while ((line = tr.ReadLine()) != null)
+            {
+                string[] split = line.Split(new Char[] { '\t' });
+                string CustId = split[(int)terrTran.custId];
+                if (CustId.CompareTo("CustId") == 0) continue;
+                xman.SetCheckBox06(CustId);
+            }
         }
         void SetDupPOFlag()
         {
@@ -91,7 +105,6 @@ namespace UpdateCustomerGeneral
                 xman.setCustGrp(CustId, NewGrp);
             }
         }
-
         void processFile()
         {
             string line = "";
