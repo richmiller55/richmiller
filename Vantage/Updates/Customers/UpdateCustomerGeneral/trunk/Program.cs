@@ -12,16 +12,11 @@ namespace UpdateCustomerGeneral
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            // UpdateCustomerReader reader = new UpdateCustomerReader();
-
-            // UpdateCustGrupReader reader = new UpdateCustGrupReader();
-            UpdateTerritoryReader reader = new UpdateTerritoryReader();
-            // UpdateCreditReader reader = new UpdateCreditReader();
+            // Application.EnableVisualStyles();
+            // Application.SetCompatibleTextRenderingDefault(false);
+            // Application.Run(new Form1());
             // UpdateRepOnInvoiceReader reader = new UpdateRepOnInvoiceReader();
-            // UpdateShipToReader reader = new UpdateShipToReader();
+            UpdateTerritoryReader reader = new UpdateTerritoryReader();
         }
     }
 }
