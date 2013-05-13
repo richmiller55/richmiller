@@ -49,7 +49,7 @@ sub main {
 #    Extract::Coinet::InvcDtl->new();
 #    Extract::Coinet::InvcMisc->new();
 #    Extract::Coinet::PartBin->new();
-#    Extract::Coinet::Part->new();
+    Extract::Coinet::Part->new();
     Extract::Coinet::PartPlant->new();
 
 #    Extract::Coinet::OrderHed->new();
