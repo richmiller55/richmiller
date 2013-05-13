@@ -8,6 +8,7 @@ use Extract::Coinet::InvcHeadEx;
 use Extract::Coinet::InvcDtl;
 use Extract::Coinet::InvcMisc;
 use Extract::Coinet::PartBin;
+use Extract::Coinet::PartPlant;
 use Extract::Coinet::Part;
 use Extract::Coinet::OrderDtl;
 use Extract::Coinet::OrderHed;
