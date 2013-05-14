@@ -8,7 +8,7 @@ use strict;
 sub getFileNameOut {
     my $self = shift;
     my $dir = ">i:/transfer/";
-    my $file = "PartBin.txt";
+    my $file = "PartBinPilot.txt";
     return $dir . $file;
 }
 
