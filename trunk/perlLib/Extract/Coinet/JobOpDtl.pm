@@ -17,8 +17,20 @@ sub sql {
    
     my $sql = qq /
       select
-      sd.Company as Company,               -- char 8 
-     FROM  pub.JobOpDtl as sd
+      jd.Company as Company,               -- char 8 
+      jd.ActBurCost as ActBurCost,         -- decimal
+      jd.ActLabCost as ActLabCost,         -- decimal
+      jd.ActProdHours as ActProdHours,      -- decimal
+      jd.ActProdRwkHours as ActProdRwkHours,   -- decimal
+      jd.AssemblySeq as AssemblySeq,          -- int
+      jd.CapabilityID as CapabilityID,        -- char 8
+      jd.JobNum as JobNum,                   -- char?
+      jd.OpDtlDesc as OpDtlDesc,           --  char 30
+      jd.OpDtlSeq  as OpDtlSeq,            -- int
+      jd.OprSeq as OprSeq,                 -- int
+      jd.SysCreateDate as SysCreateDate,   -- date
+      jd.SysCreateTime as SysCreateTime
+     FROM  pub.JobOpDtl as jd
    /;
     return $sql;
 }
@@ -34,23 +46,23 @@ sub printData {
 	$i++;
 	my %row = $db->DataHash();
 
-	my $changeDate = $row{CHANGEDATE};
-	$changeDate =~ s/-//g;
+	my $SysCreateDate = $row{SYSCREATEDATE};
+	$SysCreateDate =~ s/-//g;
 
-	print OUT  $i                         . "\t" .
-                  $row{COMPANY}               . "\t" . 
-                  $row{JOBNUM}                . "\t" . 
-                  $row{PARTNUM}               . "\t" . 
-                  $row{SHIPCMPL}              . "\t" . 
-                  $row{WAREHOUSECODE}         . "\t" . 
-                  $row{BINNUM}                . "\t" . 
-                  $row{UPDATEDINVENTORY}      . "\t" . 
-                  $row{INVOICED}              . "\t" . 
-                  $row{CUSTNUM}               . "\t" . 
-                  $row{SHIPTONUM}             . "\t" . 
-                  $row{READYTOINVOICE}        . "\t" . 
-                  $row{CHANGEDBY}             . "\t" . 
-                  $changeDate                 . "\n";
+	print OUT  $i                            . "\t" .
+                  $row{COMPANY}                  . "\t" . 
+                  $row{JOBNUM}                   . "\t" . 
+                  $row{ACTBURCOST}               . "\t" . 
+                  $row{ACTLABCOST}               . "\t" . 
+                  $row{ACTPRODHOURS}             . "\t" . 
+                  $row{ACTPRODRWKHOURS}          . "\t" . 
+                  $row{ASSEMBLYSEQ}              . "\t" . 
+                  $row{CAPABILITYID}             . "\t" . 
+                  $row{OPDTLDESC}                . "\t" . 
+                  $row{OPDTLSEQ}                 . "\t" . 
+                  $row{OPRSEQ}                   . "\t" . 
+                  $row{SYSCREATETIME}            . "\t" . 
+                  $SysCreateDate                 . "\n";
 
     }
     close OUT;
