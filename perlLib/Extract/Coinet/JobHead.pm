@@ -25,10 +25,10 @@ sub sql {
       jh.PartNum as PartNum,               -- char 50
       jh.PartDescription as PartDescription, -- char 50
       jh.PersonId as PersonId,
-      jh.PersonList as PersonList,          -- big char
       jh.QtyCompleted   as QtyCompleted,    -- int
       jh.StartDate   as StartDate ,         -- date
       jh.ClosedDate as ClosedDate,          -- date
+      jh.PersonList as PersonList,          -- big char
       1 as filler
      FROM  pub.JobHead as jh
    /;
@@ -55,16 +55,18 @@ sub printData {
 
 	print OUT  $i                        . "\t" .
                   $row{COMPANY}              . "\t" . 
-                  $row{jobnum}               . "\t" . 
-                  $row{jobclosed}            . "\t" . 
-                  $row{jobcomplete}          . "\t" . 
+                  $row{JOBNUM}               . "\t" . 
+                  $row{JOBCLOSED}            . "\t" . 
+                  $row{JOBCOMPLETE}          . "\t" . 
+                  $row{QTYCOMPLETED}         . "\t" . 
                   $JobCompletionDate         . "\t" . 
-                  $row{partnum}              . "\t" . 
-                  $row{PartDescription}      . "\t" . 
-                  $row{PersonId}             . "\t" . 
-                  $row{QtyCompleted}         . "\t" . 
                   $StartDate                 . "\t" . 
                   $ClosedDate                . "\t" . 
+                  $row{PARTNUM}              . "\t" . 
+                  $row{PARTDESCRIPTION}      . "\t" . 
+                  $row{PERSONID}             . "\t" . 
+                  $row{PERSONLIST}           . "\t" . 
+
 		  0 .   "\n";
     }
     close OUT;
