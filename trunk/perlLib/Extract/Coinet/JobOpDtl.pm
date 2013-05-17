@@ -62,7 +62,8 @@ sub printData {
                   $row{OPDTLSEQ}                 . "\t" . 
                   $row{OPRSEQ}                   . "\t" . 
                   $row{SYSCREATETIME}            . "\t" . 
-                  $SysCreateDate                 . "\n";
+                  $SysCreateDate                 . "\t" . 
+		  0 . "\n";
 
     }
     close OUT;
