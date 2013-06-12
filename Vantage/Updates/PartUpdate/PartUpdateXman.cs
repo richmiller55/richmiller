@@ -119,70 +119,6 @@ namespace PartUpdate
                 }
             }
         }
-        public void PrudyNewPart(string line)
-        {
-            string[] split = line.Split(new Char[] { '\t' });
-            string partNum = split[(int)prudy.UPC];
-            if (partNum == "Part Number")
-            {
-                return;
-            }
-            if (partNum == "UPC Number")
-            {
-                return;
-            }
-            if (this.partObj.PartExists(partNum))
-            {
-                // throw a fit
-            }
-            else
-            {
-                Epicor.Mfg.BO.PartDataSet ds = new Epicor.Mfg.BO.PartDataSet();
-                this.partObj.GetNewPart(ds);
-                Epicor.Mfg.BO.PartDataSet.PartRow row;
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
-                row.Company = "CA";
-                row.PartNum = split[(int)prudy.UPC];
-                row.PartDescription = split[(int)prudy.style];
-                row.ShortChar03 = split[(int)prudy.flyer];
-                row.ShortChar04 = split[(int)prudy.shortChar04];
-
-                row.SearchWord = split[(int)prudy.search];
-                row.ShortChar02 = split[(int)prudy.loc];
-                string casePack = split[(int)prudy.casePack];
-                row.Number01 = Convert.ToDecimal(casePack);
-
-                string country = split[(int)prudy.country];
-                if (country.CompareTo("China") == 0)
-                {
-                    row.ISOrigCountryNum = 42;
-                }
-                else if (country.CompareTo("USA") == 0)
-                {
-                    row.ISOrigCountryNum = 1;
-                }
-
-                row.ProdCode = split[(int)prudy.subClass];
-                row.ClassID = "FG";
-                row.TypeCode = "M";  // SPECIAL FOR PRINT ITEMS
-                string unitPrice = split[(int)prudy.unitPrice];
-                row.UnitPrice = Convert.ToDecimal(unitPrice);
-                string listPrice = split[(int)prudy.Number08];
-                row.Number08 = Convert.ToDecimal(listPrice);
-                row.NonStock = true;
-                row.Character01 = split[(int)prudy.Character01];
-                row.Character02 = split[(int)prudy.Character02];
-                string message = "posted";
-                try
-                {
-                    partObj.Update(ds);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
         public void PartAddUpdate(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -208,7 +144,6 @@ namespace PartUpdate
             if (!this.partObj.PartExists(partNum))
             {
                 this.partObj.GetNewPart(l_ds);
-                
             }
             else
             {
@@ -223,8 +158,6 @@ namespace PartUpdate
             // non stock added to the list
             l_row.Company = "CA";
             l_row.ClassID = "FG";
-            l_row.NonStock = false;
-            l_row.TypeCode = "P";
             if (DoWeHaveData("style"))
             {
                 string Description = split[(int)GetEnumIndex("style")];
@@ -241,17 +174,32 @@ namespace PartUpdate
                     l_row.ProdCode = subClass;
                 }
             }
-            if (DoWeHaveData("search"))
+            if (DoWeHaveData("Search"))
             {
-                string search = split[(int)GetEnumIndex("search")];
-                if (search != "NA")
+                string search = split[(int)GetEnumIndex("Search")];
+                if (search != "")
                 {
                     l_row.SearchWord = search;
                 }
             }
-            if (DoWeHaveData("country"))
+            if (DoWeHaveData("type"))
             {
-                string country = split[(int)GetEnumIndex("country")];
+                string typePurchManuf = split[(int)GetEnumIndex("type")];
+                if (typePurchManuf.Equals("Purchased"))
+                {
+                    l_row.NonStock = false;
+                    l_row.TypeCode = "P";
+
+                }
+                else if (typePurchManuf.Equals("Manufactured"))
+                {
+                    l_row.NonStock = false;
+                    l_row.TypeCode = "M";
+                }
+            }
+            if (DoWeHaveData("Country"))
+            {
+                string country = split[(int)GetEnumIndex("Country")];
                 if (country.Equals("China"))
                 {
                     l_row.ISOrigCountryNum = 42;
@@ -260,14 +208,28 @@ namespace PartUpdate
                 {
                     l_row.ISOrigCountryNum = 176;
                 }
+                else if (country.Equals("USA"))
+                {
+                    l_row.ISOrigCountryNum = 1;
+                }
                 l_row.CountryNumDescription = country;
             }
-            if (DoWeHaveData("casePack"))
+            
+            if (DoWeHaveData("CasePack"))
             {
-                string strCasePack = split[(int)GetEnumIndex("casePack")];
+                string strCasePack = split[(int)GetEnumIndex("CasePack")];
                 if (strCasePack != "NA")
                 {
                     l_row.Number01 = Convert.ToDecimal(strCasePack);
+                }
+            }
+            if (DoWeHaveData("PurComment"))
+            {
+                string purComment = split[(int)GetEnumIndex("PurComment")];
+                if (purComment != "NA")
+                {
+                    string newStr = purComment.Replace(". ", ".\n");
+                    l_row.PurComment = newStr;
                 }
             }
             if ((DoWeHaveData("ShortChar01")))
@@ -449,7 +411,7 @@ namespace PartUpdate
             if ((DoWeHaveData("CheckBox01")))
             {
                 object CheckBox01 = split[(int)GetEnumIndex("CheckBox01")];
-                if (!CheckBox01.Equals(""))
+                if (!CheckBox01.Equals("NA"))
                 {
                     if (CheckBox01.Equals("x"))
                     {
