@@ -14,6 +14,40 @@ namespace Pack
             // CreateTable();
             UpdateTable(packs);
         }
+        public ArrayList GetDataWeekend()
+        {
+            string queryString = @" 
+             SELECT top 2000
+	        p.PackNum as PackNum,
+                p.Voided as Voided,
+                p.CustNum as CustNum,
+                p.ShipToNum as ShipToNum,
+                p.ShipViaCode as ShipViaCode,
+                p.FreightedShipViaCode as FreightedShipViaCode,
+                p.ShipDate as ShipDate
+                FROM pub.ShipHead as p
+                where
+                 p.ShipDate > TO_Date('07/04/2013')
+                order by p.ShipDate desc
+                ";
+            string Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
+            ArrayList al;
+            try
+            {
+                OdbcConnection connection = new OdbcConnection(Dsn);
+                OdbcCommand command = new OdbcCommand(queryString, connection);
+                connection.Open();
+                OdbcDataReader reader = command.ExecuteReader();
+                al = PackHash(reader);
+                reader.Close();
+            }
+            catch (System.Data.Odbc.OdbcException ex)
+            {
+                string message = ex.Message;
+                al = new ArrayList();
+            }
+            return al;
+        }
         public ArrayList GetData()
         {
             string queryString = @" 
@@ -27,7 +61,7 @@ namespace Pack
                 p.ShipDate as ShipDate
                 FROM pub.ShipHead as p
                 where
-                p.ShipDate = curdate()
+                 p.ShipDate = curdate()
                 order by p.ShipDate desc
                 ";
             string Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
@@ -75,6 +109,7 @@ namespace Pack
         }
         private void UpdateTable(ArrayList al)
         {
+            
             DateTime date3 = DateTime.Today;
             string fmt = "00";
             string yyyymmdd   = date3.Year.ToString()
@@ -83,13 +118,27 @@ namespace Pack
 
             foreach (Hashtable ht in al)
             {
+                string dateToUse = "20130716";
+                try
+                {
+                    DateTime shipDateFull = Convert.ToDateTime(ht["ShipDate"]);
+                    string yyyy = shipDateFull.Year.ToString();
+                    string mm = shipDateFull.Month.ToString();
+                    string dd = shipDateFull.Day.ToString();
+                    dateToUse = yyyy + mm + dd;
+                }
+                catch (Exception ex)
+                {
+                    string message = ex.Message;
+                }
+                
                 StringBuilder sqlUpdate = new StringBuilder();
                 sqlUpdate.AppendLine("insert into t_CurrentPacks ");
                 sqlUpdate.AppendLine("set PackNum = " + ht["PackNum"]);
                 sqlUpdate.AppendLine(",CustNum = " + ht["CustNum"]);
                 sqlUpdate.AppendLine(",ShipToNum = " + "'" + ht["ShipToNum"] + "'");
                 sqlUpdate.AppendLine(",ShipViaCode = " + "'" + ht["ShipViaCode"] + "'");
-                sqlUpdate.AppendLine(",ShipDate = " + "'" + yyyymmdd + "'");
+                sqlUpdate.AppendLine(",ShipDate = " + "'" + dateToUse + "'");
                 if (RecordNotThere(System.Convert.ToInt32(ht["PackNum"]))) ExecuteUpdate(sqlUpdate.ToString());
             }
         }
@@ -110,7 +159,7 @@ namespace Pack
                 {
                     try
                     {
-                        Console.WriteLine(" RecordNotThere Connection issue 1st catch");
+                        Console.WriteLine(" Record NotThere Connection issue 1st catch");
                         string message = e.Message;
                         Console.WriteLine(message);
                         // wait a second
