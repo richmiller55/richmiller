@@ -32,13 +32,19 @@ namespace Pack
                 ";
             string Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
             ArrayList al;
-            using (OdbcConnection connection = new OdbcConnection(Dsn))
+            try
             {
+                OdbcConnection connection = new OdbcConnection(Dsn);
                 OdbcCommand command = new OdbcCommand(queryString, connection);
                 connection.Open();
                 OdbcDataReader reader = command.ExecuteReader();
-                 al = PackHash(reader);
+                al = PackHash(reader);
                 reader.Close();
+            }
+            catch (System.Data.Odbc.OdbcException ex)
+            {
+                string message = ex.Message;
+                al = new ArrayList();
             }
             return al;
         }
