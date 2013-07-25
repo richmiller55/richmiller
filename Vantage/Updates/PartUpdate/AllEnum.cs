@@ -93,7 +93,7 @@ namespace PartUpdate
         PurComment,
         filler
     }
-    public enum catalog
+    public enum catalogNewNFLGood
     {
         UPC,
         style,
@@ -103,29 +103,30 @@ namespace PartUpdate
         subClass,
         purchType,
         type,
-        ShortChar05,
-        loc,
-        Search,
-        casePack,
-        backflush,
-        Country,
-        filler
-    }
-    public enum catalogP1
-    {
-        UPC,
-        style,
-        UserChar1,
-        ShortChar03,
-        ShortChar04,
-        subClass,
-        purchType,
-        type,
-        Country,
         ShortChar05,
         loc,
         Search,
         CasePack,
+        backflush,
+        Country,
+        filler
+    }
+    public enum catalog
+    {
+        style,
+        UPC,
+        ShortChar03,
+        ShortChar04,
+        CasePack,
+        ShortChar06,
+        CheckBox02,
+        CheckBox03,
+        CheckBox04,
+        CheckBox05,
+        Number05,
+        Number06,
+        Number07,
+        ShortChar07,
         UnitPrice,
         ListPrice,
         Character01,
