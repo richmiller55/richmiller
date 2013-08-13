@@ -10,18 +10,18 @@ namespace InventoryAdj
 {
     public enum layout
     {
-        School,
         UPC,
         partDescr,
-        adjQty,
-        reasonCode,
+        UPC_match,
+        wh,
         bin,
-        filler
+        adjQty,
+        qtyOnHand
     }
     
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/CollegiateNonQCLooseStockToInventory26Oct12.txt";
+        string file = "I:/data/updates/parts/WM_CLG_FINALADJ_073013.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
