@@ -111,7 +111,7 @@ namespace PartUpdate
         Country,
         filler
     }
-    public enum catalog
+    public enum catalogRecent
     {
         style,
         UPC,
@@ -153,7 +153,7 @@ namespace PartUpdate
 
         filler
     }
-    public enum catalogKim
+    public enum catalog
     {
         UPC,
         style,
@@ -161,11 +161,17 @@ namespace PartUpdate
         country,
         purchType,
         UnitPrice,
+        WorkOrderCost,
         type,
         loc,
         casePack,
         search,
         UserChar1,
+        NonStock,
+        BackFlush,
+        QtyBearing,
+        PrimaryWarewhouse,
+        PrimaryBin,
         filler
     }
 
