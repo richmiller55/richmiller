@@ -135,7 +135,7 @@ namespace PartUpdate
     }
 
 
-    public enum catalogPrudy
+    public enum catalog
     {
         UPC,
         style,
@@ -145,15 +145,15 @@ namespace PartUpdate
         subClass,
         purchType,
         type,
-        Country,
         ShortChar05,
         loc,
         search,
         CasePack,
-
+        BackFlush,
+        Country,
         filler
     }
-    public enum catalog
+    public enum catalogKim
     {
         UPC,
         style,
