@@ -158,6 +158,7 @@ namespace PartUpdate
             // non stock added to the list
             l_row.Company = "CA";
             l_row.ClassID = "FG";
+            
             if (DoWeHaveData("style"))
             {
                 string Description = split[(int)GetEnumIndex("style")];
@@ -182,33 +183,67 @@ namespace PartUpdate
                     l_row.SearchWord = search;
                 }
             }
+            if (DoWeHaveData("QtyBearing"))
+            {
+                string flag = split[(int)GetEnumIndex("QtyBearing")];
+                if (String.Equals(flag, "No", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.QtyBearing = false;
+                }
+            }
+            if (DoWeHaveData("NonStock"))
+            {
+                string flag = split[(int)GetEnumIndex("NonStock")];
+                if (String.Equals(flag, "Yes", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.NonStock = true;
+                }
+            }
             if (DoWeHaveData("type"))
             {
                 string typePurchManuf = split[(int)GetEnumIndex("type")];
                 if (typePurchManuf.Equals("Purchased"))
                 {
-                    l_row.NonStock = false;
                     l_row.TypeCode = "P";
 
                 }
                 else if (typePurchManuf.Equals("Manufactured"))
                 {
-                    l_row.NonStock = false;
                     l_row.TypeCode = "M";
                 }
             }
             if (DoWeHaveData("Country"))
             {
                 string country = split[(int)GetEnumIndex("Country")];
-                if (country.Equals("China"))
+                if (String.Equals(country,"China", StringComparison.OrdinalIgnoreCase))
                 {
                     l_row.ISOrigCountryNum = 42;
                 }
-                else if (country.Equals("Taiwan"))
+                else if (String.Equals(country, "Taiwan", StringComparison.OrdinalIgnoreCase))
                 {
                     l_row.ISOrigCountryNum = 176;
                 }
-                else if (country.Equals("USA"))
+                else if (String.Equals(country, "Spain", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.ISOrigCountryNum = 166;
+                }
+                else if (String.Equals(country, "Pakistan", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.ISOrigCountryNum = 140;
+                }
+                else if (String.Equals(country, "Germany", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.ISOrigCountryNum = 72;
+                }
+                else if (String.Equals(country, "Korea", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.ISOrigCountryNum = 165;
+                }
+                else if (String.Equals(country, "Italy", StringComparison.OrdinalIgnoreCase))
+                {
+                    l_row.ISOrigCountryNum = 93;
+                }
+                else if (String.Equals(country, "USA", StringComparison.OrdinalIgnoreCase))
                 {
                     l_row.ISOrigCountryNum = 1;
                 }
@@ -221,6 +256,14 @@ namespace PartUpdate
                 if (strCasePack != "NA")
                 {
                     l_row.Number01 = Convert.ToDecimal(strCasePack);
+                }
+            }
+            if (DoWeHaveData("WorkOrderCost"))
+            {
+                string strWorkOrderCost = split[(int)GetEnumIndex("WorkOrderCost")];
+                if (strWorkOrderCost != "NA")
+                {
+                    l_row.Number11 = Convert.ToDecimal(strWorkOrderCost);
                 }
             }
             if (DoWeHaveData("PurComment"))
@@ -294,6 +337,7 @@ namespace PartUpdate
                 if (ShortChar07 != "NA")
                 {
                     l_row.ShortChar07 = ShortChar07;
+                    
                 }
             }
             if ((DoWeHaveData("UnitPrice")))
@@ -579,7 +623,7 @@ namespace PartUpdate
             bool foundMatch = false;
             foreach (catalog catentry in Enum.GetValues(typeof(catalog)))
             {
-                if (key.Equals(catentry.ToString(), StringComparison.OrdinalIgnoreCase))
+                if (String.Equals(key, catentry.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
                     foundMatch = true;
                     break;
@@ -593,7 +637,7 @@ namespace PartUpdate
             int i = 0;
             foreach (catalog catentry in Enum.GetValues(typeof(catalog)))
             {
-                if (key.Equals(catentry.ToString()))
+                if (String.Equals(key, catentry.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
                     foundIndex = i;
                     break;
@@ -611,8 +655,10 @@ namespace PartUpdate
             {
                 ds = partObj.GetByID(partNum);
                 whseRow = (Epicor.Mfg.BO.PartDataSet.PartWhseRow)ds.PartWhse.Rows[0];
-                whseRow.WarehouseCode = "01";
-                whseRow.WarehouseDescription = "Hayward";
+                whseRow.WarehouseCode = "11";
+                whseRow.PrimBinNum = "1";
+                whseRow.WarehouseDescription = "Western Optical WH";
+                // whseRow.WarehouseDescription = "Hayward";
                 try
                 {
                     partObj.Update(ds);
@@ -624,8 +670,9 @@ namespace PartUpdate
                 ds = partObj.GetByID(partNum);
                 Epicor.Mfg.BO.PartDataSet.PartPlantRow prow;
                 prow = (Epicor.Mfg.BO.PartDataSet.PartPlantRow)ds.PartPlant.Rows[0];
-                prow.PrimWhse = "01";
-                prow.PrimWhseDescription = "Hayward";
+                prow.PrimWhse = "11";
+                prow.PrimWhseDescription = "Western Optical WH";
+                
                 prow.BackFlush = true;
                 try
                 {
