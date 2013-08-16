@@ -655,10 +655,10 @@ namespace PartUpdate
             {
                 ds = partObj.GetByID(partNum);
                 whseRow = (Epicor.Mfg.BO.PartDataSet.PartWhseRow)ds.PartWhse.Rows[0];
-                whseRow.WarehouseCode = "11";
-                whseRow.PrimBinNum = "1";
-                whseRow.WarehouseDescription = "Western Optical WH";
-                // whseRow.WarehouseDescription = "Hayward";
+                whseRow.WarehouseCode = "01";
+                // whseRow.PrimBinNum = "1";
+                // whseRow.WarehouseDescription = "Western Optical WH";
+                whseRow.WarehouseDescription = "Hayward";
                 try
                 {
                     partObj.Update(ds);
@@ -670,8 +670,8 @@ namespace PartUpdate
                 ds = partObj.GetByID(partNum);
                 Epicor.Mfg.BO.PartDataSet.PartPlantRow prow;
                 prow = (Epicor.Mfg.BO.PartDataSet.PartPlantRow)ds.PartPlant.Rows[0];
-                prow.PrimWhse = "11";
-                prow.PrimWhseDescription = "Western Optical WH";
+                prow.PrimWhse = "01";
+                prow.PrimWhseDescription = "Hayward";
                 
                 prow.BackFlush = true;
                 try
