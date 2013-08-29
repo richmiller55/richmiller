@@ -193,7 +193,6 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
-
         public void ChangeTerrByID(string custId, string newTerr, string salesRepNum)
         {
             string message = "OK";
@@ -279,7 +278,6 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
-
         public void ChangeTerr(int custNum, string newTerr)
         {
             string message = "OK";
@@ -319,7 +317,7 @@ namespace UpdateCustomerGeneral
                 message = e.Message;
             }
         }
-        public void setCustGrp(string custId, string newGrp)
+        public void ChangeCustGrp(string custId, string newGrp)
         {
             string message = "OK";
             bool okToUpdate = true;
@@ -348,9 +346,12 @@ namespace UpdateCustomerGeneral
                 }
             }
         }
-        public void setTerrRep(string custId, string terr,string salesRep,
-                                           bool changeT,bool changeR,bool changeLock)
-        {
+        public void setTerrRep(string custId, 
+                string terr,
+                string salesRep,
+                bool changeT,
+                bool changeR,
+                bool changeLock) {
             string message = "OK";
             try
             {

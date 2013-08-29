@@ -58,13 +58,14 @@ namespace UpdateCustomerGeneral
     }
     class UpdateTerritoryReader
     {
-        string file = "I:/data/updates/customers/terr72_09May2013.txt";
+        string file = "I:/data/updates/customers/updateGroupPECAA.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
             tr = new StreamReader(file);
             // processSimpleFile();
-            processFile();
+            // processFile();
+            custGrpUpdate();
         }
 
         void SetInvBoxFlag()
@@ -102,7 +103,7 @@ namespace UpdateCustomerGeneral
                 string CustId = split[(int)colGrp.CustId];
                 if (CustId.CompareTo("CustId") == 0) continue;
                 string NewGrp = split[(int)colGrp.CustGrp];
-                xman.setCustGrp(CustId, NewGrp);
+                xman.ChangeCustGrp(CustId, NewGrp);
             }
         }
         void processFile()

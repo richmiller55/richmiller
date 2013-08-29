@@ -33,7 +33,7 @@ namespace UpdateCustomerGeneral
                 string[] split = line.Split(new Char[] { '\t' });
                 string CustId = split[(int)colCustGroup.CustId];
                 string newGrp = split[(int)colCustGroup.newGroup];
-                xman.setCustGrp(CustId, newGrp);
+                xman.ChangeCustGrp(CustId, newGrp);
             }
         }
     }
