@@ -63,7 +63,6 @@ namespace PartUpdate
     }
     public enum catalogIRC
     {
-
         UPC,
         style,
         ShortChar05,
@@ -133,9 +132,13 @@ namespace PartUpdate
         Character02,
         filler
     }
-
-
     public enum catalog
+    {
+        UPC,
+        loc,
+        filler
+    }
+    public enum catalogGood
     {
         UPC,
         style,
@@ -174,7 +177,6 @@ namespace PartUpdate
         PrimaryBin,
         filler
     }
-
     public enum newPartEx
     {
         UPC,
@@ -195,5 +197,4 @@ namespace PartUpdate
         printOption,
         filler
     }
-
 }
