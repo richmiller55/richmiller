@@ -139,6 +139,13 @@ namespace PartUpdate
     }
     public enum catalog
     {
+        UPC,
+        style,
+        team,
+        UnitPrice
+    }
+    public enum cataloggoodalso
+    {
         style,
         UPC,
         Character04,
