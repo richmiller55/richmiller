@@ -9,7 +9,7 @@ namespace PartUpdate
 {
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/CollegiateSunUpdate083013.txt";
+        string file = "I:/data/updates/parts/Fall_2_2013_New_Styles_Part_Update.txt";
         StreamReader tr;
         public UpdateTextReader()
         {
@@ -23,7 +23,8 @@ namespace PartUpdate
             while ((line = tr.ReadLine()) != null)
             {
                 xman.PartAddUpdate(line);
-                // xman.SetAsDefaultWarehouse(line);  just for this run
+                // because it is a update
+                // xman.SetAsDefaultWarehouse(line);
             }
         }
     }
