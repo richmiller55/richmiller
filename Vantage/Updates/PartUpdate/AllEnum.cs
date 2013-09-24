@@ -110,13 +110,41 @@ namespace PartUpdate
         Country,
         filler
     }
-    public enum catalogRecent
+    public enum catalogNewLastNFL
+    {
+        UPC,
+        style,
+        UserChar1,
+        ShortChar03,
+        ShortChar04,
+        subClass,
+        purchType,
+        ShortChar05,
+        loc,
+        Search,
+        CasePack,
+        backflush,
+        Country,
+        ShortChar06,
+        UnitPrice,
+        ListPrice,
+        Character01,
+        filler
+    }
+    public enum catalogquick
+    {
+        UPC,
+        loc,
+        filler
+    }
+    public enum catalog
     {
         style,
         UPC,
+        Character04,
         ShortChar03,
         ShortChar04,
-        CasePack,
+        Number01,
         ShortChar06,
         CheckBox02,
         CheckBox03,
@@ -129,13 +157,6 @@ namespace PartUpdate
         UnitPrice,
         ListPrice,
         Character01,
-        Character02,
-        filler
-    }
-    public enum catalog
-    {
-        UPC,
-        loc,
         filler
     }
     public enum catalogGood
