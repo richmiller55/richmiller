@@ -9,9 +9,8 @@ namespace UpdateCustomerGeneral
 {
     public enum enumTransfer
     {
-        newTerr,
         custId,
-        custName,
+        newTerr,
         salesRepNum,
         filler
     }
@@ -58,14 +57,14 @@ namespace UpdateCustomerGeneral
     }
     class UpdateTerritoryReader
     {
-        string file = "I:/data/updates/customers/updateGroupPECAA.txt";
+        string file = "I:/data/updates/customers/updateTerr21Oct13.txt";
         StreamReader tr;
         public UpdateTerritoryReader()
         {
             tr = new StreamReader(file);
             // processSimpleFile();
-            // processFile();
-            custGrpUpdate();
+            processFile();
+            // custGrpUpdate();
         }
 
         void SetInvBoxFlag()
