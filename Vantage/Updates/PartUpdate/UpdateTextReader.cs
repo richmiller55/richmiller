@@ -9,11 +9,12 @@ namespace PartUpdate
 {
     class UpdateTextReader
     {
-        string file = "I:/data/updates/parts/NFL_Sunglass_Part_List23Sep13.txt";
+        string fName = "EndYearSaleProductPriceChangeUpload112613.txt";
+        string filedir = "I:/data/updates/parts/";
         StreamReader tr;
         public UpdateTextReader()
         {
-            tr = new StreamReader(file);
+            tr = new StreamReader(filedir + fName);
             processFile();
         }
         void processFile()

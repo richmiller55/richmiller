@@ -139,10 +139,10 @@ namespace PartUpdate
     }
     public enum catalog
     {
-        UPC,
         style,
-        team,
-        UnitPrice
+        UPC,
+        UnitPrice,
+        filler
     }
     public enum cataloggoodalso
     {
