@@ -49,6 +49,7 @@ sub main {
     Extract::Coinet::InvcHead->new();
     Extract::Coinet::InvcHeadEx->new();
     Extract::Coinet::InvcDtl->new();
+    Extract::Coinet::InvcTax->new();
     Extract::Coinet::InvcMisc->new();
     Extract::Coinet::PartBin->new();
     Extract::Coinet::Part->new();
@@ -60,8 +61,6 @@ sub main {
     Extract::Coinet::CustGrup->new();
     Extract::Coinet::CustBillTo->new();
     Extract::Coinet::SalesCat->new();
-    Extract::Coinet::ShipHead->new();
-    Extract::Coinet::ShipDtl->new();
     Extract::Coinet::PartWhse->new();
     Extract::Coinet::PORel->new();
     Extract::Coinet::ContainerHeader->new();
@@ -70,7 +69,6 @@ sub main {
     Extract::Coinet::POHeader->new();
     Extract::Coinet::Vendor->new();
     Extract::Coinet::ShipTo->new();
-    Extract::Coinet::InvcTax->new();
     Extract::Coinet::SalesTer->new();
     Extract::Coinet::SalesRep->new();
     Extract::Coinet::Region->new();    
@@ -84,4 +82,7 @@ sub main {
     Extract::Coinet::ShipVia->new();            
     Extract::Coinet::Terms->new();            
     Extract::Coinet::UD01->new();            
+    Extract::Coinet::ShipHead->new();
+    Extract::Coinet::ShipDtl->new();
+
 }

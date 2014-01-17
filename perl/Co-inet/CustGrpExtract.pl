@@ -43,7 +43,7 @@ main();
 
 sub main {
 #    Extract::Coinet::SalesDetail->new();
-    Extract::Coinet::Customer->new();
+#    Extract::Coinet::Customer->new();
 
 #    Extract::Coinet::InvcHead->new();
 #    Extract::Coinet::InvcHeadEx->new();
@@ -68,8 +68,8 @@ sub main {
 #    Extract::Coinet::POHeader->new();
 #    Extract::Coinet::ShipTo->new();
 #    Extract::Coinet::InvcTax->new();
-    Extract::Coinet::SalesTer->new();
-    Extract::Coinet::SalesRep->new();
+#    Extract::Coinet::SalesTer->new();
+#    Extract::Coinet::SalesRep->new();
 #    Extract::Coinet::Region->new();    
 #    Extract::Coinet::CustXPrt->new();            
 #    Extract::Coinet::PartCost->new();
