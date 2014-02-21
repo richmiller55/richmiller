@@ -50,7 +50,7 @@ sub main {
 #    Extract::Coinet::PartBin->new();
 #    Extract::Coinet::Part->new();
 
-#    Extract::Coinet::OrderHed->new();
+    Extract::Coinet::OrderHed->new();
     Extract::Coinet::OrderDtl->new();
 #    Extract::Coinet::ProdGrup->new();
 #    Extract::Coinet::CustGrup->new();
