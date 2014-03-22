@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace iCost
+namespace whseBins
 {
     class Program
     {
         static void Main(string[] args)
         {
-            CostMgr mgr = new CostMgr();
+          AddBins mgr = new AddBins();
         }
     }
 }
