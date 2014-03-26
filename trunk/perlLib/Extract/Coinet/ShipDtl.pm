@@ -38,6 +38,7 @@ sub sql {
       sd.ChangedBy as ChangedBy,            -- char 20
       sd.ChangeDate as ChangeDate          -- int
      FROM  pub.ShipDtl as sd
+     where sd.PackNum > 410231
    /;
     return $sql;
 }

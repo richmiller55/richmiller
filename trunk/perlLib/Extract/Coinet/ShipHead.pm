@@ -38,6 +38,7 @@ sub sql {
       sh.ShipViaCode   as ShipViaCode,
       1 as filler
      FROM  pub.ShipHead as sh
+     where sh.PackNum > 410231
    /;
     return $sql;
 }
