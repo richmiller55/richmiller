@@ -29,19 +29,26 @@ namespace NewBins
         public void AddNewBin(string whseBinNum)
         {
             string warehouseCode = "01";
-            bool okToCreateNew = true;
-           
-            Epicor.Mfg.BO.WhseBinDataSet whseBinDs = 
-                whseBin.GetByID(warehouseCode, whseBinNum);
-            whseBinDs = new Epicor.Mfg.BO.WhseBinDataSet();
-            whseBin.GetNewWhseBin(whseBinDs, warehouseCode);
-            Epicor.Mfg.BO.WhseBinDataSet.WhseBinRow whseBinRow
-                = (Epicor.Mfg.BO.WhseBinDataSet.WhseBinRow)whseBinDs.WhseBin.Rows[0];
-
-            whseBinRow.BinNum = whseBinNum;
-            whseBinRow.Description = whseBinNum;
+            bool okToCreateNew = false;
+            Epicor.Mfg.BO.WhseBinDataSet whseBinDs;
+            try
+            {
+                whseBinDs = whseBin.GetByID(warehouseCode, whseBinNum);
+            }
+            catch (Exception e)
+            {
+                okToCreateNew = true;
+            }
             if (okToCreateNew)
             {
+                whseBinDs = new Epicor.Mfg.BO.WhseBinDataSet();
+                whseBin.GetNewWhseBin(whseBinDs, warehouseCode);
+                Epicor.Mfg.BO.WhseBinDataSet.WhseBinRow whseBinRow
+                = (Epicor.Mfg.BO.WhseBinDataSet.WhseBinRow)whseBinDs.WhseBin.Rows[0];
+
+                whseBinRow.BinNum = whseBinNum;
+                whseBinRow.Description = whseBinNum;
+            
                 try
                 {
                     whseBin.Update(whseBinDs);
