@@ -2,141 +2,53 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace whseBins
+namespace NewBins
 {
     public class AddBins
     {
         Epicor.Mfg.Core.Session objSess;
-        Epicor.Mfg.BO.Customer customerObj;
-        Epicor.Mfg.BO.CustomerDataSet custDs;
+        Epicor.Mfg.BO.WhseBin whseBin;
+        
         public AddBins()
         {
             this.objSess = new Epicor.Mfg.Core.Session(
-            "rich", "homefed55", "AppServerDC://VantageDB1:8301",
+            "rich", "homefed55", "AppServerDC://VantageDB1:8321",
             Epicor.Mfg.Core.Session.LicenseType.Default);
-            customerObj = new Epicor.Mfg.BO.Customer(objSess.ConnectionPool);
+            this.whseBin = new Epicor.Mfg.BO.WhseBin(objSess.ConnectionPool);
         }
-        public void setGlobalIncFlag(string custId)
+        public void AddNewBin_AB(string line)
         {
-            string message = "OK";
-            bool okToUpdate = true;
-            try
-            {
-                custDs = customerObj.GetByCustID(custId);
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-                message = "NoGo";
-                okToUpdate = false;
-            }
-            if (okToUpdate)
-            {
-                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
-                custRow.GlobalCredIncOrd = false;
-                // custRow.CreditHold = false;
-                try
-                {
-                    customerObj.Update(custDs);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
+            string[] split = line.Split(new Char[] { '\t' });
+            string whseBinNumBase = split[0];
+            string whseBinNum_a = whseBinNumBase + "A";
+            this.AddNewBin(whseBinNum_a);
+            string whseBinNum_b = whseBinNumBase + "B";
+            this.AddNewBin(whseBinNum_b);
+            
         }
-        public void setData(int custNum)
+        public void AddNewBin(string whseBinNum)
         {
-            string message = "OK";
-            custDs = customerObj.GetByID(custNum);
-            Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = 
-                (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
-            custRow.PrintStatements = true;
-            string currentVia = custRow.ShipViaCode;
-            int result = currentVia.CompareTo("");
-            if (result == 0)
-            {
-                custRow.ShipViaCode = "FGRB";
-            }
-            try
-            {
-                customerObj.Update(custDs);
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-            }
-        }
-        public void ChangeCustGrp(string custId, string newGrp)
-        {
-            string message = "OK";
-            bool okToUpdate = true;
-            try
-            {
-                custDs = customerObj.GetByCustID(custId);
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-                message = "NoGo";
-                okToUpdate = false;
-            }
-            if (okToUpdate)
-            {
-                Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = 
-                    (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
-                custRow.GroupCode = newGrp;
-                try
-                {
-                    customerObj.Update(custDs);
-                }
-                catch (Exception e)
-                {
-                    message = e.Message;
-                }
-            }
-        }
-        public void setTerrRep(string custId, 
-                string terr,
-                string salesRep,
-                bool changeT,
-                bool changeR,
-                bool changeLock) {
-            string message = "OK";
-            try
-            {
-                custDs = customerObj.GetByCustID(custId);
-            }
-            catch (Exception e)
-            {
-                message = e.Message;
-            }
-            Epicor.Mfg.BO.CustomerDataSet.CustomerRow custRow = (Epicor.Mfg.BO.CustomerDataSet.CustomerRow)custDs.Customer.Rows[0];
-            bool dirty = false;
-            if (changeT)
-            {
-                custRow.TerritoryID = terr;
-                dirty = true;
-            }
-            if (changeR)
-            {
-                custRow.SalesRepCode = salesRep;
-                dirty = true;
-            }
-            if (changeLock)
-            {
-                custRow.TerritoryLock = true;
-                dirty = true;
-            }
-            if (dirty)
+            string warehouseCode = "01";
+            bool okToCreateNew = true;
+           
+            Epicor.Mfg.BO.WhseBinDataSet whseBinDs = 
+                whseBin.GetByID(warehouseCode, whseBinNum);
+            whseBinDs = new Epicor.Mfg.BO.WhseBinDataSet();
+            whseBin.GetNewWhseBin(whseBinDs, warehouseCode);
+            Epicor.Mfg.BO.WhseBinDataSet.WhseBinRow whseBinRow
+                = (Epicor.Mfg.BO.WhseBinDataSet.WhseBinRow)whseBinDs.WhseBin.Rows[0];
+
+            whseBinRow.BinNum = whseBinNum;
+            whseBinRow.Description = whseBinNum;
+            if (okToCreateNew)
             {
                 try
                 {
-                    customerObj.Update(custDs);
+                    whseBin.Update(whseBinDs);
                 }
                 catch (Exception e)
                 {
-                    message = e.Message;
+                    string message = e.Message;
                 }
             }
         }

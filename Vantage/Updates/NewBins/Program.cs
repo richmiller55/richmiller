@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace whseBins
+namespace NewBins
 {
     class Program
     {
         static void Main(string[] args)
         {
-          AddBins mgr = new AddBins();
+          TextReader reader = new TextReader();
         }
     }
 }
