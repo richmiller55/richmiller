@@ -12,7 +12,7 @@ namespace NewBins
         public AddBins()
         {
             this.objSess = new Epicor.Mfg.Core.Session(
-            "rich", "homefed55", "AppServerDC://VantageDB1:8321",
+            "rich", "homefed55", "AppServerDC://VantageDB1:8301",
             Epicor.Mfg.Core.Session.LicenseType.Default);
             this.whseBin = new Epicor.Mfg.BO.WhseBin(objSess.ConnectionPool);
         }
@@ -24,7 +24,6 @@ namespace NewBins
             this.AddNewBin(whseBinNum_a);
             string whseBinNum_b = whseBinNumBase + "B";
             this.AddNewBin(whseBinNum_b);
-            
         }
         public void AddNewBin(string whseBinNum)
         {
