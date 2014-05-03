@@ -26,7 +26,9 @@ sub sql {
       p.PackSlip as PackSlip, -- x20
       p.Volume as Volume, -- decimal
       p.VendorNum as VendorNum, -- int
-      p.OurUnitCost as OurUnitCost  -- decimal
+      p.OurUnitCost as OurUnitCost,  -- decimal
+      p.LCAmt as LCAmt
+
      FROM  pub.ContainerDetail as p
    /;
     return $sql;
@@ -53,7 +55,8 @@ sub printData {
                   $row{PACKSLIP}       . "\t" . 
                   $row{VOLUME}         . "\t" .
                   $row{VENDORNUM}      . "\t" . 
-                  $row{OURUNITCOST}    . "\n";
+                  $row{OURUNITCOST}    . "\t" .
+                  $row{LCAMT}    . "\n";
 
     }
     close OUT;
