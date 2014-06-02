@@ -44,6 +44,10 @@ sub sql {
       p.CheckBox05 as coordinatingCase, -- smallint
       p.Character01 as character01,
       p.Character02 as character02,
+      p.Character03 as character03,
+      p.Character04 as character04,
+      p.Character05 as character05,
+      p.Character06 as character06,
       p.Number05 as frameDim,
       p.Number06 as bridgeDim,
       p.Number07 as templeDim,
@@ -103,6 +107,10 @@ sub printData {
                   $row{COORDINATINGCASE} . "\t" . 
                   $row{CHARACTER01} . "\t" . 
                   $row{CHARACTER02} . "\t" . 
+                  $row{CHARACTER03} . "\t" . 
+                  $row{CHARACTER04} . "\t" . 
+                  $row{CHARACTER05} . "\t" . 
+                  $row{CHARACTER06} . "\t" . 
                   $row{FRAMEDIM} . "\t" . 
                   $row{BRIDGEDIM} . "\t" . 
                   $row{TEMPLEDIM} . "\t" . 
