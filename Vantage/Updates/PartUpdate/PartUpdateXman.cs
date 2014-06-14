@@ -128,7 +128,11 @@ namespace PartUpdate
             {
                 return;
             }
-            if (partNum == "PartNum")
+            if (String.Equals( partNum, "PartNum",StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+            if (String.Equals(partNum, "PartNum", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -136,10 +140,7 @@ namespace PartUpdate
             {
                 return;
             }
-            if (partNum == "UPC")
-            {
-                return;
-            }
+            if (partNum == "UPC") { return; }
             Epicor.Mfg.BO.PartDataSet l_ds = new Epicor.Mfg.BO.PartDataSet();
             if (!this.partObj.PartExists(partNum))
             {
@@ -173,6 +174,14 @@ namespace PartUpdate
                 if (subClass != "NA")
                 {
                     l_row.ProdCode = subClass;
+                }
+            }
+            if (DoWeHaveData("pm_type"))
+            {
+                string pm_type = split[(int)GetEnumIndex("pm_type")];
+                if (pm_type == "Purchased")
+                {
+                    l_row.TypeCode =  "P";            
                 }
             }
             if (DoWeHaveData("Search"))
@@ -271,7 +280,8 @@ namespace PartUpdate
                 string purComment = split[(int)GetEnumIndex("PurComment")];
                 if (purComment != "NA")
                 {
-                    string newStr = purComment.Replace(". ", ".\n");
+                    string newStr = purComment.Replace("; ", ".\n");
+                    // string newStr = purComment.Replace(". ", ".\n");
                     l_row.PurComment = newStr;
                 }
             }
@@ -337,7 +347,14 @@ namespace PartUpdate
                 if (ShortChar07 != "NA")
                 {
                     l_row.ShortChar07 = ShortChar07;
-                    
+                }
+            }
+            if ((DoWeHaveData("ShortChar08")))
+            {
+                string ShortChar08 = split[(int)GetEnumIndex("ShortChar08")];
+                if (ShortChar08 != "NA")
+                {
+                    l_row.ShortChar08 = ShortChar08;
                 }
             }
             if ((DoWeHaveData("UnitPrice")))
@@ -608,6 +625,18 @@ namespace PartUpdate
                 string Character04 = split[(int)GetEnumIndex("Character04")];
                 if (!Character04.Equals(""))
                     l_row.Character04 = Character04;
+            }
+            if ((DoWeHaveData("Character05")))
+            {
+                string Character05 = split[(int)GetEnumIndex("Character05")];
+                if (!Character05.Equals(""))
+                    l_row.Character05 = Character05;
+            }
+            if ((DoWeHaveData("Character06")))
+            {
+                string Character06 = split[(int)GetEnumIndex("Character06")];
+                if (!Character06.Equals(""))
+                    l_row.Character06 = Character06;
             }
             try
             {

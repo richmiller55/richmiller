@@ -79,17 +79,25 @@ namespace PartUpdate
         colors,
         filler
     }
-
     public enum makeManu
     {
         UPC,
-        style
+        ShortChar08,
+        filler
     }
-    public enum catalogpucomment
+
+    public enum catalogupdateprogram
+    {
+        UPC,
+        ShortChar08,
+        filler
+    }
+    public enum catalogUpdate
     {
         UPC,
         style,
-        PurComment,
+        Character05,
+        Character06,
         filler
     }
     public enum catalogNewNFLGood
@@ -110,38 +118,53 @@ namespace PartUpdate
         Country,
         filler
     }
-    public enum catalogNewLastNFL
-    {
-        UPC,
-        style,
-        UserChar1,
-        ShortChar03,
-        ShortChar04,
-        subClass,
-        purchType,
-        ShortChar05,
-        loc,
-        Search,
-        CasePack,
-        backflush,
-        Country,
-        ShortChar06,
-        UnitPrice,
-        ListPrice,
-        Character01,
-        filler
-    }
-    public enum catalogquick
-    {
-        UPC,
-        loc,
-        filler
-    }
+    /* mlb */
     public enum catalog
     {
         style,
         UPC,
+        Character04,
+        ShortChar03,
+        subClass,
+        purchType,
+        type,
+        ShortChar05,
+        loc,
+        ShortChar08,
+        Search,
+        CasePack,
+        backflush,
+        Country,
+        filler
+    }
+    public enum catalogno
+    {
+        
+        UPC,
+        style,
+        UserChar1,
+        subClass,
+        purchType,
+        type,
+        ShortChar05,
+        loc,
+        search,
+        CasePack,
+        backflush,
+        Country,
+        filler
+    }
+    public enum catalognatgeo
+    {
+        style,
+        UPC,
+        ShortChar03,
+        ShortChar04,
+        Number01,
+        Character01,
         UnitPrice,
+        Number08,
+        Character02,
         filler
     }
     public enum cataloggoodalso
@@ -166,22 +189,32 @@ namespace PartUpdate
         Character01,
         filler
     }
-    public enum catalogGood
+    public enum catalogupdateprice
     {
         UPC,
         style,
+        UnitPrice,
+        ListPrice,
+    }
+
+    public enum catalogpfw
+    {
+        style,
+        UPC,
         UserChar1,
-        ShortChar03,
-        ShortChar04,
+        CasePack,
+        backflush,
+        Country,
         subClass,
         purchType,
         type,
-        ShortChar05,
+        ShortChar06,
         loc,
-        search,
-        CasePack,
-        BackFlush,
-        Country,
+        ShortChar03,
+        ShortChar04,
+        UnitPrice,
+        ListPrice,
+        Character01,
         filler
     }
     public enum catalogKim
