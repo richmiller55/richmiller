@@ -12,7 +12,7 @@ namespace costUpdate
         static void Main()
         {
             // main version
-
+            UpdateTextReader reader = new UpdateTextReader();
         }
     }
 }
