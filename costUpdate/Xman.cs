@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace costUpdate
 {
-
     public class CostDetail
     {
         string partNum;
@@ -19,8 +18,6 @@ namespace costUpdate
         {
             partNum = upc;
             poCost = 0m;
-
-
         }
         public string PartNum
         {
@@ -45,6 +42,7 @@ namespace costUpdate
         Epicor.Mfg.BO.CostAdjustment costAdjustment;
 
         //   pilot 8331
+        //   test 8321  verify
         //   sys 8301
         public CostXman()
         {
