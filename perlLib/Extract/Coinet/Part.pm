@@ -59,6 +59,9 @@ sub sql {
       p.Number14 as lastPOCost,	
       p.ShortChar05 as OrderingType,
       p.ShortChar06 as PrintOptions,
+      p.ShortChar07 as gender,
+      p.ShortChar08 as programLoc,
+
       p.ClassID     as ClassID,
       p.CheckBox08 as DirectShip,         -- smallint
       p.SellingFactor as SellingFactor,
@@ -122,6 +125,8 @@ sub printData {
                   $row{LASTPOCOST} . "\t" . 
                   $row{ORDERINGTYPE} . "\t" . 
                   $row{PRINTOPTIONS} . "\t" . 
+                  $row{GENDER} . "\t" . 
+                  $row{PROGRAMLOC} . "\t" . 
                   $row{CLASSID}      . "\t" . 
                   $row{DIRECTSHIP}      . "\t" . 
                   $row{SELLINGFACTOR}   . "\t" . 

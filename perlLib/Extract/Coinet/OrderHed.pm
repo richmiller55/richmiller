@@ -43,6 +43,7 @@ sub sql {
       oh.CheckBox07 as offShore,        -- int
       oh.CheckBox03 as freightFree        -- int
      FROM  pub.OrderHed as oh
+
    /;
     return $sql;
 }
