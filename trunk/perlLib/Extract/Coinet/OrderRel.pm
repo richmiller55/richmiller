@@ -22,6 +22,11 @@ sub sql {
       r.OrderLine as OrderLine, -- integer
       r.OrderRelNum as OrderRelNum, 
       r.OpenRelease as OpenRelease,
+      r.FirmRelease as FirmRelease,
+      r.VoidRelease as VoidRelease,
+      r.RevisionNum as RevisionNum,
+      r.NeedByDate as NeedByDate,
+      r.MarkForNum as MarkForNum,
       r.WarehouseCode as WarehouseCode,
       r.OurJobShippedQty as OurJobShippedQty,
       r.SellingStockQty as SellingStockQty,
@@ -49,8 +54,13 @@ sub printData {
                   $row{ORDERNUM}         . "\t" . 
                   $row{ORDERLINE}        . "\t" . 
 		  $row{ORDERRELNUM}      . "\t" . 
-                  $row{WAREHOUSECODE}    . "\t" .
                   $row{OPENRELEASE}      . "\t" .
+                  $row{FIRMRELEASE}      . "\t" .
+                  $row{VOIDRELEASE}      . "\t" .
+                  $row{REVISIONNUM}      . "\t" .
+                  $row{NEEDBYDATE}      . "\t" .
+                  $row{MARKFORNUM}      . "\t" .
+                  $row{WAREHOUSECODE}    . "\t" .
                   $row{OURJOBSHIPPEDQTY} . "\t" .
                   $row{SELLINGSTOCKQTY}  . "\t" .
                   $row{SELLINGJOBQTY}    . "\t" .
