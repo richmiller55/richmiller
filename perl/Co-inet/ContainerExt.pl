@@ -10,7 +10,7 @@ main();
 
 sub main {
 #    Extract::Coinet::PORel->new();
-#    Extract::Coinet::ContainerHeader->new();
+    Extract::Coinet::ContainerHeader->new();
     Extract::Coinet::ContainerDetail->new();
 #    Extract::Coinet::PODetail->new();
 #    Extract::Coinet::POHeader->new();
