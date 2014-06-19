@@ -49,6 +49,12 @@ sub printData {
 	$i++;
 	my %row = $db->DataHash();
 
+	my $NeedByDate = $row{NEEDBYDATE};
+	$NeedByDate =~ s/-//g;
+
+	my $RequestDate = $row{REQDATE};
+	$RequestDate =~ s/-//g;
+
 	print OUT  $i . "\t" .
                   $row{COMPANY}          . "\t" . 
                   $row{ORDERNUM}         . "\t" . 
@@ -58,7 +64,8 @@ sub printData {
                   $row{FIRMRELEASE}      . "\t" .
                   $row{VOIDRELEASE}      . "\t" .
                   $row{REVISIONNUM}      . "\t" .
-                  $row{NEEDBYDATE}      . "\t" .
+		  $NeedByDate        . "\t" .
+		  $RequestDate       . "\t" .
                   $row{MARKFORNUM}      . "\t" .
                   $row{WAREHOUSECODE}    . "\t" .
                   $row{OURJOBSHIPPEDQTY} . "\t" .
