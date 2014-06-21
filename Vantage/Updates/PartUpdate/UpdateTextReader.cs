@@ -9,7 +9,7 @@ namespace PartUpdate
 {
     class UpdateTextReader
     {
-        string fName = "Walmart_BTS_2014_Part_Upload.txt";
+        string fName = "Inactive_Part_Update_062014.txt";
         string filedir = "I:/data/updates/parts/";
         StreamReader tr;
         public UpdateTextReader()
@@ -23,8 +23,11 @@ namespace PartUpdate
             PartUpdateXman xman = new PartUpdateXman();
             while ((line = tr.ReadLine()) != null)
             {
+                /*
                 xman.PartAddUpdate(line);
-                // xman.SetAsDefaultWarehouse(line);
+                xman.SetAsDefaultWarehouse(line);
+                 * */
+                xman.MakeInactive(line);
             }
         }
     }

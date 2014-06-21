@@ -119,6 +119,34 @@ namespace PartUpdate
                 }
             }
         }
+        public void MakeInactive(string line)
+        {
+            string[] split = line.Split(new Char[] { '\t' });
+            string partNum = split[(int)catalog.UPC];
+            Epicor.Mfg.BO.PartDataSet l_ds = new Epicor.Mfg.BO.PartDataSet();
+            if (!this.partObj.PartExists(partNum))
+            {
+                // do nothing
+               
+            }
+            else
+            {
+                l_ds = partObj.GetByID(partNum);
+            }
+            Epicor.Mfg.BO.PartDataSet.PartRow l_row;
+            l_row = (Epicor.Mfg.BO.PartDataSet.PartRow)l_ds.Part.Rows[0];
+            l_row.PartNum = partNum;
+            l_row.InActive = true;
+            try
+            {
+                this.partObj.Update(l_ds);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+
+        }
         public void PartAddUpdate(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });

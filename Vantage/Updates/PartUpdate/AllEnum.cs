@@ -22,7 +22,7 @@ namespace PartUpdate
         unitPrice,
         filler
     }
-    public enum price
+    public enum catalog
     {
         style,
         UPC,
@@ -119,7 +119,7 @@ namespace PartUpdate
         filler
     }
     /* mlb */
-    public enum catalog
+    public enum catalognot
     {
         style,
         UPC,
