@@ -10,28 +10,34 @@ namespace costUpdate
     public enum rowLayout
     {
         UPC,
-        partDescription,
         cost,
         filler
     }
     class UpdateTextReader
     {
-        string fName = "feedCostUpdate15Jun14.txt";
+        string fName = "stdCostUpdate.txt";
         string filedir = "I:/data/updates/costs/";
         StreamReader tr;
         public UpdateTextReader()
         {
-            tr = new StreamReader(filedir + fName);
-            processFile();
+            this.tr = new StreamReader(filedir + fName);
+            
         }
-        void processFile()
+        void ProcessFile()
         {
-            string line = "";
-            CostXman xman = new CostXman();
-            while ((line = tr.ReadLine()) != null)
+            while ((line = this.tr.ReadLine()) != null)
             {
-                string[] split = line.Split(new Char[] { '\t' });
+
+                AddStdCost(line);
+                SetPartToStandardCost(line);
+            }
+        }
+        void AddStdCost(string line)
+        {
+                    string[] split = line.Split(new Char[] { '\t' });
                 string partNum = split[(int)rowLayout.UPC];
+                string newStdCostStr = split[(int)rowLayout.cost];
+            CostXman xman = new CostXman();
 
                 CostDetail detail = new CostDetail(partNum);
                 string sCost = split[(int)rowLayout.cost];
