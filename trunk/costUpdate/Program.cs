@@ -13,6 +13,7 @@ namespace costUpdate
         {
             // main version
             UpdateTextReader reader = new UpdateTextReader();
+            
         }
     }
 }
