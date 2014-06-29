@@ -22,7 +22,6 @@ namespace costUpdate
         {
             this.tr = new StreamReader(filedir + fName);
             ProcessFile();
-
         }
         void ProcessFile()
         {
@@ -31,7 +30,11 @@ namespace costUpdate
             while ((line = this.tr.ReadLine()) != null)
             {
                 // xman.updateStdCost(line);
-                xman.updateCostMethod(line);
+                string[] split = line.Split(new Char[] { '\t' });
+                string partNum = split[(int)rowLayout.UPC];
+                PartBinRecord partBin = xman.GetOnHandForPart(partNum);
+
+                // xman.updateCostMethod(line);
             }
         }
     }
