@@ -7,48 +7,52 @@ using Epicor.Mfg.BO;
 
 namespace costUpdate
 {
-    public class Part
+    public class PartBinRecord
     {
         string partNum;
         decimal onHandQty;
         Hashtable ht;
-        public Part(string PartNum)
+        public PartBinRecord(string partNumin)
         {
-            {this.partNum = PartNum};
+            this.partNum = partNumin;
+            this.ht = new Hashtable(5);
         }
-        public void AddRow(string binNum, decimal onHandQty)
+        public void AddBinLocationRow(string binNum, decimal onHandQty)
         {
             ht.Add(binNum, onHandQty);
         }
-    }
-    public class CostDetail
-    {
-        string partNum;
-        decimal poCost;
-        // decimal freightCost;
-        // decimal burden;
-        // decimal customsCost;
-        // decimal royalty;
-        decimal cost;
-        public CostDetail(string upc)
+        public Hashtable BinHash
         {
-            partNum = upc;
-            poCost = 0m;
+            get
+            {
+                return ht;
+            }
+            set
+            {
+                ht = value;
+            }
         }
         public string PartNum
         {
-            get { return partNum; }
-            set { partNum = value; }
+            get
+            {
+                return partNum;
+            }
+            set
+            {
+                partNum = value;
+            }
         }
-        public decimal Cost
+        public decimal OnHandQty
         {
-            get { return cost; }
-            set { cost = value; }
-        }
-        public decimal POCost
-        {
-            get { return poCost; }
-            set { poCost = value; }
+            get
+            {
+                return onHandQty;
+            }
+            set
+            {
+                onHandQty = value;
+            }
         }
     }
     public class CostXman
@@ -66,27 +70,60 @@ namespace costUpdate
         {
             this.objSess = new Epicor.Mfg.Core.Session("rich", "homefed55",
                 "AppServerDC://VantageDB1:8321", Epicor.Mfg.Core.Session.LicenseType.Default);
-            this.costAdjustment = new Epicor.Mfg.BO.CostAdjustment(objSess.ConnectionPool);
-            this.partObj = new Epicor.Mfg.BO.Part(objSess.ConnectionPool);
+            this.costAdjustment = new CostAdjustment(objSess.ConnectionPool);
+            this.partObj = new Part(objSess.ConnectionPool);
+            this.invAdjustObj = new InventoryQtyAdj(objSess.ConnectionPool);
+
         }
-        public BinOnHand GetBinOnHandFromRow(InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row)
+        public void WriteAllBins(bool WriteOff, PartBinRecord partBinRecord)
         {
-            return new BinOnHand(row.BinNum, row.OnHandQty);
+            ICollection keyColl = partBinRecord.BinHash.Keys;
+            string whNum = "01";
+            foreach (string binNum in keyColl)
+            {
+                decimal qtyOnHand = (decimal)partBinRecord.BinHash[binNum];
+                if (WriteOff)
+                AdjustBinInventory(whNum, partBinRecord.PartNum, binNum, qtyOnHand);
+            }
         }
-        public void GetOnHandForPart(string partNum)
+
+        void AdjustBinInventory(string whNum, string partNum, string binNum, decimal adjQty)
         {
+            string kitMessage = "";
+            invAdjustObj.KitPartStatus(partNum, out kitMessage);
+            string negAction = "";
+            string pcMessage = "";
+            invAdjustObj.NegativeInventoryTest(partNum, whNum, binNum, "", "", 0m, adjQty, out negAction, out pcMessage);
+                
+            bool requiresUserInput = false;
+            InventoryQtyAdjDataSet ds = invAdjustObj.GetInventoryQtyAdj(partNum);
+
+            invAdjustObj.PreSetInventoryQtyAdj(ds, out requiresUserInput);
+            InventoryQtyAdjDataSet.InventoryQtyAdjRow row = (InventoryQtyAdjDataSet.InventoryQtyAdjRow)ds.InventoryQtyAdj.Rows[0];
+            row.AdjustQuantity = adjQty;
+            row.BinNum = binNum;
+            row.WareHseCode = whNum;
+            invAdjustObj.SetInventoryQtyAdj(ds);
+        }
+        public PartBinRecord GetOnHandForPart(string partNum)
+        {
+            PartBinRecord partBinRecord = new PartBinRecord(partNum);
             if (this.partObj.PartExists(partNum))
             {
                 Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet ds;
                 string primarybin = "";
+                
                 ds = this.invAdjustObj.GetInventoryQtyAdjBrw(partNum, "01", out primarybin);
-                Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row =
-                    (Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow)ds.InventoryQtyAdjBrw.Rows[0];
-                // Epicor.Mfg.BO.PartDataSet ds = this.partObj.GetByID(partNum);
-                // Epicor.Mfg.BO.PartDataSet.PartRow row;
-                // row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                for (int i = 0; i < ds.InventoryQtyAdjBrw.Rows.Count; i++)
+                {
+                    Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row =
+                        (Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow)ds.InventoryQtyAdjBrw.Rows[i];
+                    partBinRecord.AddBinLocationRow(row.BinNum, row.OnHandQty);
+                }
             }
+            return partBinRecord;
         }
+        
         public void updateCostMethod(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -150,7 +187,6 @@ namespace costUpdate
                 UpdateCost(detail);
             }
         }
-
         public void UpdateCost(CostDetail cost)
         {
             Boolean requiresUserInput;
