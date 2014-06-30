@@ -32,9 +32,14 @@ namespace costUpdate
                 // xman.updateStdCost(line);
                 string[] split = line.Split(new Char[] { '\t' });
                 string partNum = split[(int)rowLayout.UPC];
+                if (xman.IsPartInactive(partNum)) continue;
                 PartBinRecord partBin = xman.GetOnHandForPart(partNum);
-
-                // xman.updateCostMethod(line);
+                bool writeOff = true;
+                xman.WriteAllBins(writeOff, partBin);
+                xman.updateCostMethod(line);
+                xman.updateStdCost(line);
+                writeOff = false;
+                xman.WriteAllBins(writeOff, partBin);
             }
         }
     }
