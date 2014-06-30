@@ -73,8 +73,19 @@ namespace costUpdate
             this.costAdjustment = new CostAdjustment(objSess.ConnectionPool);
             this.partObj = new Part(objSess.ConnectionPool);
             this.invAdjustObj = new InventoryQtyAdj(objSess.ConnectionPool);
-
         }
+        public bool IsPartInactive(string partNum)
+        {
+            PartDataSet ds = this.partObj.GetByID(partNum);
+            PartDataSet.PartRow row = (PartDataSet.PartRow)ds.Part.Rows[0];
+            if (row.InActive == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
         public void WriteAllBins(bool WriteOff, PartBinRecord partBinRecord)
         {
             ICollection keyColl = partBinRecord.BinHash.Keys;
@@ -82,12 +93,13 @@ namespace costUpdate
             foreach (string binNum in keyColl)
             {
                 decimal qtyOnHand = (decimal)partBinRecord.BinHash[binNum];
-                if (WriteOff)
-                AdjustBinInventory(whNum, partBinRecord.PartNum, binNum, qtyOnHand);
+                if (WriteOff) qtyOnHand = qtyOnHand * -1;
+                string reasonCode = (WriteOff) ? "TWOFF" : "TWON";
+                AdjustBinInventory(whNum, partBinRecord.PartNum, binNum, qtyOnHand,reasonCode);
             }
         }
 
-        void AdjustBinInventory(string whNum, string partNum, string binNum, decimal adjQty)
+        void AdjustBinInventory(string whNum, string partNum, string binNum, decimal adjQty, string reasonCode)
         {
             string kitMessage = "";
             invAdjustObj.KitPartStatus(partNum, out kitMessage);
@@ -103,7 +115,15 @@ namespace costUpdate
             row.AdjustQuantity = adjQty;
             row.BinNum = binNum;
             row.WareHseCode = whNum;
-            invAdjustObj.SetInventoryQtyAdj(ds);
+            row.ReasonCode = reasonCode;
+            try
+            {
+                invAdjustObj.SetInventoryQtyAdj(ds);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
         }
         public PartBinRecord GetOnHandForPart(string partNum)
         {
@@ -135,7 +155,16 @@ namespace costUpdate
                 Epicor.Mfg.BO.PartDataSet.PartRow row;
                 row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
                 row.CostMethod = "S";
-                // this.partObj.     need to call the update cost method stuff
+                row.UpdatePartPlant = true;
+
+                string partChangesText = "";
+                this.partObj.CheckPartChanges(ds, out partChangesText);
+                string ruleMessage = "";
+                string singleLevelMessage = "";
+                string plantSourceType = "P";
+                this.partObj.ChangePartPlantSourceType(plantSourceType, out ruleMessage,
+                    out singleLevelMessage, ds);
+               
                 try
                 {
                     this.partObj.Update(ds);
