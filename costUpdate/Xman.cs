@@ -10,7 +10,6 @@ namespace costUpdate
     public class PartBinRecord
     {
         string partNum;
-        decimal onHandQty;
         Hashtable ht;
         public PartBinRecord(string partNumin)
         {
@@ -43,17 +42,6 @@ namespace costUpdate
                 partNum = value;
             }
         }
-        public decimal OnHandQty
-        {
-            get
-            {
-                return onHandQty;
-            }
-            set
-            {
-                onHandQty = value;
-            }
-        }
     }
     public class CostXman
     {
@@ -84,8 +72,6 @@ namespace costUpdate
             }
             return false;
         }
-
-
         public void WriteAllBins(bool WriteOff, PartBinRecord partBinRecord)
         {
             ICollection keyColl = partBinRecord.BinHash.Keys;
@@ -98,7 +84,6 @@ namespace costUpdate
                 AdjustBinInventory(whNum, partBinRecord.PartNum, binNum, qtyOnHand,reasonCode);
             }
         }
-
         void AdjustBinInventory(string whNum, string partNum, string binNum, decimal adjQty, string reasonCode)
         {
             string kitMessage = "";
@@ -130,20 +115,19 @@ namespace costUpdate
             PartBinRecord partBinRecord = new PartBinRecord(partNum);
             if (this.partObj.PartExists(partNum))
             {
-                Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet ds;
+                InventoryQtyAdjBrwDataSet ds;
                 string primarybin = "";
                 
                 ds = this.invAdjustObj.GetInventoryQtyAdjBrw(partNum, "01", out primarybin);
                 for (int i = 0; i < ds.InventoryQtyAdjBrw.Rows.Count; i++)
                 {
-                    Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row =
-                        (Epicor.Mfg.BO.InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow)ds.InventoryQtyAdjBrw.Rows[i];
+                    InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row =
+                        (InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow)ds.InventoryQtyAdjBrw.Rows[i];
                     partBinRecord.AddBinLocationRow(row.BinNum, row.OnHandQty);
                 }
             }
             return partBinRecord;
         }
-        
         public void updateCostMethod(string line)
         {
             string[] split = line.Split(new Char[] { '\t' });
@@ -151,9 +135,9 @@ namespace costUpdate
             
             if (this.partObj.PartExists(partNum))
             {
-                Epicor.Mfg.BO.PartDataSet ds = this.partObj.GetByID(partNum);
-                Epicor.Mfg.BO.PartDataSet.PartRow row;
-                row = (Epicor.Mfg.BO.PartDataSet.PartRow)ds.Part.Rows[0];
+                PartDataSet ds = this.partObj.GetByID(partNum);
+                PartDataSet.PartRow row;
+                row = (PartDataSet.PartRow)ds.Part.Rows[0];
                 row.CostMethod = "S";
                 row.UpdatePartPlant = true;
 
@@ -184,8 +168,7 @@ namespace costUpdate
             string[] split = line.Split(new Char[] { '\t' });
             string partNum = split[(int)rowLayout.UPC];
             string newStdCostStr = split[(int)rowLayout.cost];
-
-
+            
             CostDetail detail = new CostDetail(partNum);
             string sCost = split[(int)rowLayout.cost];
             bool allOK = true;
@@ -219,12 +202,12 @@ namespace costUpdate
         public void UpdateCost(CostDetail cost)
         {
             Boolean requiresUserInput;
-            Epicor.Mfg.BO.CostAdjustmentDataSet ds;
-            ds = new Epicor.Mfg.BO.CostAdjustmentDataSet();
+            CostAdjustmentDataSet ds;
+            ds = new CostAdjustmentDataSet();
             this.costAdjustment.GetCostAdjustment(cost.PartNum, ds);
             this.costAdjustment.OnChangeAvgMtlUnitCost(cost.Cost, ds);
-            Epicor.Mfg.BO.CostAdjustmentDataSet.CostAdjustmentRow row =
-                (Epicor.Mfg.BO.CostAdjustmentDataSet.CostAdjustmentRow)ds.CostAdjustment.Rows[0];
+            CostAdjustmentDataSet.CostAdjustmentRow row =
+                (CostAdjustmentDataSet.CostAdjustmentRow)ds.CostAdjustment.Rows[0];
             row.ReasonCode = "COST";
             row.ReasonCodeDesc = "Std Cost Setup 21-Jun-14";
             row.Reference = "rlm-test";
