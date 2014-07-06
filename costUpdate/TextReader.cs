@@ -1,4 +1,4 @@
-#undef working
+#define working
 using System;
 using System.Collections.Generic;
 using System.Collections;
@@ -16,39 +16,40 @@ namespace costUpdate
     }
     class UpdateTextReader
     {
-        
         public UpdateTextReader()
         {
-            // ProcessFile();
+            ProcessFile();
             StringBuilder sbReport = auditFile();
             writeAuditReport(sbReport);
         }
         void writeAuditReport(StringBuilder report)
         {
-            string fileName = "autditreport.txt";
+            string fileName = "stdcostreport_NotOnHandpost5Jul2014.txt";
             StreamWriter tw = new StreamWriter(fileName);
             tw.WriteLine(report.ToString());
             tw.Close();
         }
         void AddLineToReport(StringBuilder sb, PartBinRecord pbr)
         {
-            string rl = pbr.PartNum;
-            ICollection keyColl = pbr.BinHash.Keys;
-            string whNum = "01";
             string tab = "\t";
-            foreach (string binNum in keyColl)
+            foreach (BinAtom bin in pbr.Bins)
             {
-                decimal qtyOnHand = (decimal)pbr.BinHash[binNum];
-                rl = pbr.PartNum + tab + binNum + tab + qtyOnHand.ToString() + "\n";
+                string rl = pbr.PartNum + tab + bin.Warehouse + tab + bin.BinNum + tab + bin.OnhandQty.ToString() + "\n";
                 sb.Append(rl);
             }
         }
-        StringBuilder auditFile()
+        StreamReader OpenFile()
         {
-            string fName = "stdCostUpdate.txt";
+            // string fName = "stdCostUpdate_NotOnHand5Jul2014.txt";
+            // string fName = "stdCostUpdate_WithOnHand5Jul2014.txt";
+            string fName = "stdCostUpdate_WH9_5Jul2014.txt";
             string filedir = "I:/data/updates/costs/";
             StreamReader tr = new StreamReader(filedir + fName);
-            
+            return tr;
+        }
+        StringBuilder auditFile()
+        {
+            StreamReader tr = OpenFile();   
             string line;
             CostXman xman = new CostXman();
             StringBuilder sbreport = new StringBuilder();
@@ -59,31 +60,33 @@ namespace costUpdate
                 string partNum = split[(int)rowLayout.UPC];
                 if (xman.IsPartInactive(partNum)) continue;
                 PartBinRecord pbr = xman.GetOnHandForPart(partNum);
+
                 AddLineToReport(sbreport, pbr);
                 
             }
             return sbreport;
         }
-
 #if working
         void ProcessFile()
         {
             String line;
+            StreamReader tr = OpenFile();   
             CostXman xman = new CostXman();
-            while ((line = this.tr.ReadLine()) != null)
+            while ((line = tr.ReadLine()) != null)
             {
-                // xman.updateStdCost(line);
                 string[] split = line.Split(new Char[] { '\t' });
                 string partNum = split[(int)rowLayout.UPC];
                 if (xman.IsPartInactive(partNum)) continue;
-                PartBinRecord partBin = xman.GetOnHandForPart(partNum);
+                PartBinRecord pbr = xman.GetOnHandForPart(partNum);
+                
                 bool writeOff = true;
-                xman.WriteAllBins(writeOff, partBin);
+                xman.WriteAllBins(writeOff, pbr);
                 xman.updateCostMethod(line);
                 xman.updateStdCost(line);
                 writeOff = false;
-                xman.WriteAllBins(writeOff, partBin);
+                xman.WriteAllBins(writeOff, pbr);
             }
+            tr.Close();
         }
 #endif
     }

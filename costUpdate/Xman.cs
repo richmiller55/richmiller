@@ -7,29 +7,86 @@ using Epicor.Mfg.BO;
 
 namespace costUpdate
 {
+    public class BinAtom
+    {
+        string warehouse;
+        string binNum;
+        decimal onHandQty;
+        public BinAtom(InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row)
+        {
+            this.warehouse = row.WareHseCode;
+            this.binNum = row.BinNum;
+            this.onHandQty = row.OnHandQty;
+        }
+        public string Warehouse
+        {
+            get
+            {
+                return warehouse;
+            }
+            set
+            {
+                warehouse = value;
+            }
+        }
+        public string BinNum
+        {
+            get
+            {
+                return binNum;
+            }
+            set
+            {
+                binNum = value;
+            }
+        }
+        public decimal OnhandQty
+        {
+            get
+            {
+                return onHandQty;
+            }
+            set
+            {
+                onHandQty = value;
+            }
+        }
+    }
+
+    
     public class PartBinRecord
     {
         string partNum;
         Hashtable ht;
+        ArrayList bins;
         public PartBinRecord(string partNumin)
         {
             this.partNum = partNumin;
             this.ht = new Hashtable(5);
+            this.bins = new ArrayList();
         }
-        public void AddBinLocationRow(string binNum, decimal onHandQty)
+        public bool IsThereNegativeOnHand()
         {
-            ht.Add(binNum, onHandQty);
+            bool result = false;
+            foreach (BinAtom atom in this.bins)
+            {
+                if (atom.OnhandQty < 0)
+                {
+                    result = true;
+                    return result;
+                }
+            }
+            return result;
         }
-        public Hashtable BinHash
+        
+        public bool IsThereOnHand()
         {
-            get
-            {
-                return ht;
-            }
-            set
-            {
-                ht = value;
-            }
+            return (bins.Count > 0);
+        }
+        public void AddBinLocationRow(InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row)
+        {
+            BinAtom bin = new BinAtom(row);
+            this.bins.Add(bin);
         }
         public string PartNum
         {
@@ -40,6 +97,17 @@ namespace costUpdate
             set
             {
                 partNum = value;
+            }
+        }
+        public ArrayList Bins
+        {
+            get
+            {
+                return bins;
+            }
+            set
+            {
+                bins = value;
             }
         }
     }
@@ -72,19 +140,18 @@ namespace costUpdate
             }
             return false;
         }
-        public void WriteAllBins(bool WriteOff, PartBinRecord partBinRecord)
+        public void WriteAllBins(bool WriteOff, PartBinRecord pbr)
         {
-            ICollection keyColl = partBinRecord.BinHash.Keys;
-            string whNum = "01";
-            foreach (string binNum in keyColl)
+            if (!pbr.IsThereOnHand()) return;
+            foreach (BinAtom bin in pbr.Bins)
             {
-                decimal qtyOnHand = (decimal)partBinRecord.BinHash[binNum];
-                if (WriteOff) qtyOnHand = qtyOnHand * -1;
-                string reasonCode = (WriteOff) ? "TWOFF" : "TWON";
-                AdjustBinInventory(whNum, partBinRecord.PartNum, binNum, qtyOnHand,reasonCode);
+                decimal onHandQty = (decimal)bin.OnhandQty;
+                if (WriteOff) onHandQty = onHandQty * -1;
+                AdjustBinInventory(pbr.PartNum, bin.Warehouse, bin.BinNum, onHandQty);
             }
+            return;
         }
-        void AdjustBinInventory(string whNum, string partNum, string binNum, decimal adjQty, string reasonCode)
+        void AdjustBinInventory(string partNum, string whNum, string binNum, decimal adjQty)
         {
             string kitMessage = "";
             invAdjustObj.KitPartStatus(partNum, out kitMessage);
@@ -100,7 +167,7 @@ namespace costUpdate
             row.AdjustQuantity = adjQty;
             row.BinNum = binNum;
             row.WareHseCode = whNum;
-            row.ReasonCode = reasonCode;
+            row.ReasonCode = "COST";
             try
             {
                 invAdjustObj.SetInventoryQtyAdj(ds);
@@ -117,14 +184,18 @@ namespace costUpdate
             {
                 InventoryQtyAdjBrwDataSet ds;
                 string primarybin = "";
-                
-                ds = this.invAdjustObj.GetInventoryQtyAdjBrw(partNum, "01", out primarybin);
-                for (int i = 0; i < ds.InventoryQtyAdjBrw.Rows.Count; i++)
+                string[] warehouses = { "01", "9" };
+                foreach (string whNum in warehouses)
                 {
-                    InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row =
-                        (InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow)ds.InventoryQtyAdjBrw.Rows[i];
-                    partBinRecord.AddBinLocationRow(row.BinNum, row.OnHandQty);
+                    ds = this.invAdjustObj.GetInventoryQtyAdjBrw(partNum, whNum, out primarybin);
+                    for (int i = 0; i < ds.InventoryQtyAdjBrw.Rows.Count; i++)
+                    {
+                        InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow row =
+                            (InventoryQtyAdjBrwDataSet.InventoryQtyAdjBrwRow)ds.InventoryQtyAdjBrw.Rows[i];
+                        partBinRecord.AddBinLocationRow(row);
+                    }
                 }
+                return partBinRecord;
             }
             return partBinRecord;
         }
@@ -209,8 +280,8 @@ namespace costUpdate
             CostAdjustmentDataSet.CostAdjustmentRow row =
                 (CostAdjustmentDataSet.CostAdjustmentRow)ds.CostAdjustment.Rows[0];
             row.ReasonCode = "COST";
-            row.ReasonCodeDesc = "Std Cost Setup 21-Jun-14";
-            row.Reference = "rlm-test";
+            row.ReasonCodeDesc = "Cost Adjust";
+            row.Reference = "rlm Std Cost Setup 5-Jul-14";
             row.StdMtlUnitCost = cost.Cost;
             row.StdBurUnitCost = 0.0m;
             //   row.AvgMtlUnitCost = cost.Cost;
