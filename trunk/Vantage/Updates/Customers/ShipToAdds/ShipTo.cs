@@ -17,7 +17,7 @@ namespace ShipToLoad
         string m_State;
         string m_Zip;
         string m_Country;
-        string m_Phone;
+        string m_Phone = "";
         int    m_ShipOrder;
         int    m_CountryNo;
         string m_ShipVia;
