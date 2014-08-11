@@ -29,10 +29,6 @@ namespace ShipToLoad
         {
             XmlTextReader reader = new XmlTextReader(fileName);
             ShipTo st = new ShipTo();
-            st.CustId = "90000";
-            st.ShipVia = "WMLT";
-            st.CountryNo = 1;
-            st.Country = "USA";
             while (reader.Read())
             {
                 switch (reader.NodeType)
@@ -45,38 +41,44 @@ namespace ShipToLoad
                     case XmlNodeType.Text: //Display the text in each element.
                         switch (currentElement)
                         {
-                            case "city":
-                                st.City = reader.Value;
+                            case "CustId":
+                                st.CustId = reader.Value;
                                 break;
-                            case "state":
-                                st.State = reader.Value;
+                            case "BTCustID":
+                                st.CustId = reader.Value;
                                 break;
-                            case "zipCode":
-                                st.Zip = reader.Value;
-                                break;
-                            case "StoreNum":
+                            case "StoreNumber":
                                 st.ShipToId = reader.Value;
-                                break;
-                            case "Address1":
-                                st.Address1 = reader.Value;
-                                break;
-                            case "ShipViaCode":
-                                st.ShipVia = "WMLT";
-                                break;
-                            case "Address2":
-                                st.Address2 = reader.Value;
                                 break;
                             case "StoreName":
                                 st.Name = reader.Value;
                                 break;
+                            case "Address1":
+                                st.Address1 = reader.Value;
+                                break;
+                            case "ShipVia":
+                                st.ShipVia = reader.Value;
+                                break;
+                            case "ShipViaCode":
+                                st.ShipVia = reader.Value;
+                                break;
+                            case "City":
+                                st.City = reader.Value;
+                                break;
+                            case "State":
+                                st.State = reader.Value;
+                                break;
+                            case "ZipCode":
+                                st.Zip = reader.Value;
+                                break;
+                            case "Address2":
+                                st.Address2 = reader.Value;
+                                break;
                             case "Country":
                                 st.Country = reader.Value;
                                 break;
-                            case "phoneNum":
+                            case "PhoneNum":
                                 st.Phone = reader.Value;
-                                break;
-                            case "BTCustID":
-                                st.CustId = "90000";
                                 break;
                         }
                         break;
