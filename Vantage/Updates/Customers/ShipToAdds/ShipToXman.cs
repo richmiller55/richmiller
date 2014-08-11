@@ -52,42 +52,35 @@ namespace ShipToLoad
         private Boolean AddressUpdateNeeded(ShipTo st,Epicor.Mfg.BO.CustomerDataSet.ShipToRow shipToRow)
         {
             Boolean result = false;
-            if (st.Address1.CompareTo(shipToRow.Address1) != 0)
+            if (! st.Address1.Equals(shipToRow.Address1))
             {
-                result = true;
-                return result;
+                return true;
             }
             if (!st.Name.Equals(shipToRow.Name))
             {
-                result = true;
-                return result;
+                return true;
             }
-            if (st.Address2.CompareTo(shipToRow.Address2) != 0)
+            if (! st.Address2.Equals(shipToRow.Address2))
             {
-                result = true;
-                return result;
+                return true;
             }
-            if (st.Address3.CompareTo(shipToRow.Address3) != 0)
+            if (! st.Address3.Equals(shipToRow.Address3))
             {
-                result = true;
-                return result;
+                return true;
             }
-            if (st.City.CompareTo(shipToRow.City) != 0)
+            if (! st.City.Equals(shipToRow.City))
             {
-                result = true;
-                return result;
+                return true;
             }
-            if (st.State.CompareTo(shipToRow.State) != 0)
+            if(! st.State.Equals(shipToRow.State))
             {
-                result = true;
-                return result;
+                return true;
             }
-            if (st.Zip.CompareTo(shipToRow.ZIP) != 0)
+            if (! st.Zip.Equals(shipToRow.ZIP))
             {
-                result = true;
-                return result;
+                return true;
             }
-            return result;
+            return false;
         }
         public void UpdateShipTo(ShipTo st)
         {
