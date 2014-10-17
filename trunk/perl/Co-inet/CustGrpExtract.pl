@@ -43,7 +43,7 @@ main();
 
 sub main {
 #    Extract::Coinet::SalesDetail->new();
-#    Extract::Coinet::Customer->new();
+    Extract::Coinet::Customer->new();
 
 #    Extract::Coinet::InvcHead->new();
 #    Extract::Coinet::InvcHeadEx->new();
@@ -55,7 +55,7 @@ sub main {
 #    Extract::Coinet::OrderHed->new();
 #    Extract::Coinet::OrderDtl->new();
 #    Extract::Coinet::ProdGrup->new();
-    Extract::Coinet::CustGrup->new();
+#    Extract::Coinet::CustGrup->new();
 #    Extract::Coinet::SalesCat->new();
 #    Extract::Coinet::ShipHead->new();
 #    Extract::Coinet::ShipDtl->new();
