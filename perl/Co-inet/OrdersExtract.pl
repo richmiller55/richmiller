@@ -8,17 +8,9 @@ use Extract::Coinet::OrderRel;
 main();
 
 sub main {
-#    Extract::Coinet::SalesDetail->new();
-#    Extract::Coinet::Customer->new();
-#    Extract::Coinet::InvcHead->new();
-#    Extract::Coinet::InvcHeadEx->new();
-#    Extract::Coinet::InvcDtl->new();
-#    Extract::Coinet::InvcMisc->new();
-#    Extract::Coinet::PartBin->new();
-#    Extract::Coinet::Part->new();
 
-#    Extract::Coinet::OrderHed->new();
-#    Extract::Coinet::OrderDtl->new();
+    Extract::Coinet::OrderHed->new();
+    Extract::Coinet::OrderDtl->new();
     Extract::Coinet::OrderRel->new();
 #    Extract::Coinet::ProdGrup->new();
 #    Extract::Coinet::CustGrup->new();
