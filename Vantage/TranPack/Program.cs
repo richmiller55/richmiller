@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 
 namespace Pack
@@ -10,7 +11,14 @@ namespace Pack
     {
         static void Main(string[] args)
         {
-            TranPack mgr = new TranPack();
+            if (File.Exists(@"d:\users\shared\ibillrunning.txt"))
+            {
+                System.Environment.Exit(0);
+            }
+            else
+            {
+                TranPack mgr = new TranPack();
+            }
         }
     }
 }

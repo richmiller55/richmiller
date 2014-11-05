@@ -27,7 +27,7 @@ namespace Pack
                 p.ShipDate as ShipDate
                 FROM pub.ShipHead as p
                 where
-                 p.ShipDate > TO_Date('07/04/2013')
+                 p.ShipDate > TO_Date('09/05/2013')
                 order by p.ShipDate desc
                 ";
             string Dsn = "DSN=sys; HOST=vantagedb1; DB=MfgSys; UID=sysprogress; PWD=sysprogress";
@@ -118,7 +118,7 @@ namespace Pack
 
             foreach (Hashtable ht in al)
             {
-                string dateToUse = "20130716";
+                string dateToUse = "20130722";
                 try
                 {
                     DateTime shipDateFull = Convert.ToDateTime(ht["ShipDate"]);
