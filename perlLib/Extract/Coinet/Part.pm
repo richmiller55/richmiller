@@ -65,6 +65,10 @@ sub sql {
       p.ClassID     as ClassID,
       p.CheckBox08 as DirectShip,         -- smallint
       p.SellingFactor as SellingFactor,
+      p.Character07 as character07,
+      p.Character08 as character08,
+      p.Character09 as character09,
+      p.Character10 as character10,
       1  as filler
      FROM  pub.Part as p
    /;
@@ -130,6 +134,10 @@ sub printData {
                   $row{CLASSID}      . "\t" . 
                   $row{DIRECTSHIP}      . "\t" . 
                   $row{SELLINGFACTOR}   . "\t" . 
+                  $row{CHARACTER07} . "\t" . 
+                  $row{CHARACTER08} . "\t" . 
+                  $row{CHARACTER09} . "\t" . 
+                  $row{CHARACTER10} . "\t" . 
 	           0    . "\n";
 
     }
