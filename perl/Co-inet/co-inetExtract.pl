@@ -36,6 +36,7 @@ use Extract::Coinet::PLGrupBrk;
 use Extract::Coinet::PLPartBrk;
 use Extract::Coinet::RMADtl;
 use Extract::Coinet::PartMtl;
+use Extract::Coinet::CustomerPriceLst;
 use Extract::Coinet::Fiscal;
 use Extract::Coinet::ShipVia;
 use Extract::Coinet::Terms;
@@ -80,6 +81,7 @@ sub main {
     Extract::Coinet::PLPartBrk->new();
     Extract::Coinet::RMADtl->new();    
     Extract::Coinet::PartMtl->new();
+    Extract::Coinet::CustomerPriceLst->new();
     Extract::Coinet::Fiscal->new();
     Extract::Coinet::ShipVia->new();            
     Extract::Coinet::Terms->new();            
